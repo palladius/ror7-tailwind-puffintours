@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 ruby File.read(".ruby-version").strip
 
+# Riccardo
+gem 'sqlite3'
+# /Riccardo
+
 gem "rails", "~> 7.0"
 gem "pg", "~> 1.4"
 gem "puma", "~> 6.2"

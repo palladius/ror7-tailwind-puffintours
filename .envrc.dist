@@ -1,0 +1,7 @@
+
+
+# Riccardo: Omniauth Devise Google Login
+# Docs: https://blog.devgenius.io/how-to-add-google-sign-in-sso-with-devise-to-a-ruby-on-rails-7-app-6d8c5ef7641b
+export GOOGLE_CLIENT_ID='foobar'
+export GOOGLE_CLIENT_SECRET='sobenme'
+export PROJECT_ID='puffin-tours-123'

@@ -22,3 +22,5 @@
 
 # Ignore ENV files
 .env
+.echodo_history
+RICCARDO.private.md
