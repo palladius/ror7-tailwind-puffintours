@@ -1,3 +1,16 @@
+# Ricc Pufintours!
+
+* Copied from https://github.com/ralixjs/rails-ralix-tailwind . Why? I am a bit lost in 4 different ways of Rails 7 to manage Js and im not a JS specialist... hence.. someone did the effort for me so why not standing on the shoulders of giants?
+* Image inspiration: https://ricc.rocks/en/posts/travel/20230404-puffin-tours/
+
+Also Kate asked me to do this:
+
+* Posts
+* Active Storage for images
+* star rating
+
+--
+
 # 🚀 Rails + Ralix + Tailwind
 
 > Starter Kit to build modern Rails applications fast
