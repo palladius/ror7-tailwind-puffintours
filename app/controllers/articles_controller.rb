@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
 
   def index
     @q = Article.ransack(params[:q])
-    @pagy, @articles = pagy(@q.result.order(created_at: :desc), items: 4)
+    @pagy, @articles = pagy(@q.result.order(created_at: :desc), items: 6)
   end
 
   def show
