@@ -4,9 +4,10 @@
 # Docs: https://blog.devgenius.io/how-to-add-google-sign-in-sso-with-devise-to-a-ruby-on-rails-7-app-6d8c5ef7641b
 export GOOGLE_CLIENT_ID='foobar'
 export GOOGLE_CLIENT_SECRET='sobenme'
-export PROJECT_ID='puffin-tours-123'
 
 # Change to your favorite region
+# Deplot to Cloud Run on GCP
+export PROJECT_ID='puffin-tours-123'
 export GCLOUD_REGION='us-central1'
 
 # from author
