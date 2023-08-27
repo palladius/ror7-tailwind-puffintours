@@ -25,6 +25,7 @@ set -euo pipefail
 ################################################
 # ENV set
 ################################################
+export GCLOUD_REGION='europe-west1'
 export APP_NAME='puffintours'
 export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
 export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
