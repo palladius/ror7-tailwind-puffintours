@@ -17,3 +17,13 @@ GOOGLE_CLIENT_ID=google_client_id
 GOOGLE_CLIENT_SECRET=google_client_secret
 GITHUB_CLIENT_ID=github_client_id
 GITHUB_CLIENT_SECRET=github_client_secret
+
+#RAIL SEcrets
+# bin/rails credentials:edit
+export RAILS_MASTER_KEY='' # cat config/master.key here ;)'
+
+# DB
+export DATABASE_HOST=
+export DATABASE_NAME=
+export DATABASE_USER=
+export DATABASE_PASS=

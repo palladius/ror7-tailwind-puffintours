@@ -83,7 +83,7 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="GIT_STATE=$GIT_STATE" \
       --set-env-vars="APP_VERSION=$APP_VERSION" \
       --set-env-vars="SECRET_KEY_BASE=TODO" \
-      --set-env-vars="RAILS_MASTER_KEY=TODO" \
+      --set-env-vars="RAILS_MASTER_KEY=$RAILS_MASTER_KEY" \
       --set-env-vars="RAILS_ENV=production" \
       --set-env-vars="RAILS_SERVE_STATIC_FILES=true" \
       --set-env-vars="MESSAGGIO_OCCASIONALE=This is a public repo, watch the ids you disseminate here...." \

@@ -5,7 +5,7 @@ default: &default
 
 # development:
 #   <<: *default
-#   database: <%= ENV.fetch("DATABASE_NAME", "rails-ralix-tailwind_development")  %>
+#   database: <%= ENV.fetch("DATABASE_NAME", "puffintours_development")  %>
 development:
   adapter: sqlite3
   database: db/development.sqlite3
@@ -14,8 +14,11 @@ development:
 
 test:
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME", "rails-ralix-tailwind_test")  %>
+  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_test")  %>
 
 production:
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME", "rails-ralix-tailwind_production")  %>
+  host:     <%= ENV.fetch("DATABASE_HOST", "1.2.3.4")  %>
+  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_production")  %>
+  username: <%= ENV.fetch("DATABASE_USER", "puffintours_produser")  %>
+  password: <%= ENV.fetch("DATABASE_PASS", "YouReallyWishItWasThatEasyUh?")  %>

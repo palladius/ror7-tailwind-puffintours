@@ -13,6 +13,8 @@ export RAILS_LOG_TO_STDOUT=yesplease
 echo '------------------------------------------------------'
 echo "$0 v$VER"
 echo "RAILS_ENV: $RAILS_ENV"
+echo "DB HOST:   $DATABASE_HOST"
+echo "RAILS_MASTER_KEY:  ${RAILS_MASTER_KEY:1:4}.. (removeme when it works)"
 echo '------------------------------------------------------'
 
 #export RAILS_MASTER_KEY=0b6df96739181851e3b696c3f88714bf
