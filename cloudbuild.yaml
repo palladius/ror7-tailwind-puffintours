@@ -1,7 +1,6 @@
 ###############################################################################
 # Build ENV needed:
 #
-#
 # Loosely inspired by https://github.com/palladius/clouddeploy-platinum-path/blob/main/cloudbuild.yaml
 # Securing builds: https://cloud.google.com/build/docs/securing-builds/use-secrets
 #
@@ -18,19 +17,22 @@ timeout: 600s # 10min
 options:
   # supported machine types: https://cloud.google.com/build/docs/api/reference/rest/v1/projects.builds#machinetype
   #machineType: 'E2_HIGHCPU_32'
-  machineType: 'N1_HIGHCPU_32'
+  # Cheap project
+  #machineType: 'N1_HIGHCPU_32'
   substitution_option: 'ALLOW_LOOSE'
 substitutions:
-  #_ARTIFACT_REPO_FULL_PATH: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/onramp
+  #_ARTIFACT_REPO_FULL_PATH: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/myapp
 
   # GOB doesnt allow me to pass ENVs to CB so I need to do this :/
   # or get it from SECRET MANAGER :) https://cloud.google.com/build/docs/securing-builds/use-secrets
-  _REGION: europe-west6
-  _GCLOUD_REGION: europe-west6
-  _SKAFFOLD_DEFAULT_REPO: 'europe-west6-docker.pkg.dev/ror-goldie/dhh-vanilla-701'
+  #_REGION: europe-west1
+  #_GCLOUD_REGION: europe-west1
+  #_PROJECT_ID: puffin-tours
+  _SKAFFOLD_DEFAULT_REPO: 'europe-west1-docker.pkg.dev/puffin-tours/puffintours'
+  # _MESSAGGIO_OCCASIONALE: on cloud build!
 images:
-- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/dhh-vanilla-701:latest"
-- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/dhh-vanilla-701:sha-$SHORT_SHA"
+- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:latest"
+- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:sha-$SHORT_SHA"
 
 ################################################################################
 # TODO(ricc): enable availableSecrets as below once Cloud build is able to push again
@@ -38,9 +40,9 @@ images:
 ################################################################################
 # availableSecrets:
 #   secretManager:
-#   #- versionName: projects/${PROJECT_ID}/secrets/ONRAMP_REGION/versions/latest
-#   - versionName: projects/onramp-staging-379211/secrets/ONRAMP_REGION/versions/latest
-#     env: ONRAMP_REGION
+#   #- versionName: projects/${PROJECT_ID}/secrets/myapp_REGION/versions/latest
+#   - versionName: projects/myapp-staging-379211/secrets/myapp_REGION/versions/latest
+#     env: myapp_REGION
 ################################################################################
 
 
@@ -52,28 +54,25 @@ steps:
 # First I build a docker latest version..
 - name: 'gcr.io/cloud-builders/docker'
   id: Docker Build - to CB_LATEST # might be error prone vs the one create from computer
-  args: ['build', '-t', "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/dhh-vanilla-701:latest", '.']
-  dir: rails/dhh-vanilla-701/
+  args: ['build', '-t', "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:latest", '.']
 
 # Then I tag it with another so it survives multiple builds..
 - name: 'gcr.io/cloud-builders/docker'
   id: Tag latest to vVERSION
   args:
     - 'tag'
-    - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/dhh-vanilla-701:latest"
-    - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/dhh-vanilla-701:sha-$SHORT_SHA"
-  dir: rails/dhh-vanilla-701/
+    - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:latest"
+    - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:sha-$SHORT_SHA"
+#  dir: rails/puffintours/
 
 
 - name: 'gcr.io/cloud-builders/docker'
-#- name: 'gcr.io/cloud-builders/gcloud'
   id: Tag from SHA to VERSION - proviamo con Docker
   entrypoint: bash
   args:
   - bin/autotag.sh
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  dir: rails/dhh-vanilla-701/
 
 
 
@@ -83,11 +82,11 @@ steps:
 #   args:
 #   - 'run'
 #   - 'deploy'
-#   - 'onramp-latest'
+#   - 'myapp-latest'
 #   - '--image'
 #   # TODO(ricc): check in the future whsat works best: tag to latest vs to specific SHA.
-#   # "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/onramp-cb:sha-$SHORT_SHA"
-#   - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/dhh-vanilla-701/onramp-cb:latest"
+#   # "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours-cb:sha-$SHORT_SHA"
+#   - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours-cb:latest"
 #   - '--region'
 #   - "${_REGION}"
 #   - '--platform'
@@ -101,7 +100,5 @@ steps:
   entrypoint: bash
   args:
   - bin/cb-push-to-cloudrun.sh
-  #- latest
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  dir: rails/dhh-vanilla-701/
