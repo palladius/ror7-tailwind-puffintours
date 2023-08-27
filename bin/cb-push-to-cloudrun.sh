@@ -13,11 +13,15 @@ export DEPLOY_VERSION='1.0.1'
 if [ -f .env.sh ] ; then
   echo Looks like youre local
   . .env.sh
+else
+  echo Riccardo NOT LOCAL
 fi
 
 if [ -f /secretenvrc/puffintours-envrc ] ; then
   echo Looks like youre on Cloud Run mounting an envrc directly form SM. You could be protecteder. # :)
   . /secretenvrc/puffintours-envrc
+else
+  echo Riccardo NOT Secret
 fi
 
 set -euo pipefail
@@ -25,7 +29,7 @@ set -euo pipefail
 ################################################
 # ENV set
 ################################################
-export GCLOUD_REGION='europe-west1'
+export GCLOUD_REGION="${GCLOUD_REGION:-europe-west1}"
 export APP_NAME='puffintours'
 export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
 export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
