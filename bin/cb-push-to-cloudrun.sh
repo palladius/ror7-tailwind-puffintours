@@ -9,7 +9,16 @@
 export DEPLOY_VERSION='1.0.1'
 #direnv allow "$(git rev-parse --show-toplevel)"
 # if it fails no probs... yet
-. .env.sh
+
+if [ -f .env.sh ] ; then
+  echo Looks like youre local
+  . .env.sh
+fi
+
+if [ -f /secretenvrc/puffintours-envrc ] ; then
+  echo Looks like youre on Cloud Run mounting an envrc directly form SM. You could be protecteder. # :)
+  . /secretenvrc/puffintours-envrc
+fi
 
 set -euo pipefail
 
@@ -21,6 +30,7 @@ export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
 export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
 export GIT_SHORT_SHA="${GIT_COMMIT_SHA:0:7}" # first 7 chars: Riccardo reproducing what CB does for me.
 export APP_VERSION="$(cat VERSION)"
+export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur}"
 #- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$SHORT_SHA"
 
 # get from secret manager
@@ -86,8 +96,9 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="RAILS_MASTER_KEY=$RAILS_MASTER_KEY" \
       --set-env-vars="RAILS_ENV=production" \
       --set-env-vars="RAILS_SERVE_STATIC_FILES=true" \
-      --set-env-vars="MESSAGGIO_OCCASIONALE=This is a public repo, watch the ids you disseminate here...." \
+      --set-env-vars="MESSAGGIO_OCCASIONALE=$MESSAGGIO_OCCASIONALE" \
       --set-env-vars="RAILS_LOG_TO_STDOUT=yesplease" \
+      --set-secrets="/secretenvrc/puffintours-envrc=projects/907790253572/secrets/puffintours-envrc:latest" \
       --allow-unauthenticated
 
 #      --update-secrets=PUFFINTOURS_SECRET_KEY=PUFFINTOURS_SECRET_KEY:latest \

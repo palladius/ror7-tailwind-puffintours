@@ -1,3 +1,4 @@
+v0.0.6 Lets test this in the cloud..
 2023-08-27  v0.0.5  PostgreS set up and PROD works locally!
 2023-08-27  v0.0.4  Mistake on cloudbuild.yaml which i overwrote by mistake.
 2023-08-27  v0.0.3  First Dockerfile. Lets see...

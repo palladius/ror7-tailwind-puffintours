@@ -25,8 +25,8 @@ substitutions:
 
   # GOB doesnt allow me to pass ENVs to CB so I need to do this :/
   # or get it from SECRET MANAGER :) https://cloud.google.com/build/docs/securing-builds/use-secrets
-  #_REGION: europe-west1
-  #_GCLOUD_REGION: europe-west1
+  _REGION: europe-west1
+  _GCLOUD_REGION: europe-west1
   #_PROJECT_ID: puffin-tours
   _SKAFFOLD_DEFAULT_REPO: 'europe-west1-docker.pkg.dev/puffin-tours/puffintours'
   # _MESSAGGIO_OCCASIONALE: on cloud build!
