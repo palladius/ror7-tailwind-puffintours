@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
-ruby File.read(".ruby-version").strip
+#ruby File.read(".ruby-version").strip
+ruby '3.2.1'
 
 # Riccardo
 gem 'sqlite3'
