@@ -13,8 +13,8 @@
 set -euo pipefail
 
 export APP_NAME='puffintours'
-
-SKAFFOLD_DEFAULT_REPO="europe-west1-docker.pkg.dev/ror-goldie/${APP_NAME}/${APP_NAME}"
+# Note the dash is in Ricc project id...
+SKAFFOLD_DEFAULT_REPO="europe-west1-docker.pkg.dev/puffin-tours/${APP_NAME}/${APP_NAME}"
 #SHORT_SHA=todo
 #VERSION=$(cat VERSION)
 export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
@@ -30,6 +30,7 @@ set -x
 echo '2. Tagging and pushing..'
 docker tag "$SKAFFOLD_DEFAULT_REPO:sha-$GIT_SHORT_SHA" "$SKAFFOLD_DEFAULT_REPO:v$APP_VERSION"
 docker push "$SKAFFOLD_DEFAULT_REPO" --all-tags
+
 
 # echo '3. Vediamo che immagini DHH-iane ci siano (AFTER)..'
 # docker images | grep dhh
