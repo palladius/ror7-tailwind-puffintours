@@ -98,7 +98,7 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="RAILS_SERVE_STATIC_FILES=true" \
       --set-env-vars="MESSAGGIO_OCCASIONALE=$MESSAGGIO_OCCASIONALE" \
       --set-env-vars="RAILS_LOG_TO_STDOUT=yesplease" \
-      --set-secrets="/secretenvrc/puffintours-envrc=projects/907790253572/secrets/puffintours-envrc:latest" \
+      --set-secrets="/secretenvrc/puffintours-envrc=puffintours-envrc:latest" \
       --allow-unauthenticated
 
 #      --update-secrets=PUFFINTOURS_SECRET_KEY=PUFFINTOURS_SECRET_KEY:latest \
