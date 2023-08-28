@@ -16,3 +16,6 @@ run-prod:
 
 credential-edits:
 	EDITOR='code --wait' rails credentials:edit
+
+docker-build:
+	docker build -t puffintours:latest .

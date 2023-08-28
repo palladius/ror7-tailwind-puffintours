@@ -23,7 +23,7 @@ echo '------------------------------------------------------'
 # Thois is needed in PROD
 # Articolo figo: https://stackoverflow.com/questions/49440304/rails-asset-is-not-present-in-asset-pipeline-when-using-image-tag
 #rails assets:precompile
-bundle exec rails assets:precompile
+RAILS_ENV=production bundle exec rails assets:precompile
 
 rake db:migrate
 rake db:seed

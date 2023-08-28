@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-08-28 v0.0.7 Minor changes to Cloud run
 2023-08-27 v0.0.6 Lets test this in the cloud..
 2023-08-27 v0.0.5  PostgreS set up and PROD works locally!
 2023-08-27 v0.0.4  Mistake on cloudbuild.yaml which i overwrote by mistake.
