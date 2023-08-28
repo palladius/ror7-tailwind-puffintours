@@ -46,6 +46,10 @@ COPY . .
 
 ENV RAILS_ENV production
 
+# Lets try precompilation in the Docker image so it should alreay work.. but mayb e it needs a var which is not
+# available to me
+RUN RAILS_ENV=production rails assets:precompile
+
 # We expose the port
 EXPOSE 8080
 # Start the main process: $ rails server -b 0.0.0.0
