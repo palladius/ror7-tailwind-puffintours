@@ -36,6 +36,7 @@ export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
 export GIT_SHORT_SHA="${GIT_COMMIT_SHA:0:7}" # first 7 chars: Riccardo reproducing what CB does for me.
 export APP_VERSION="$(cat VERSION)"
 export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur}"
+export RAILS_MASTER_KEY="${RAILS_MASTER_KEY:-foobarbaz}"
 #- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$SHORT_SHA"
 
 # get from secret manager
