@@ -7,6 +7,20 @@
   </div>
 
   <div>
+    <%= form.label :content_date %>
+    <%= form.date_field :content_date %>
+  </div>
+  <div>
+    <%= form.label :article_type %>
+    <%= form.text_field :article_type %>
+  </div>
+  <div>
+    <%= form.label :published %>
+    <%= form.check_box :published %>
+  </div>
+
+
+  <div>
     <%= form.label :body %>
     <%= form.rich_text_area :body %>
   </div>

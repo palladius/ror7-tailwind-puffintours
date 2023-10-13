@@ -3,7 +3,8 @@ module ApplicationHelper
   include Heroicon::Engine.helpers
 
   def page_title
-    "Rails + Ralix + Tailwind | #{controller_name.humanize}"
+#    "Rails + Ralix + Tailwind | #{controller_name.humanize}"
+    "🐧🧳 PuffinTours | #{controller_name.humanize}"
   end
 
   def body_class
