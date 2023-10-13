@@ -7,7 +7,7 @@ ruby '3.2.1'
 gem 'sqlite3'
 #../riccardo_nifty_store/Gemfile:#gem 'acts_as_votable', '~> 0.11.1'
 # TODO quando hai internece.
-#gem 'acts-as-taggable-on', '~> 9.0'
+gem 'acts-as-taggable-on', '~> 9.0'
 # /Riccardo
 
 gem "rails", "~> 7.0"
