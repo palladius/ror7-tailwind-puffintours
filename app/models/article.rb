@@ -18,6 +18,6 @@ class Article < ApplicationRecord
 
   before_save :set_date_if_null
   def set_date_if_null
-    self.content_date ||= self.created_at.to_date
+    self.content_date ||= (self.created_at.to_date rescue  Date.today)
   end
 end
