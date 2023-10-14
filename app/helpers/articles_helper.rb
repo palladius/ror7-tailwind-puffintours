@@ -9,13 +9,14 @@ module ArticlesHelper
     article.tags.each{ |tag|
       css_class = ''
       #ret += link_to(tag.name, { :action => :tag, :id => tag.name }, :class => css_class)
-#      ret += link_to(tag.name, "/tags/#{tag.name}").html_safe
-      ret += "##{tag.name} " # ).html_safe
+      ret += link_to("##{tag.name}", "/tags/#{tag.name}") + ' '
+#      ret += "##{tag.name} " # ).html_safe
     }
-    ret
+    ret.html_safe
   end
 
+  # a.votes_for.count
   def render_votes(article)
-    :todo_votes
+    '👏' * article.votes_for.count
   end
 end

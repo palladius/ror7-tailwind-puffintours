@@ -11,7 +11,6 @@ class Article < ApplicationRecord
   # I'm ogfgline on a plane from BCN and having some difficulties.
   acts_as_taggable_on :tags
 
-
   #https://www.rubydoc.info/gems/jy-acts_as_votable
   acts_as_votable
 
@@ -32,7 +31,7 @@ class Article < ApplicationRecord
     @user = User.first
     # https://github.com/mbleigh/acts-as-taggable-on
     self.tag_list.add("puffintours")
-    self.tag_list.add("awesome", "slick")
+    #self.tag_list.add("awesome", "slick")
     self.liked_by(@user)
   end
 end
