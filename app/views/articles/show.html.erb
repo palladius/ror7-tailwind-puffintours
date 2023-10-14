@@ -12,4 +12,9 @@
   <div class="card-actions">
     <%= link_to "Edit", edit_article_path(@article), class: 'btn' %>
   </div>
+
+   <div class="card-carlessian-footer border-t-2 dark:border-neutral-600" >
+    <%= render_tags @article %> |
+    <%= render_votes @article %>
+  </div>
 </div>

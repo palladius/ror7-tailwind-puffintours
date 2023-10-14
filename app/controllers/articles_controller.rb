@@ -50,6 +50,11 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body, :published, :article_type, :content_date )
+    params.require(:article).permit(:title, :body, :published, :article_type, :content_date, :tag_list )
   end
+
+  def tag_cloud
+    @tags = Article.tag_counts_on(:tags)
+  end
+
 end

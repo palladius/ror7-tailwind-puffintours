@@ -17,3 +17,6 @@ if Article.none?
     )
   end
 end
+
+
+User.first.likes Article.first

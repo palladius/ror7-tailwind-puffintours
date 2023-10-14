@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :articles, dependent: :destroy
 
+  acts_as_voter
+  acts_as_tagger
+
   def name
     @name ||= self[:name].presence || email.split("@").first
   end

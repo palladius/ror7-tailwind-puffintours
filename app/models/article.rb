@@ -21,7 +21,18 @@ class Article < ApplicationRecord
   validates :title, length: { minimum: 5 }
 
   before_save :set_date_if_null
+  before_save :various_tests # just fo testing
+
   def set_date_if_null
     self.content_date ||= (self.created_at.to_date rescue  Date.today)
+  end
+
+  # Th4ese are just to test Tagbablity and Votability
+  def various_tests
+    @user = User.first
+    # https://github.com/mbleigh/acts-as-taggable-on
+    self.tag_list.add("puffintours")
+    self.tag_list.add("awesome", "slick")
+    self.liked_by(@user)
   end
 end

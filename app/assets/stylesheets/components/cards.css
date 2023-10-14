@@ -17,3 +17,7 @@
 .card-actions {
   @apply mt-8 mb-4;
 }
+
+.card-carlessian-footer {
+  @apply text-sm text-slate-400;
+}
