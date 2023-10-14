@@ -9,7 +9,11 @@ class Article < ApplicationRecord
 
   # First run bundle install with it and posssibly migreation.. or just read instruction of gem :)
   # I'm ogfgline on a plane from BCN and having some difficulties.
-  #acts_as_taggable_on :tags
+  acts_as_taggable_on :tags
+
+
+  #https://www.rubydoc.info/gems/jy-acts_as_votable
+  acts_as_votable
 
   has_rich_text :body
 
