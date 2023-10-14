@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-14 v0.0.9 Added actsAsVotable and migrated DB to it.
 2023-10-13 v0.0.8 Added date and event type. Next: Tags!
 2023-08-28 v0.0.7 Minor changes to Cloud run
 2023-08-27 v0.0.6 Lets test this in the cloud..

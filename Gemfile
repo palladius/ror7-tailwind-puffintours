@@ -8,6 +8,10 @@ gem 'sqlite3'
 #../riccardo_nifty_store/Gemfile:#gem 'acts_as_votable', '~> 0.11.1'
 # TODO quando hai internece.
 gem 'acts-as-taggable-on', '~> 9.0'
+# https://gist.github.com/hilava/e8c18654f49f32db0a24ade4a3884f85
+#gem 'acts_as_votable', '~> 0.10.0'
+gem 'acts_as_votable'
+
 # /Riccardo
 
 gem "rails", "~> 7.0"
