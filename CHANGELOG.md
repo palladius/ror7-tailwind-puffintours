@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-21 v0.1.0 Added `lolcat` just for git commit. :)
 2023-10-14 v0.1.0 Added actsAsTaggable and bumped mid-version. (should have bumped also at 009)..
 2023-10-14 v0.0.9 Added actsAsVotable and migrated DB to it.
 2023-10-13 v0.0.8 Added date and event type. Next: Tags!

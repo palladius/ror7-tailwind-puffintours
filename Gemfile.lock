@@ -117,6 +117,10 @@ GEM
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
     jwt (2.7.1)
+    lolcat (100.0.1)
+      manpages (~> 0.6.1)
+      optimist (~> 3.0.0)
+      paint (~> 2.1)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -125,6 +129,7 @@ GEM
       net-imap
       net-pop
       net-smtp
+    manpages (0.6.1)
     marcel (1.0.2)
     method_source (1.0.0)
     mini_magick (4.12.0)
@@ -175,9 +180,11 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
+    optimist (3.0.1)
     orm_adapter (0.5.0)
     pagy (5.10.1)
       activesupport
+    paint (2.3.0)
     pg (1.5.3)
     puma (6.3.0)
       nio4r (~> 2.0)
@@ -280,6 +287,7 @@ DEPENDENCIES
   heroicon (~> 1.0)
   image_processing (~> 1.2)
   jsbundling-rails (~> 1.0)
+  lolcat
   omniauth-facebook (~> 9.0)
   omniauth-github (~> 2.0)
   omniauth-google-oauth2 (~> 1.1)
