@@ -45,6 +45,14 @@ Clone this repository (or use the GitHub *template* button), then `cd` into the 
 > bin/setup
 ```
 
+### Riccardo installation
+
+This is a personal memo to my installation since its being ACTUIVELY DEVELOPED :)
+
+* Use `git-privatize` to get the personal `.envrc`.
+* Project id is under R&K gmail account. Some links:
+    * [https://console.cloud.google.com/cloud-build/builds?referrer=search&project=puffin-tours](Cloud Build for PT)
+
 ## Run
 
 Start the development server:
