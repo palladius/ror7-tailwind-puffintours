@@ -50,8 +50,10 @@ Clone this repository (or use the GitHub *template* button), then `cd` into the 
 This is a personal memo to my installation since its being ACTUIVELY DEVELOPED :)
 
 * Use `git-privatize` to get the personal `.envrc`.
-* Project id is under R&K gmail account. Some links:
+* Project id is `puffin-tours` under R&K gmail account (note it had 1$ credit which is now expired). Some links:
     * [https://console.cloud.google.com/cloud-build/builds?referrer=search&project=puffin-tours](Cloud Build for PT)
+    * AR: https://console.cloud.google.com/artifacts/docker/puffin-tours/europe-west1/puffintours/puffintours?project=puffin-tours (last positive build is from v0.7.0 pm Aug28)
+    * IAM: https://console.cloud.google.com/iam-admin/iam?referrer=search&project=puffin-tours
 
 ## Run
 
