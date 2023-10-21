@@ -6,6 +6,9 @@
     <%= form.text_field :title %>
   </div>
 
+  <!-- Upload MainImage https://edgeguides.rubyonrails.org/active_storage_overview.html -->
+  <%= form.file_field :main_image, multiple: false, direct_upload: true %>
+
   <div>
     <%= form.label :tags_list %>
     <%#= form.text_field :tag_list %>

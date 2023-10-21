@@ -12,6 +12,7 @@ gem 'acts-as-taggable-on', '~> 9.0'
 #gem 'acts_as_votable', '~> 0.10.0'
 gem 'acts_as_votable'
 gem 'lolcat'
+gem "google-cloud-storage", "~> 1.11", require: false # for ActiveStorage to GCP
 # /Riccardo
 
 gem "rails", "~> 7.0"

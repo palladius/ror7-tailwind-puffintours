@@ -19,4 +19,13 @@ module ArticlesHelper
   def render_votes(article)
     '👏' * article.votes_for.count
   end
+
+  def render_main_image(article)
+    if article.main_image and article.main_image.is_a?(ActiveStorage::Attached::One) and article.main_image.attached?
+#      return <p><%= image_tag(article.main_image.representation(resize_to_limit: [100, 100]))  rescue "Some error: #{$!}" %></p>  
+      return image_tag(article.main_image.representation(resize_to_limit: [100, 100]))  rescue "Some error: #{$!}" 
+    else 
+      "(🙆‍♂️ no img)"
+    end
+  end
 end

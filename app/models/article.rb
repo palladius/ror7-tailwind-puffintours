@@ -7,6 +7,9 @@
 class Article < ApplicationRecord
   belongs_to :user
 
+  # First ActiveStorage manual thingy on GCS..
+  has_one_attached :main_image
+
   # First run bundle install with it and posssibly migreation.. or just read instruction of gem :)
   # I'm ogfgline on a plane from BCN and having some difficulties.
   acts_as_taggable_on :tags

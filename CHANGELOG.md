@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-21 v0.1.2 added images! Lets hope they work"!
 2023-10-21 v0.1.0 Added `lolcat` just for git commit. :)
 2023-10-14 v0.1.0 Added actsAsTaggable and bumped mid-version. (should have bumped also at 009)..
 2023-10-14 v0.0.9 Added actsAsVotable and migrated DB to it.

@@ -50,7 +50,7 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body, :published, :article_type, :content_date, :tag_list )
+    params.require(:article).permit(:title, :body, :published, :article_type, :content_date, :tag_list, :main_image )
   end
 
   def tag_cloud

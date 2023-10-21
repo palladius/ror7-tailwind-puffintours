@@ -25,6 +25,7 @@
         <p class="card-subtitle">
           <%= author_and_date(article) %>
         </p>
+        <p><%= render_main_image(article) %></p>
         <div class="card-body">
           <%= truncate strip_tags(article.body.to_s), length: 160 %>
         </div>

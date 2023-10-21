@@ -2,6 +2,19 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
+
+
+google: &gcs
+  service: GCS
+#  bucket: your_own_bucket-<%= Rails.env %>
+  bucket: puffin-tours-public
+  #credentials: <%= Rails.root.join("path/to/keyfile.json") %>
+  credentials: private/puffin-tours-secret-key.json
+  project: "puffin-tours"
+  #cache_control: "public, max-age=3600"
+  public: true
+
 local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+  <<: *gcs
+  #service: Disk
+  #root: <%= Rails.root.join("storage") %>
