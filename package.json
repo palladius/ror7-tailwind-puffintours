@@ -1,6 +1,5 @@
 {
   "name": "app",
-  "private": "true",
   "dependencies": {
     "@hotwired/turbo-rails": "^7.3.0",
     "@rails/actiontext": "^7.0.5",
