@@ -48,7 +48,8 @@ ENV RAILS_ENV production
 
 # Lets try precompilation in the Docker image so it should alreay work.. but mayb e it needs a var which is not
 # available to me
-RUN RAILS_ENV=production rails assets:precompile
+# Wait!!! to do this you need a PWD / ENV which is not safe to have inside docker - let me remove this instead.
+#RUN RAILS_ENV=production rails assets:precompile
 
 # We expose the port
 EXPOSE 8080

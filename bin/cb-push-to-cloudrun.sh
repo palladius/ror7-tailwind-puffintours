@@ -35,6 +35,7 @@ export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
 export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
 export GIT_SHORT_SHA="${GIT_COMMIT_SHA:0:7}" # first 7 chars: Riccardo reproducing what CB does for me.
 export APP_VERSION="$(cat VERSION)"
+export APP_VERSION_LATEST="latest"
 export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur}"
 export RAILS_MASTER_KEY="${RAILS_MASTER_KEY:-foobarbaz}"
 #- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$SHORT_SHA"
@@ -46,6 +47,7 @@ export RAILS_MASTER_KEY="${RAILS_MASTER_KEY:-foobarbaz}"
 CLOUDRUN_PROJECT_ID="$PROJECT_ID"
 # VER non lo posso calcolare da CB vanilla, serve un shell script :/
 UPLOADED_IMAGE_WITH_VER="${GCLOUD_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:v$APP_VERSION"
+UPLOADED_IMAGE_WITH_LATEST_VERSION="${GCLOUD_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:latest"
 UPLOADED_IMAGE_WITH_SHA="${GCLOUD_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$GIT_SHORT_SHA"
 
 # $1 can be unbound
@@ -90,14 +92,14 @@ set -x
 
 gcloud --project "$CLOUDRUN_PROJECT_ID" \
     beta run deploy ${APP_NAME}-prod \
-      --image    "$UPLOADED_IMAGE_WITH_VER" \
+      --image    "$UPLOADED_IMAGE_WITH_LATEST_VERSION" \
       --platform managed \
       --memory "2048Mi" \
       --region   "$GCLOUD_REGION" \
       --set-env-vars='description=created-from-bin-slash-cb-push-to-cloudrun-sh' \
       --set-env-vars='fav_color=purple' \
       --set-env-vars="GIT_STATE=$GIT_STATE" \
-      --set-env-vars="APP_VERSION=$APP_VERSION" \
+      --set-env-vars="APP_VERSION=$APP_VERSION_LATEST" \
       --set-env-vars="SECRET_KEY_BASE=TODO" \
       --set-env-vars="RAILS_MASTER_KEY=$RAILS_MASTER_KEY" \
       --set-env-vars="RAILS_ENV=production" \

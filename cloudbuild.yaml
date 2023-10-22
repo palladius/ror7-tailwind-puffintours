@@ -64,7 +64,8 @@ steps:
     - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:latest"
     - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/puffintours/puffintours:sha-$SHORT_SHA"
 #  dir: rails/puffintours/
-
+  #env:
+  #- 'RAILS_MASTER_KEY=$_RAILS_MASTER_KEY'
 
 - name: 'gcr.io/cloud-builders/docker'
   id: Tag from SHA to VERSION - proviamo con Docker
@@ -102,7 +103,7 @@ steps:
   - bin/cb-push-to-cloudrun.sh
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-#  - 'RAILS_MASTER_KEY=$_RAILS_MASTER_KEY'
+  - 'RAILS_MASTER_KEY=$_RAILS_MASTER_KEY'
 #  - 'GCLOUD_REGION=$GCLOUD_REGION'
 #  - 'REGION=$REGION'
 
