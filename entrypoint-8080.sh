@@ -5,13 +5,13 @@ set -x
 #source .env.sh
 source .envrc
 
-# serbe in prod per non imputtanire gli assets!
+# serve in prod per non imputtanire gli assets!
 export RAILS_ENV=${RAILS_ENV:-production}
 export RAILS_SERVE_STATIC_FILES=true
 export RAILS_LOG_TO_STDOUT=yesplease
 
 echo '------------------------------------------------------'
-echo "$0 v$VER"
+echo "Welcome to $0 v$VER"
 echo "RAILS_ENV: $RAILS_ENV"
 echo "DB HOST:   $DATABASE_HOST"
 echo "RAILS_MASTER_KEY:  ${RAILS_MASTER_KEY:1:4}.. (removeme when it works)"
@@ -23,9 +23,10 @@ echo '------------------------------------------------------'
 # Thois is needed in PROD
 # Articolo figo: https://stackoverflow.com/questions/49440304/rails-asset-is-not-present-in-asset-pipeline-when-using-image-tag
 #rails assets:precompile
-RAILS_ENV=production bundle exec rails assets:precompile
+RAILS_ENV=production rails assets:precompile
+#RAILS_ENV=production bundle exec rails assets:precompile
 
-rake db:migrate
-rake db:seed
+RAILS_ENV=production rake db:migrate
+RAILS_ENV=production rake db:seed
 
-bundle exec rails s -p 8080 -b 0.0.0.0
+RAILS_ENV=production bundle exec rails s -p 8080 -b 0.0.0.0
