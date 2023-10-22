@@ -19,3 +19,14 @@ credential-edits:
 
 docker-build:
 	docker build -t puffintours:latest .
+
+# "Missing `secret_key_base` for '#{Rails.env}' environment, set this string with `bin/rails credentials:edit`"
+docker-run-prod:
+# TODO Add also DB stuff
+	docker run -it -p 8080:8080 \
+		-e DATABASE_HOST="$(DATABASE_HOST)" \
+		-e DATABASE_NAME="$(DATABASE_NAME)" \
+		-e DATABASE_USER="$(DATABASE_USER)" \
+		-e DATABASE_PASS="$(DATABASE_PASS)" \
+		-e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
+		puffintours:latest 

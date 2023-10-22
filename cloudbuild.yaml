@@ -97,7 +97,7 @@ steps:
 
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  id: Push to Cloud run from POOR Env
+  id: Push to Cloud run from POOR Env with DB stuff..
   entrypoint: bash
   args:
   - bin/cb-push-to-cloudrun.sh
@@ -108,7 +108,6 @@ steps:
   - 'DATABASE_NAME=$_DATABASE_NAME'
   - 'DATABASE_USER=$_DATABASE_USER'
   - 'DATABASE_PASS=$_DATABASE_PASS'
-
 #  - 'GCLOUD_REGION=$GCLOUD_REGION'
 #  - 'REGION=$REGION'
 

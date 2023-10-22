@@ -1,8 +1,8 @@
 # CHANGELOG
 
 ```
-2023-10-22 0.1.7 trying to dfix RAILS_ENV=production rails assets:precompile in entrypoint8080
-2023-10-22 v0.1.6 better docker container
+2023-10-22 v0.1.7 trying to fix RAILS_ENV=production rails assets:precompile in entrypoint8080
+2023-10-22 v0.1.6 better docker container. #ThisWorks!
 2023-10-22 v0.1.4 bugfix in `riccardo.rb` - again!
 2023-10-22 v0.1.4 fixed ENV and Rails.application.config.hosts
 2023-10-22 v0.1.3 Fixing Dockerfile removing
@@ -14,8 +14,8 @@
 2023-08-28 v0.0.7 Minor changes to Cloud run
 2023-08-27 v0.0.6 Lets test this in the cloud..
 2023-08-27 v0.0.5  PostgreS set up and PROD works locally!
-2023-08-27 v0.0.4  Mistake on cloudbuild.yaml which i overwrote by mistake.
+2023-08-27 v0.0.4  Mistake on `cloudbuild.yaml` which i overwrote by mistake.
 2023-08-27 v0.0.3  First Dockerfile. Lets see...
 2023-08-27 v0.0.2  Changed DB and added some PuffinTours specialization in view.
-2023-08-26 v0.0.1  Initial stesure
+2023-08-26 v0.0.1  Initial stesure :)
 ```
