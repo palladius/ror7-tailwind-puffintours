@@ -61,8 +61,8 @@ echo "DEPLOY_VERSION:   $DEPLOY_VERSION"
 echo "APP_VERSION:   $APP_VERSION"
 echo "GIT_SHORT_SHA: $GIT_SHORT_SHA"
 echo "UPLOADED_IMAGE_WITH_SHA: $UPLOADED_IMAGE_WITH_SHA"
-#echo "DATABASE_HOST: $DATABASE_HOST"
-#echo "DATABASE_NAME: $DATABASE_NAME"
+echo "DATABASE_HOST: $DATABASE_HOST"
+echo "DATABASE_NAME: $DATABASE_NAME"
 echo "---- /DEBUG ----"
 
 # TODO(ricc): As a future iteration, tag and push the v0.1.2 too and use that for CRun
@@ -108,13 +108,13 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="RAILS_SERVE_STATIC_FILES=true" \
       --set-env-vars="MESSAGGIO_OCCASIONALE=$MESSAGGIO_OCCASIONALE" \
       --set-env-vars="RAILS_LOG_TO_STDOUT=yesplease" \
+      --set-env-vars="DATABASE_HOST=$DATABASE_HOST" \
+      --set-env-vars="DATABASE_NAME=$DATABASE_NAME" \
+      --set-env-vars="DATABASE_USER=$DATABASE_USER" \
+      --set-env-vars="DATABASE_PASS=$DATABASE_PASS" \
       --set-secrets="/secretenvrc/puffintours-envrc=puffintours-envrc:latest" \
       --allow-unauthenticated
 
-#      --set-env-vars="DATABASE_HOST=$DATABASE_HOST" \
-#      --set-env-vars="DATABASE_NAME=$DATABASE_NAME" \
-#      --set-env-vars="DATABASE_USER=$DATABASE_USER" \
-#      --set-env-vars="DATABASE_PASS=$DATABASE_PASS" \
 
 #      --update-secrets=PUFFINTOURS_SECRET_KEY=PUFFINTOURS_SECRET_KEY:latest \
 #      --service-account="puffintours-docker-runner@$PROJECT_ID.iam.gserviceaccount.com" \

@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.6 better docker container
 2023-10-22 v0.1.4 bugfix in `riccardo.rb` - again!
 2023-10-22 v0.1.4 fixed ENV and Rails.application.config.hosts
 2023-10-22 v0.1.3 Fixing Dockerfile removing
