@@ -3,7 +3,7 @@
 # Google client_id
 AppName = 'Puffin Tours'
 AppEmoji = '🐧🧳'
-
+AppVersion = File.read('VERSION').chomp
 
 # TODO move to ENV :)
 #Rails.application.config.hosts << "dhh-vanilla-701-dev-cdlu26pd4q-oa.a.run.app"
