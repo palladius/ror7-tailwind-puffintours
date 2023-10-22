@@ -1,6 +1,12 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.11 BREAKING CHANGE!
+
+                   I fixed the public JSON problem but now I broke local dev - ill need to figure it out locally
+                   how to pass the right JSON - probably by just exporting ADC ENV to private./bah... lets see
+                   I'm too tired for this now.
+
 2023-10-22 v0.1.10 Trying with yarn now... in entrypoint.
 2023-10-22 v0.1.9 Lot of UX changes, also added the only boolean in Articles. Yay!
 2023-10-22 v0.1.8 Added logo in the homepage
