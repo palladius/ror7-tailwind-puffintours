@@ -6,7 +6,7 @@
 # As long as CB has access to those secrets (CB SA was enabled to read secrets).
 #####################################################################################################
 
-export DEPLOY_VERSION='1.0.1'
+export DEPLOY_VERSION='1.0.2'
 #direnv allow "$(git rev-parse --show-toplevel)"
 # if it fails no probs... yet
 
@@ -35,7 +35,7 @@ export GIT_STATE="$(git rev-list -1 HEAD --abbrev-commit)"
 export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
 export GIT_SHORT_SHA="${GIT_COMMIT_SHA:0:7}" # first 7 chars: Riccardo reproducing what CB does for me.
 export APP_VERSION="$(cat VERSION)"
-export APP_VERSION_LATEST="latest"
+#export APP_VERSION_LATEST="latest"
 export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur}"
 export RAILS_MASTER_KEY="${RAILS_MASTER_KEY:-foobarbaz}"
 #- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$SHORT_SHA"
@@ -61,6 +61,9 @@ echo "DEPLOY_VERSION:   $DEPLOY_VERSION"
 echo "APP_VERSION:   $APP_VERSION"
 echo "GIT_SHORT_SHA: $GIT_SHORT_SHA"
 echo "UPLOADED_IMAGE_WITH_SHA: $UPLOADED_IMAGE_WITH_SHA"
+echo "DATABASE_HOST: $DATABASE_HOST"
+echo "DATABASE_NAME: $DATABASE_NAME"
+
 echo "---- /DEBUG ----"
 
 # TODO(ricc): As a future iteration, tag and push the v0.1.2 too and use that for CRun
@@ -92,20 +95,24 @@ set -x
 
 gcloud --project "$CLOUDRUN_PROJECT_ID" \
     beta run deploy ${APP_NAME}-prod \
-      --image    "$UPLOADED_IMAGE_WITH_LATEST_VERSION" \
+      --image    "$UPLOADED_IMAGE_WITH_VER" \
       --platform managed \
       --memory "2048Mi" \
       --region   "$GCLOUD_REGION" \
       --set-env-vars='description=created-from-bin-slash-cb-push-to-cloudrun-sh' \
       --set-env-vars='fav_color=purple' \
       --set-env-vars="GIT_STATE=$GIT_STATE" \
-      --set-env-vars="APP_VERSION=$APP_VERSION_LATEST" \
+      --set-env-vars="APP_VERSION=$APP_VERSION" \
       --set-env-vars="SECRET_KEY_BASE=TODO" \
       --set-env-vars="RAILS_MASTER_KEY=$RAILS_MASTER_KEY" \
       --set-env-vars="RAILS_ENV=production" \
       --set-env-vars="RAILS_SERVE_STATIC_FILES=true" \
       --set-env-vars="MESSAGGIO_OCCASIONALE=$MESSAGGIO_OCCASIONALE" \
       --set-env-vars="RAILS_LOG_TO_STDOUT=yesplease" \
+      --set-env-vars="DATABASE_HOST=$DATABASE_HOST" \
+      --set-env-vars="DATABASE_NAME=$DATABASE_NAME" \
+      --set-env-vars="DATABASE_USER=$DATABASE_USER" \
+      --set-env-vars="DATABASE_PASS=$DATABASE_PASS" \
       --set-secrets="/secretenvrc/puffintours-envrc=puffintours-envrc:latest" \
       --allow-unauthenticated
 

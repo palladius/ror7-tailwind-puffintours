@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.4 fixed ENV and Rails.application.config.hosts
+2023-10-22 v0.1.3 Fixing Dockerfile removing
 2023-10-21 v0.1.2 added images! Lets hope they work"!
 2023-10-21 v0.1.0 Added `lolcat` just for git commit. :)
 2023-10-14 v0.1.0 Added actsAsTaggable and bumped mid-version. (should have bumped also at 009)..
