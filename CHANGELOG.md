@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.10 Trying with yarn now... in entrypoint.
 2023-10-22 v0.1.9 Lot of UX changes, also added the only boolean in Articles. Yay!
 2023-10-22 v0.1.8 Added logo in the homepage
 2023-10-22 v0.1.7 trying to fix RAILS_ENV=production rails assets:precompile in entrypoint8080

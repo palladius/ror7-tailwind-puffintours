@@ -26,7 +26,11 @@ echo '------------------------------------------------------'
 RAILS_ENV=production rails assets:precompile
 #RAILS_ENV=production bundle exec rails assets:precompile
 
+
 RAILS_ENV=production rake db:migrate
 RAILS_ENV=production rake db:seed
+
+# Maybe it fixes the prod error.. maybe not
+yarn install --check-files
 
 RAILS_ENV=production bundle exec rails s -p 8080 -b 0.0.0.0
