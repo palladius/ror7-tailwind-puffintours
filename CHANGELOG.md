@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.4 bugfix in `riccardo.rb` - again!
 2023-10-22 v0.1.4 fixed ENV and Rails.application.config.hosts
 2023-10-22 v0.1.3 Fixing Dockerfile removing
 2023-10-21 v0.1.2 added images! Lets hope they work"!
