@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-22 v0.1.8 Added logo in the homepage
 2023-10-22 v0.1.7 trying to fix RAILS_ENV=production rails assets:precompile in entrypoint8080
 2023-10-22 v0.1.6 better docker container. #ThisWorks!
 2023-10-22 v0.1.4 bugfix in `riccardo.rb` - again!
