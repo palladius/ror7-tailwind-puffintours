@@ -92,8 +92,14 @@ set -x
 #             cpu: 2000m
 #             memory: 2Gi
 
+# Change AppName if deployed from Carlessian computer
+if hostname | egrep 'ricc-macbookpro|derek' ; then
+  #echo 'I believe this code wont work given how BASH vars suck '
+  export APP_NAME='puffintours-manhouse'
+fi
+
 gcloud --project "$CLOUDRUN_PROJECT_ID" \
-    beta run deploy ${APP_NAME}-prod \
+    beta run deploy "${APP_NAME}-prod" \
       --image    "$UPLOADED_IMAGE_WITH_VER" \
       --platform managed \
       --memory "2048Mi" \
