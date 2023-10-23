@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-10-23 v0.1.12 Added the 4 DB variables to Cloud Build.
 2023-10-22 v0.1.11 BREAKING CHANGE!
 
                    I fixed the public JSON problem but now I broke local dev - ill need to figure it out locally
