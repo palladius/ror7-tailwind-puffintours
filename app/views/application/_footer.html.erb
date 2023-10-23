@@ -3,9 +3,9 @@
     <p class="mt-4 text-center text-sm leading-6 text-slate-500">
       <%= AppName %> v<b><%= AppVersion %></b>
       <br/>
-      DEB: DATABASE_HOST = <%= ENV.fetch('DATABASE_HOST', :dunno) %>
       <!--
-      inspired by © <%= Time.now.year %> Ralix Core Team. All rights reserved.-->
+        DEB: DATABASE_HOST = <%= ENV.fetch('DATABASE_HOST', :dunno) %>
+        inspired by © <%= Time.now.year %> Ralix Core Team. All rights reserved.-->
       </p>
     <div class="mt-4 flex items-center justify-center space-x-4 text-sm font-semibold leading-6">
       <%= link_to "About us", page_path(:about) %>
