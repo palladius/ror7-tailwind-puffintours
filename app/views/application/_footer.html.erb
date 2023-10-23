@@ -2,6 +2,8 @@
   <div class="border-t border-slate-900/5 py-5">
     <p class="mt-4 text-center text-sm leading-6 text-slate-500">
       <%= AppName %> v<b><%= AppVersion %></b>
+      <br/>
+      DEB: DATABASE_HOST = <%= ENV.fetch('DATABASE_HOST', :dunno) %>
       <!--
       inspired by © <%= Time.now.year %> Ralix Core Team. All rights reserved.-->
       </p>
