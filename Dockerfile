@@ -1,8 +1,15 @@
 # Dockerfile copiato da ror-rails-goldie copialo da la..
-# 2023-10-22 v0.2 Moved from node_10 to node_18
 FROM ruby:3.2.1
 
-ENV APP_HOME /riccardo-rails-app
+###################################
+# Dockerfile HITSORY
+###################################
+# 2023-10-22 v0.3 from node_18 to node_20: https://deb.nodesource.com/setup_X
+# 2023-10-22 v0.2 Moved from node_10 to node_18
+###################################
+
+ENV NODE_MAJOR 20
+ENV APP_HOME   /riccardo-rails-app
 
 # Added for YARN or it wont work...
 # https://medium.com/@yuliaoletskaya/how-to-start-your-rails-app-in-a-docker-container-9f9ce29ff6d6
@@ -18,7 +25,7 @@ RUN apt-get install -y \
   libvips \
   libmariadb-dev \
   libpq-dev &&\
-  curl -sSL https://deb.nodesource.com/setup_18.x | bash - && \
+  curl -sSL https://deb.nodesource.com/setup_20.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && apt-get install -y nodejs yarn
