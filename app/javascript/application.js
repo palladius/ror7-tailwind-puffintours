@@ -9,6 +9,18 @@ import "chartkick/chart.js"
 //import "chartkick"
 //import "Chart.bundle"
 
+////////////////////////////////////
+// Carlessian custom code
+////////////////////////////////////
+
+// Import the fetch-api-data.js file
+import './fetch-api-data';
+//fetchApiData();
+
+// /Carlessian code
+////////////////////////////////////
+
+
 // Controllers
 import AppCtrl      from './controllers/app'
 import ArticlesCtrl from './controllers/articles'

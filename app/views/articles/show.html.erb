@@ -1,3 +1,5 @@
+<%= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
+
 <div class="card my-4">
   <h1 class="card-title"><%= @article.title %></h1>
 
@@ -19,4 +21,34 @@
     <%= render_tags @article %> |
     <%= render_votes @article %>
   </div>
+
+  <div class="card-footer">
+    <h2>Some 🪄 GenAI stuff coming soon...</h2>
+
+      <div id="my-post-content" >
+        <p id="my-placeholder" >
+          <b>1. ❌ This aaa placeholder will be replaced with API data. (bard test!)</b>
+          </p>
+      </div>
+
+      <div id="my-article-synoptic" >
+        <p id="my-placeholder" >2. ❌ This placeholder will be replaced with a synoptic of the whole article (Palm/LangChainRb).</p>
+      </div>
+
+      <div id="my-article-image-synoptic" >
+        <p id="my-placeholder" >3. ❌ This placeholder will be replaced with information on the image (Gemini).</p>
+      </div>
+
+          <script>
+          // Call the fetchApiData function after the DOM is loaded
+          document.addEventListener('DOMContentLoaded', fetchApiData);
+          fetchApiData();
+        </script>
+
+
+      <%#= render_comments @article %>
+      <%#= render_comment_form @article %>
+      <%#= render_article_footer @article %>
+    </div>
+
 </div>

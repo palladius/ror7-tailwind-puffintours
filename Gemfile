@@ -46,4 +46,15 @@ group :development do
   gem "web-console"
   gem "debug"
   gem "dotenv-rails"
+
+  # Riccardo START
+  # autoreload https://stackoverflow.com/questions/35489477/how-to-enable-automatic-code-reloading-in-rails
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem 'listen'
+  gem 'guard'
+  gem 'guard-zeus'
+  gem 'rack-livereload'
+  gem 'rails_live_reload'
+  # Riccardo END
+
 end

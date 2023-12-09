@@ -68,4 +68,9 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  #
+
+  #Riccardo da https://dev.to/a_chris/rails-live-reloading-assets-1k9e
+  config.assets.compile = true
+  config.assets.digest = false
 end

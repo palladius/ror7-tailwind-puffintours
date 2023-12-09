@@ -1,4 +1,4 @@
-# Ricc Pufintours!
+# Ricc Puffin Tours
 
 * Copied from https://github.com/ralixjs/rails-ralix-tailwind . Why? I am a bit lost in 4 different ways of Rails 7 to manage Js and im not a JS specialist... hence.. someone did the effort for me so why not standing on the shoulders of giants?
 * Image inspiration: https://ricc.rocks/en/posts/travel/20230404-puffin-tours/
@@ -9,7 +9,14 @@ Also Kate asked me to do this:
 * Active Storage for images
 * star rating
 
---
+## How to develop
+
+For auto-reload to work, do this:
+
+* rake assets:precompile && rails s
+* yarn build:css --watch
+
+See for more : <https://dev.to/a_chris/rails-live-reloading-assets-1k9e>
 
 # 🚀 Rails + Ralix + Tailwind
 
