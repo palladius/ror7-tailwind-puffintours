@@ -1,7 +1,12 @@
 <h1>About us</h1>
 
-<p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
+<p>This was highly wanted by my waffle, to be able to rate my ability to support the family in our trips.
+    Basically my wife split our jobs pretty evenly:<br/>
+    * I (the father) would go into finding places to eat, to visit and so on<br/>
+    * My wife would rate me with 1 to 5 stars at the end of the trip.<br/>
+</p>
 
+<!--
 <h2>Mission</h2>
 
 <p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
@@ -11,8 +16,21 @@
 
 <p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
 <p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
-
+-->
 <h2>Team</h2>
 
-<p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
-<p><%= Faker::Lorem.paragraphs(number: 5).join.html_safe %></p>
+<ul>
+    <li>Papa (aha "The Puffin").
+    <li>Mummy (aha "The waffle").
+    <li>Ale (aha "The explorer").
+    <li>Seby (aha "The eater").
+</ul>
+
+<h2>Graphs</h2>
+
+  <%= line_chart Article.group_by_week(:created_at).count,title: "Articles Created by week" %>
+  <%= pie_chart Article.group(:article_type).count, title: "Articles by type" %>
+  <%= pie_chart   Article.group(:user_id).count.map{|k,v| [User.find(k).email,v]}, limit:5, title: "Articles by user email" %>
+
+
+More ideas in https://chartkick.com/

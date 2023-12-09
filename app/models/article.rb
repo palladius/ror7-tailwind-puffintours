@@ -37,4 +37,11 @@ class Article < ApplicationRecord
     #self.tag_list.add("awesome", "slick")
     self.liked_by(@user)
   end
+
+
+  # for chatring purposes..
+  def user_email
+    self.user.email
+  end
+
 end

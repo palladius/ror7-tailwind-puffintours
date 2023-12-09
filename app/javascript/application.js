@@ -4,6 +4,11 @@ import "@hotwired/turbo-rails"
 import "trix"
 import "@rails/actiontext"
 
+import "chartkick/chart.js"
+// importmap: but thats not me
+//import "chartkick"
+//import "Chart.bundle"
+
 // Controllers
 import AppCtrl      from './controllers/app'
 import ArticlesCtrl from './controllers/articles'

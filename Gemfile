@@ -13,6 +13,11 @@ gem 'acts-as-taggable-on', '~> 9.0'
 gem 'acts_as_votable'
 gem 'lolcat'
 gem "google-cloud-storage", "~> 1.11", require: false # for ActiveStorage to GCP
+gem "chartkick" # for charts on main page
+  gem "groupdate" # to help chartkick do some real Date Grouping magic
+  gem 'active_median' # to help ChjartKick too: see https://geekhmer.github.io/blog/2015/05/02/ruby-on-rails-charting-with-chartkick-gem/
+  #gem 'chartjs-ror' # This is just Codey autocompletion :)
+gem "langchainrb" # GenAI
 # /Riccardo
 
 gem "rails", "~> 7.0"
