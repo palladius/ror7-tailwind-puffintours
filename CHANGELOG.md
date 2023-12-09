@@ -1,7 +1,8 @@
 # CHANGELOG
 
 ```
-2023-12-09 v0.2.01 Some random JS to populate a field on Article as per Bard. Doesnt work yet.
+2023-12-09 v0.2.03 JS substitution works with a REAL API called :)
+2023-12-09 v0.2.02 Some random JS to populate a field on Article as per Bard. Doesnt work yet.
 2023-12-09 v0.2.01 Added Synopsis to Article, one for image (Gemini!) and one for text (palm)
 2023-12-09 v0.1.14 Adding `Chartkick` gem and `langhcianrb` because why not
 2023-10-23 v0.1.13 Moved Node from 1.8 to 2.0. as per dockerfile output...
