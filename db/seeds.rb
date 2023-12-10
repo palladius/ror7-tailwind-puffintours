@@ -18,5 +18,13 @@ if Article.none?
   end
 end
 
+admins = %w{
+  ricc@google.com
+  palladiusbonton@gmail.com
+}
+
+admins.each do |email|
+  User.where(email: email).first.update(is_admin: true)
+end
 
 User.first.likes Article.first

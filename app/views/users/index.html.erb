@@ -7,7 +7,9 @@
         <th></th>
         <th><%= sort_link(@q, :name) %></th>
         <th><%= sort_link(@q, :email) %></th>
+        <th><%= sort_link(@q, :articles) %></th>
         <th><%= sort_link(@q, :created_at) %></th>
+        <th><%= sort_link(@q, :is_admin) %></th>
         <th></th>
       </tr>
     </thead>
@@ -24,7 +26,13 @@
             <%= mail_to user.email, 'data-tippy-content': 'Click to send an email' %>
           </td>
           <td>
+            <%= user.articles.count %>
+          </td>
+          <td>
             <span data-tippy-content="<%= format_time(user.created_at) %>"><%= time_ago user.created_at %></span>
+          </td>
+          <td>
+            <%= user.is_admin ? '👔' : '-' %>
           </td>
           <td>
             <a data-modal-url="<%= "/users/#{user.id}" %>" data-modal-title="User details" class="btn btn-outline">Details</a>

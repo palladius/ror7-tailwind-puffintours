@@ -4,7 +4,7 @@ module ArticlesHelper
     #    "by #{article.user.name.capitalize} | #{format_time(article.created_at.to_date)} | #{article.content_date.to_s} "
     published_emoji = article.published.nil? ? '0️⃣' :
       article.published ? '🌍' : '🕵️'
-    "by #{article.user.name.capitalize} | #{article.content_date.to_s} #{published_emoji}"
+    "by <b>#{article.user.name.capitalize}</b> | #{article.content_date.to_s} #{published_emoji}".html_safe
   end
 
   def render_tags(article)
