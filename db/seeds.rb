@@ -28,3 +28,4 @@ admins.each do |email|
 end
 
 User.first.likes Article.first
+#User.first.likes Article.find(23)

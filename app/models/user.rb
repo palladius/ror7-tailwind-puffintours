@@ -49,6 +49,10 @@ class User < ApplicationRecord
     end
   end
 
+  def to_s
+    name
+  end
+
   protected
 
   def password_required?

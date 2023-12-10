@@ -10,7 +10,7 @@ gem 'sqlite3'
 gem 'acts-as-taggable-on', '~> 9.0'
 # https://gist.github.com/hilava/e8c18654f49f32db0a24ade4a3884f85
 #gem 'acts_as_votable', '~> 0.10.0'
-gem 'acts_as_votable'
+gem 'acts_as_votable' # https://github.com/ryanto/acts_as_votable
 gem 'lolcat'
 gem "google-cloud-storage", "~> 1.11", require: false # for ActiveStorage to GCP
 gem "chartkick" # for charts on main page

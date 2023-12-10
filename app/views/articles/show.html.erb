@@ -3,6 +3,22 @@
 <div class="card my-4">
   <h1 class="card-title"><%= @article.title %></h1>
 
+  <div class="card-subtitle float-right">
+    <h2>🍗 Votes</h2>
+    #Votes: <b><%=  @article.votes_for.count %></b> <br/>
+    Average: <b><%= @article.weighted_average %></b> <br/>
+
+
+    👍 #likes: <%= @article.get_likes().size %> <br/>
+    👎🏾 #dislikes: <%= @article.get_dislikes().size %> <br/>
+
+    </div>
+
+ <!--  <img class="float-right ..." src="path/to/image.jpg">
+  <p class="card-subtitle">tailwind float right: https://tailwindcss.com/docs/float
+ -->
+
+
   <p class="card-subtitle">
     <%= author_and_date(@article) %>
   </p>
@@ -51,4 +67,22 @@
       <%#= render_article_footer @article %>
     </div>
 
+  <hr/>
+  <% if current_user.is_admin %>
+    <div class="card-footer">
+        <h1>Admin only: votes</h1>
+
+        <p>Weighted Average = <b><%= @article.weighted_average %></b></p>
+
+      <ol class="list-decimal">
+      <% @article.votes_for.each do |vote| %>
+        <li>
+
+          <b><%= voter_info(vote) rescue "Err: #{$!}" %></b>
+          <%= vote.inspect %></li>
+      <% end %>
+      </ol>
+    </div>
+
+  <% end %>
 </div>
