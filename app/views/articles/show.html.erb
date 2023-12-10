@@ -68,7 +68,7 @@
     </div>
 
   <hr/>
-  <% if current_user.is_admin %>
+  <% if (current_user.is_admin rescue false) %>
     <div class="card-footer">
         <h1>Admin only: votes</h1>
 
