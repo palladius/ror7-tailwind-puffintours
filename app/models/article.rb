@@ -44,4 +44,11 @@ class Article < ApplicationRecord
     self.user.email
   end
 
+  def editable_by?(user)
+    # user could be null..
+    return false unless user.present?
+    return true if user.admin?
+    user == self.user
+  end
+
 end

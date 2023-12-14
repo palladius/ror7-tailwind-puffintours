@@ -53,6 +53,10 @@ class User < ApplicationRecord
     name
   end
 
+  def admin?
+    is_admin == true
+  end
+
   protected
 
   def password_required?
