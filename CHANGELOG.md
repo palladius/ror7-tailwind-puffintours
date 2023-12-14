@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-12-14 v0.3.03 Admins can edit all articles
 2023-12-10 v0.3.01 Added `is_admin` to Users
 2023-12-09 v0.2.03 JS substitution works with a REAL API called :)
 2023-12-09 v0.2.02 Some random JS to populate a field on Article as per Bard. Doesnt work yet.
