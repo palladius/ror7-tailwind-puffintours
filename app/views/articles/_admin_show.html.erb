@@ -53,12 +53,13 @@
 
     <% @blobs.each do |blob| %>
         <p>♣️ <%=blob.class %>.#<%= blob.id %>
-            (<b><%=blob.name %></b>, representable=<%=  blob.representable? %>, content_type=<%=  blob.content_type %>):
+            (<b><%=blob.name %></b>,
+                representable=<%=  blob.representable? %>,
+                content_type=<b><%=  blob.content_type %></b>):
             <%= '🎥VIDEO' if blob.video? %>
             <%= '🔈audio' if blob.audio? %>
             <%= '🌠image' if blob.image? %>
             <%= '🈹pdf' if blob.content_type == 'application/pdf' %>
-            signed_id=<%= blob.blob.signed_id %>,
             url=<%= link_to  blob.blob.signed_id,rails_blob_url(blob) %>
         </p>
     <% end %>

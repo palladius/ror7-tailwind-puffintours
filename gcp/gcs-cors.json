@@ -2,6 +2,8 @@
     {
       "origin": [
         "https://puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app/",
+        "https://puffintours-prod-rjjr63dzrq-ew.a.run.app/",
+        "http://localhost:8080/",
         "http://localhost:3000/"
         ],
       "method": ["PUT"],
