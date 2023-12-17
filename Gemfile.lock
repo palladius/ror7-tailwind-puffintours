@@ -179,6 +179,15 @@ GEM
     hashie (5.0.0)
     heroicon (1.0.0)
       rails (>= 5.2)
+    html-pipeline (2.14.3)
+      activesupport (>= 2)
+      nokogiri (>= 1.4)
+    html-pipeline-trix-video (0.0.2)
+      html-pipeline (~> 2.0)
+    html-pipeline-vimeo (0.1.1)
+      html-pipeline (~> 2.0)
+    html-pipeline-youtube (0.1.4)
+      html-pipeline (~> 2.0)
     http_parser.rb (0.8.0)
     httpclient (2.8.3)
     i18n (1.14.1)
@@ -434,6 +443,10 @@ DEPENDENCIES
   guard-livereload (~> 2.5)
   guard-zeus
   heroicon (~> 1.0)
+  html-pipeline
+  html-pipeline-trix-video
+  html-pipeline-vimeo
+  html-pipeline-youtube
   image_processing (~> 1.2)
   jsbundling-rails (~> 1.0)
   langchainrb

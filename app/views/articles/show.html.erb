@@ -1,4 +1,6 @@
 <%= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
+<% pipeline_body_result = $pipeline.call( @article.body ) rescue "Error: #{$!}" %>
+         <%#= pipeline_body_result[:output].html_safe %>
 
 <div class="card my-4">
   <h1 class="card-title"><%= @article.title %></h1>
@@ -26,7 +28,8 @@
    <p><%= render_main_image(@article) %></p>
 
   <div class="card-body">
-    <%= @article.body %>
+    <%#= @article.body %>
+    <%= pipeline_body_result[:output].html_safe rescue  @article.body  %>
   </div>
 
   <div class="card-actions">
@@ -38,51 +41,14 @@
     <%= render_votes @article %>
   </div>
 
-  <div class="card-footer">
-    <h2>Some 🪄 GenAI stuff coming soon...</h2>
-
-      <div id="my-post-content" >
-        <p id="my-placeholder" >
-          <b>1. ❌ This aaa placeholder will be replaced with API data. (bard test!)</b>
-          </p>
-      </div>
-
-      <div id="my-article-synoptic" >
-        <p id="my-placeholder" >2. ❌ This placeholder will be replaced with a synoptic of the whole article (Palm/LangChainRb).</p>
-      </div>
-
-      <div id="my-article-image-synoptic" >
-        <p id="my-placeholder" >3. ❌ This placeholder will be replaced with information on the image (Gemini).</p>
-      </div>
-
-          <script>
-          // Call the fetchApiData function after the DOM is loaded
-          document.addEventListener('DOMContentLoaded', fetchApiData);
-          fetchApiData();
-        </script>
-
-
-      <%#= render_comments @article %>
-      <%#= render_comment_form @article %>
-      <%#= render_article_footer @article %>
-    </div>
 
   <hr/>
   <% if (current_user.is_admin rescue false) %>
-    <div class="card-footer">
-        <h1>Admin only: votes</h1>
-
-        <p>Weighted Average = <b><%= @article.weighted_average %></b></p>
-
-      <ol class="list-decimal">
-      <% @article.votes_for.each do |vote| %>
-        <li>
-
-          <b><%= voter_info(vote) rescue "Err: #{$!}" %></b>
-          <%= vote.inspect %></li>
-      <% end %>
-      </ol>
-    </div>
-
+    <%= render partial: 'articles/admin_show' %>
+    <% if Rails.env == 'development' %>
+      <% console %>
+    <% end %>
+    <%= link_to "Delete", article_path(@article), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+    <%= link_to "Back", articles_path, class: 'btn' %>
   <% end %>
 </div>

@@ -58,3 +58,10 @@ group :development do
   # Riccardo END
 
 end
+
+# Me l'ha detto Bard per trovare i video attached..
+#gem 'trix-rails', require: 'trix'
+gem 'html-pipeline'
+gem 'html-pipeline-trix-video'
+gem 'html-pipeline-youtube'
+gem 'html-pipeline-vimeo'

@@ -1,0 +1,48 @@
+
+  <div class="card-footer">
+    <h2>Some 🪄 GenAI stuff coming soon... (quando funge la metti a tutti)</h2>
+
+      <div id="my-post-content" >
+        <p id="my-placeholder" >
+          <b>1. ❌ This aaa placeholder will be replaced with API data. (bard test!)</b>
+          </p>
+      </div>
+
+      <div id="my-article-synoptic" >
+        <p id="my-placeholder" >2. ❌ This placeholder will be replaced with a synoptic of the whole article (Palm/LangChainRb).</p>
+      </div>
+
+      <div id="my-article-image-synoptic" >
+        <p id="my-placeholder" >3. ❌ This placeholder will be replaced with information on the image (Gemini).</p>
+      </div>
+
+          <script>
+          // Call the fetchApiData function after the DOM is loaded
+          document.addEventListener('DOMContentLoaded', fetchApiData);
+          fetchApiData();
+        </script>
+
+
+      <%#= render_comments @article %>
+      <%#= render_comment_form @article %>
+      <%#= render_article_footer @article %>
+    </div>
+
+    <div class="card-footer">
+        <h1>Admin only: votes</h1>
+
+        <p>Weighted Average = <b><%= @article.weighted_average %></b></p>
+
+      <ol class="list-decimal">
+      <% @article.votes_for.each do |vote| %>
+        <li>
+
+          <b><%= voter_info(vote) rescue "Err: #{$!}" %></b>
+          <%= vote.inspect %></li>
+      <% end %>
+      </ol>
+
+      <h2>Insights on images and videos</h2>
+      It looks like it can transform Vimeo and Youtube naked urls super easy, but not attached video from disk :/
+         <%#= result[:output].html_safe %>
+    </div>
