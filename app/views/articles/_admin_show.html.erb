@@ -48,9 +48,20 @@
       <h3>Mentioned users:</h3>
       <%= @pipeline_body_result[:mentioned_usernames] %>
 
-      <h3>Mentioned videos:</h3>
-      <%= :TODO %>
+      <% @blobs = ActiveStorage::Attachment.where(record_id: @article.id) #, record_type: "Article"  %>
+      <h3>Mentioned Blobbez: <%= @blobs.count %></h3>
 
+    <% @blobs.each do |blob| %>
+        <p>♣️ <%=blob.class %>.#<%= blob.id %>
+            (<b><%=blob.name %></b>, representable=<%=  blob.representable? %>, content_type=<%=  blob.content_type %>):
+            <%= '🎥VIDEO' if blob.video? %>
+            <%= '🔈audio' if blob.audio? %>
+            <%= '🌠image' if blob.image? %>
+            <%= '🈹pdf' if blob.content_type == 'application/pdf' %>
+            signed_id=<%= blob.blob.signed_id %>,
+            url=<%= link_to  blob.blob.signed_id,rails_blob_url(blob) %>
+        </p>
+    <% end %>
       <h3>Pipeline:</h3>
 
-    <%= @pipeline_body_result[:output].to_s.html_safe %>
+    <%#= @pipeline_body_result[:output].to_s.html_safe %>
