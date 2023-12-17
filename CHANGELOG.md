@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-12-14 v0.3.05 Fixed some bugs..
 2023-12-14 v0.3.04 Now renders Youtube and Vimeo videos!
 2023-12-14 v0.3.03 Admins can edit all articles
 2023-12-10 v0.3.01 Added `is_admin` to Users

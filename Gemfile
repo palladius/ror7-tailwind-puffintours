@@ -62,6 +62,19 @@ end
 # Me l'ha detto Bard per trovare i video attached..
 #gem 'trix-rails', require: 'trix'
 gem 'html-pipeline'
-gem 'html-pipeline-trix-video'
+gem 'html-pipeline-trix-video' # BAD: https://github.com/HazelGrant/html-pipeline-trix-video
 gem 'html-pipeline-youtube'
 gem 'html-pipeline-vimeo'
+
+# less useful but nice:
+gem 'html-pipeline-wiki-link' # HTML::Pipeline::MarkdownFilter,
+gem 'commonmarker'
+gem 'rouge'
+gem 'sanitize'
+gem 'rinku'
+gem 'gemoji'
+#HTML::Pipeline::WikiLinkFilter
+#gem "html-pipeline-linkify_github" #   HTML::Pipeline::LinkifyGitHubFilter
+#EmojiFilter
+#MentionFilter
+#ImageMaxWidthFilter

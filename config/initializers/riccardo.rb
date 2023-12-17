@@ -30,7 +30,21 @@ Rails.application.config.to_prepare do
 end
 
 $pipeline = HTML::Pipeline.new [
+                  # the ones I needed
                 HTML::Pipeline::TrixVideoFilter,
                 HTML::Pipeline::VimeoFilter,
                 HTML::Pipeline::YoutubeFilter,
-              ]
+                # Nice to have. Note: if you add these it stops being
+                # HTNML and it becomes Nokogiri parsed -> fails.
+                #HTML::Pipeline::MarkdownFilter, #requires commonmarker
+                #HTML::Pipeline::SyntaxHighlightFilter,
+                #HTML::Pipeline::SanitizationFilter,
+                #HTML::Pipeline::AutolinkFilter,
+                HTML::Pipeline::MentionFilter,
+                HTML::Pipeline::ImageMaxWidthFilter,
+                ]
+
+                # Errors:
+                #HTML::Pipeline::EmojiFilter, # GIVES ERROR
+                #HTML::Pipeline::LinkifyGitHubFilter, anchored to ruby 2 :/
+                #HTML::Pipeline::WikiLinkFilter,

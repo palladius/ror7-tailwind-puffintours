@@ -44,5 +44,9 @@
 
       <h2>Insights on images and videos</h2>
       It looks like it can transform Vimeo and Youtube naked urls super easy, but not attached video from disk :/
-         <%#= result[:output].html_safe %>
-    </div>
+
+      <h3>Mentioned users:</h3>
+      <%= @pipeline_body_result[:mentioned_usernames] %>
+
+      <h3>Mentioned videos:</h3>
+      <%= @pipeline_body_result[:mentioned_usernames] %>
