@@ -29,6 +29,20 @@ Rails.application.config.to_prepare do
   # #<%= raw your_action_text_object.to_plain_text %>
 end
 
+# from https://acuments.com/uploading-audio-video-pdf-with-action-text.html
+Rails.application.config.after_initialize do
+  ActionText::ContentHelper.allowed_attributes.add 'style'
+  ActionText::ContentHelper.allowed_attributes.add 'controls'
+  ActionText::ContentHelper.allowed_attributes.add 'poster'
+
+  ActionText::ContentHelper.allowed_tags.add 'video'
+  ActionText::ContentHelper.allowed_tags.add 'audio'
+  ActionText::ContentHelper.allowed_tags.add 'source'
+  ActionText::ContentHelper.allowed_tags.add 'embed'
+  ActionText::ContentHelper.allowed_tags.add 'iframe'
+end
+
+
 $pipeline = HTML::Pipeline.new [
                   # the ones I needed
                 HTML::Pipeline::TrixVideoFilter,

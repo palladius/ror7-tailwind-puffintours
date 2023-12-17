@@ -28,8 +28,8 @@
    <p><%= render_main_image(@article) %></p>
 
   <div class="card-body">
-    <%#= @article.body %>
-    <%= @pipeline_body_result[:output].to_s.html_safe %>
+    <%= @article.body %>
+    <%#= @pipeline_body_result[:output].to_s.html_safe %>
   </div>
 
   <div class="card-actions">
