@@ -1,17 +1,16 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
   <% if blob.video?
-      #The poster attribute specifies an image to be shown while the video is downloading, or until the user hits the play button. If this is not included, the first frame of the video will be used instead.
-
-
+        #The poster attribute specifies an image to be shown while the video is downloading, or until the user hits the play button. If this is not included, the first frame of the video will be used instead.
         poster = blob.representable? ?
             blob.representation(resize_to_limit: [ 1024, 768 ]).processed.url :
-            '/images/video-image.gif' #image_tag('video-image.gif')
-
+            nil
+            # '/images/video-image.gif' #image_tag('video-image.gif')
   %>
+    <!-- poster=< % = polymorphic_url(blob.representation(resize_to_limit: [ 1024, 768 ])) rescue nil  -->
     <video
       controls="false"
       width="100%"
-      poster=<%= polymorphic_url(blob.representation(resize_to_limit: [ 1024, 768 ])) rescue nil %>
+      poster=<%=poster rescue nil %>
     >
       <source src= <%= rails_blob_url(blob) %>, type=<%= blob.content_type %> >
     </video>
