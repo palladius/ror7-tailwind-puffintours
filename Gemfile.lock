@@ -438,6 +438,7 @@ DEPENDENCIES
   faker (~> 2)
   gemoji
   google-cloud-storage (~> 1.11)
+  googleauth (~> 1.9, >= 1.9.1)
   groupdate
   guard
   guard-livereload (~> 2.5)
