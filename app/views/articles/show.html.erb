@@ -1,5 +1,5 @@
 <%= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
-<% @pipeline_body_result = $pipeline.call( @article.body ) rescue "Error: #{$!}" %>
+<% @pipeline_body_result = $pipeline.call( @article.body ) rescue "PipelineBody Error: #{$!}" %>
          <%#= pipeline_body_result[:output].html_safe %>
 
 <div class="card my-4">
@@ -29,7 +29,6 @@
 
   <div class="card-body">
     <%= @article.body %>
-    <%#= @pipeline_body_result[:output].to_s.html_safe %>
   </div>
 
   <div class="card-actions">
