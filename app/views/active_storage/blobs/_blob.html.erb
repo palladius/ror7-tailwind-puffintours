@@ -1,3 +1,4 @@
+<!-- copied from https://acuments.com/uploading-audio-video-pdf-with-action-text.html -->
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
   <% if blob.video?
         #The poster attribute specifies an image to be shown while the video is downloading, or until the user hits the play button. If this is not included, the first frame of the video will be used instead.
@@ -5,6 +6,7 @@
             blob.representation(resize_to_limit: [ 1024, 768 ]).processed.url :
             nil
             # '/images/video-image.gif' #image_tag('video-image.gif')
+ # Example: https://puffintours-prod-rjjr63dzrq-ew.a.run.app/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBYQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a0c40e307572348169246f3778a1cfd9dfa70053/132d7c57-481c-4212-a682-b6f8da55e068.mp4
   %>
     <!-- poster=< % = polymorphic_url(blob.representation(resize_to_limit: [ 1024, 768 ])) rescue nil  -->
     <video
@@ -32,6 +34,7 @@
     <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
   <% end %>
 
+  <!-- Questa parte e anche qui: https://edgeguides.rubyonrails.org/action_text_overview.html#rendering-rich-text-content -->
   <figcaption class="attachment__caption">
     <% if caption = blob.try(:caption) %>
       <%= caption %>
@@ -49,3 +52,4 @@ DEBUG: blob.filename.extension: application/pdf
 Blob.id: <tt><%= blob.class %>.find(<%= blob.id %>)</tt>
 -->
 <%#=image_tag('video-image.gif')%>
+<%= link_to "🌍", rails_blob_path(blob, disposition: "attachment") %>

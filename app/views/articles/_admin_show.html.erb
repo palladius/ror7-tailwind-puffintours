@@ -51,6 +51,9 @@
       <% @blobs = ActiveStorage::Attachment.where(record_id: @article.id) #, record_type: "Article"  %>
       <h3>Mentioned Blobbez: <%= @blobs.count %></h3>
 
+    <p>ActiveStorage::Blob.service.name: <%= ActiveStorage::Blob.service.name rescue "Error: #{$!}" %></p>
+    <p>ActiveStorage::Blob.service.primary.host: <%= ActiveStorage::Blob.service.primary.host rescue "Error: #{$!}" %></p>
+
     <% @blobs.each do |blob| %>
         <p>♣️ <%=blob.class %>.#<%= blob.id %>
             (<b><%=blob.name %></b>,
