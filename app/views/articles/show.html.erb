@@ -22,8 +22,7 @@
           <% if current_user %>
             <%= form_with(model: [@article, @article.comments.build]) do |f| %>
               <div class="form-group">
-                <%= f.label 'New comment for' %>
-                  <b><%= current_user %></b>
+                <%= f.label '💬 New comment' %>
                 <%= f.text_area :body, class: 'form-control' %>
 
                 <div>

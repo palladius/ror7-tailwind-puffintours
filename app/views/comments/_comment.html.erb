@@ -19,11 +19,9 @@
 </div>
 -->
 <% unless !comment.persisted? %>
-  <div class="card"  id="<%= dom_id comment %>">
-    <div class="card-body">
-      💬 "<i><%= comment.body %><i>"
-        (<b><%= comment.user or '😷' %></b>)
+  <div class="card-body"  id="<%= dom_id comment %>">
+      <b><%= link_to comment.body.chomp, [comment.article, comment] %></b>
+        (<i><%= comment.user or '😷' %></i>)
          <%= star_rating comment.vote %>
-    </div>
   </div>
 <% end %>

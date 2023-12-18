@@ -2,9 +2,10 @@
 
 <%= render @comment %>
 
+TODO(ricc): render more deeply (but this requires a different partial, since < = render @comment > is taken)
 <div>
-  <%= link_to "Edit this comment", edit_comment_path(@comment) %> |
+  <%#= link_to "Edit this comment", edit_comment_path(@comment) %> |
   <%# BROKEN = link_to "Back to comments", comments_path %>
 
-  <%= button_to "Destroy this comment", @comment, method: :delete %>
+  <%#= button_to "Destroy this comment", @comment, method: :delete %>
 </div>
