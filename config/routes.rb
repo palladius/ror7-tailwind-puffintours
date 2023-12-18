@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  resources :articles
+  resources :articles do
+    resources :comments
+  end
   resource :user, only: %i[edit update destroy]
   resources :users, only: %i[index show]
 

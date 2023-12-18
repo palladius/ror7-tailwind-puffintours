@@ -80,4 +80,6 @@ rails generate acts_as_votable:migration
 # add '[6.0]' to migration (gem is OLD!)
 rake db:migrate
 
+# error, should have been article_id, not post_id, too much cut/paste :)
+rails g scaffold comment body:text post_id:integer parent_id:integer vote:integer internal_notes:text  active:boolean
 ```

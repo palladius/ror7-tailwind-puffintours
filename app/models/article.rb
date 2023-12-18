@@ -6,6 +6,7 @@
 
 class Article < ApplicationRecord
   belongs_to :user
+  has_many :comments, dependent: :destroy
 
   # First ActiveStorage manual thingy on GCS..
   has_one_attached :main_image

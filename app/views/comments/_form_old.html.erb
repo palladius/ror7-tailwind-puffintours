@@ -1,0 +1,56 @@
+<!-- Error here
+
+  undefined method `comments_path' for #<ActionView::Base:0x0000000008c258>
+
+
+-->
+<%#= form_with(model: comment) do |form| %>
+<%= form_for [@article, @comment] do |form| %>
+  <% if comment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body, style: "display: block" %>
+    <%= form.text_area :body %>
+  </div>
+
+  <div>
+    <%= form.label :vote, style: "display: block" %>
+    <%= form.select "vote", options_for_select( (4..15).step(0.5).map{|n| n%1 == 0 ? n.to_i : n} )  %>
+  </div>
+<!--
+  <div>
+    <%= form.label :internal_notes, style: "display: block" %>
+    <%= form.text_area :internal_notes %>
+  </div>
+
+  <div>
+    <%= form.label :active, style: "display: block" %>
+    <%= form.check_box :active %>
+  </div>
+-->
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<!--
+  <div>
+    <%#= form.label :article_id, style: "display: block" %>
+    <%#= form.number_field :article_id %>
+  </div>
+
+  <div>
+    <%#= form.label :parent_id, style: "display: block" %>
+    <%#= form.number_field :parent_id %>
+  </div>
+-->

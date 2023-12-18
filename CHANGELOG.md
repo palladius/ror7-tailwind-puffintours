@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2023-12-18 v0.4.01 Adding comments to Articles..
 2023-12-14 v0.3.05 Fixed some bugs..
 2023-12-14 v0.3.04 Now renders Youtube and Vimeo videos!
 2023-12-14 v0.3.03 Admins can edit all articles

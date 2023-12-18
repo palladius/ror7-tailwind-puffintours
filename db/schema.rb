@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_10_192626) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_18_185401) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -61,6 +61,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_192626) do
     t.text "article_synopsis"
     t.text "main_image_synopsis"
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.integer "article_id"
+    t.integer "parent_id"
+    t.integer "vote", default: 0
+    t.text "internal_notes"
+    t.boolean "active", default: true
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", force: :cascade do |t|
