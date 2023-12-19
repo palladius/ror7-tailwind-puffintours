@@ -8,15 +8,15 @@
         inspired by © <%= Time.now.year %> Ralix Core Team. All rights reserved.-->
       </p>
     <div class="mt-4 flex items-center justify-center space-x-4 text-sm font-semibold leading-6">
-      <%= link_to "About us", page_path(:about) %>
+      <%= link_to "About us", page_path(:about_us) %>
       <div class="h-4 w-px bg-slate-500/20"></div>
       <%= link_to "Terms", page_path(:terms) %>
       <div class="h-4 w-px bg-slate-500/20"></div>
       <%= link_to "Privacy policy", page_path(:privacy_policy) %>
       <div class="h-4 w-px bg-slate-500/20"></div>
-      <%= link_to "🐧 Prod App", 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/' %>
+      <%= link_to "🐧 Prod App", ProdAppUrl %>
       <div class="h-4 w-px bg-slate-500/20"></div>
-      <%= link_to "Code on GitHub", 'https://github.com/palladius/ror7-tailwind-puffintours/' %>
+      <%= link_to "Code on GitHub", GithubCodeUrl %>
     </div>
   </div>
 </footer>

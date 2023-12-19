@@ -1,0 +1,45 @@
+<h2>The App</h2>
+
+This app was built on Ruby on Rails and the code is available on GitHub.<br/>
+
+* Code: <%= link_to GithubCodeUrl,GithubCodeUrl %><br/>
+* App in PROD: <%= link_to ProdAppUrl,ProdAppUrl %><br/>
+
+
+<h3>Features</h3>
+
+some features:
+
+🔷 Slick CSS with Tailwind. <br/>
+🔷 <b>Active Storage</b> for images (all images are kept on Google Cloud Storage)<br/>
+🔷 star rating<br/>
+🔷 <b>Cheap maintenance</b>. I'm using 1$ credits to run this, and after a few months it's still up! :)<br/>
+🔷 Ability to comment and rate articles (my wife was adamant about this!)<br/>
+🔷 Login via `devise`.<br/>
+
+<h3>The Code</h3>
+
+Gems: <br/>
+
+🔷 A number of gems are used to render HTML with videos and stuff. Notably, 99% of it is useless since I found out a
+  great article to render videos on ActiveStorage<br/>
+
+<pre>gem 'html-pipeline'
+gem 'html-pipeline-trix-video' # BAD: https://github.com/HazelGrant/html-pipeline-trix-video
+gem 'html-pipeline-youtube'
+gem 'html-pipeline-vimeo'
+gem 'html-pipeline-wiki-link'
+gem 'commonmarker'
+gem 'rouge'
+gem 'sanitize'
+gem 'rinku'
+gem 'gemoji'
+</pre>
+
+🔷 gem 'guard-livereload' and gem 'listen' for local degv auto-reload. Wow!<br/>
+🔷 gem 'acts-as-taggable-on' to manage tags<br/>
+🔷 gem 'acts_as_votable' to manage votes/likes (but I believe I wont use it now that the vote is in the "comment" model)<br/>
+🔷 gem 'lolcat' to make life like a rainbow! <br/>
+🔷 gem "google-cloud-storage", gem 'googleauth' for ActiveStorage to work on GCP<br/>
+🔷 gem "chartkick" (and his friends gem "groupdate",  gem 'active_median') for charts on main page <br/>
+🔷 gem langchainrb (to inject some GenAI - like auto-summarize stuff).

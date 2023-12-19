@@ -5,6 +5,9 @@ AppName = 'Puffin Tours'
 AppEmoji = '🐧🧳'
 AppVersion = File.read('VERSION').chomp
 
+ProdAppUrl = 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/'
+GithubCodeUrl =  'https://github.com/palladius/ror7-tailwind-puffintours/'
+
 # TODO move to ENV :)
 #Rails.application.config.hosts << "dhh-vanilla-701-dev-cdlu26pd4q-oa.a.run.app"
 Rails.application.config.hosts << 'puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app'
