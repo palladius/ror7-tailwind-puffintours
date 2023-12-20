@@ -4,18 +4,22 @@
 
 <div class="card my-4">
   <h1 class="card-title"><%= @article.title %></h1>
+  <%= render partial: 'articles/five_stars' %>
 
 
 
   <div class="card-subtitle float-right">
     <h2>🍗 Votes</h2>
-    #Votes: <b><%=  @article.votes_for.count %></b> <br/>
+    <!-- im offline idont know how to cut a float to two decimals -->
+    <b>Real Average</b>: <b><%= (@article.average_vote*100).to_i/100.0 %></b> <br/>
+    <!-- #Votes: <b><%=  @article.votes_for.count %></b> <br/>
     Average: <b><%= @article.weighted_average %></b> <br/>
+    -->
 
-    👍 #likes: <%= @article.get_likes().size %> <br/>
+    👍 #likes: <%= @article.get_likes().size %> |
     👎🏾 #dislikes: <%= @article.get_dislikes().size %> <br/>
 
-    <div class="card my-1 card-subtitle float-right" > # place this card blow the post body.
+    <div class="card my-1 card-subtitle float-right" >
         <div class="card-body">
           <h2>💬 Comments</h2>
             <%= render @article.comments %>

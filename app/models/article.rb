@@ -52,4 +52,11 @@ class Article < ApplicationRecord
     user == self.user
   end
 
+  # => [nil, nil, 3, 3, 3, nil, 1, 5] => [3, 3, 3, 1, 5, 4]
+  def average_vote
+    # TODO cache / compute efficiently
+    votes1to5 = comments.map{|c| c.vote if c.vote > 0}.compact_blank
+    votes1to5.sum.to_f / votes1to5.count
+  end
+
 end
