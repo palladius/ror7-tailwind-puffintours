@@ -79,3 +79,5 @@ gem 'gemoji'
 #EmojiFilter
 #MentionFilter
 #ImageMaxWidthFilter
+
+gem "tailwindcss-rails", "~> 2.1"
