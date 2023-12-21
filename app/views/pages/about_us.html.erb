@@ -41,13 +41,14 @@
     <td width='50%' >
       <%= column_chart Article.group_by_day_of_week(:created_at, format: "%a").count, title: "Which days do we publish articles?" %>
   <tr>
-    <td width='50%' > todo
+    <td width='50%' >
+      <%= line_chart Comment.group_by_day(:created_at).count,title: "Comments Created by day" %>
+
       <%#= bar_chart  Article.group(:email).sum(:count)
       #Article.all.map { |a|{name: a.title, data: a.comments.count}} rescue error
       %>
     <td width='50%' >
-      <%= line_chart Comment.group_by_week(:created_at).count,xtitle: "Date", ytitle: "# Comments" %>
-
+      <%= pie_chart Comment.group(:article_id).count.map{|k,v| [ User.find(Article.find(k).user_id).email , v] }, limit:5, title: "Comments by user email" %>
 </table>
 
 More ideas in <%= link_to "https://chartkick.com/","https://chartkick.com/"  %>
