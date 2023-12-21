@@ -3,7 +3,7 @@
          <%#= pipeline_body_result[:output].html_safe %>
 
 <div class="card my-4">
-  <h1 class="card-title"><%= @article.title %></h1>
+  <h1 class="card-title border-zinc-70"><%= @article.title %></h1>
   <%= render partial: 'articles/five_stars' %>
 
 
@@ -20,23 +20,22 @@
     👎🏾 #dislikes: <%= @article.get_dislikes().size %> <br/>
 
     <div class="card my-1 card-subtitle float-right" >
-        <div class="card-body">
+        <div class="card-body border-zinc-700">
           <h2>💬 Comments</h2>
             <%= render @article.comments %>
           <% if current_user %>
             <%= form_with(model: [@article, @article.comments.build]) do |f| %>
-              <div class="form-group">
+              <div class="form-group border-black">
                 <%= f.label '💬 New comment' %>
                 <%= f.text_area :body, class: 'form-control' %>
 
-                <div>
+                <div class='border-zinc-70' >
                   <%= f.label :vote, style: "display: block" %>
                   <%#= f.number_field :vote %>
                   <%= f.select :vote, options_for_select( (0..5).step(1), 3) # 3 bdeing the middle gorund ...
                   %>
-              <%= f.submit 'Submit', class: 'btn btn-primary' %>
+                  <%= f.submit 'Submit', class: 'btn btn-primary border-dashed' %>
                     </div>
-
               </div>
             <% end %>
           <% end %>
