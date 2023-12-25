@@ -57,7 +57,10 @@
     <% @blobs.each do |blob| %>
         <p>♣️ <%=blob.class %>.#<%= blob.id %>
             (<b><%=blob.name %></b>,
+            <!-- https://api.rubyonrails.org/classes/ActiveStorage/Blob/Analyzable.html -->
                 representable=<%=  blob.representable? %>,
+                analyzed=<%=  blob.analyzed? rescue :boh %>,
+                identified=<%=  blob.identified? rescue :boh %>,
                 content_type=<b><%=  blob.content_type %></b>):
             <%= '🎥VIDEO' if blob.video? %>
             <%= '🔈audio' if blob.audio? %>
