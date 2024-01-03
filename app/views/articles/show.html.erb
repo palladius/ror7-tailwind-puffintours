@@ -11,10 +11,7 @@
   <div class="card-subtitle float-right">
     <h2>🍗 Votes</h2>
     <!-- im offline idont know how to cut a float to two decimals -->
-    <b>Real Average</b>: <b><%= (@article.average_vote*100).to_i/100.0 %></b> <br/>
-    <!-- #Votes: <b><%=  @article.votes_for.count %></b> <br/>
-    Average: <b><%= @article.weighted_average %></b> <br/>
-    -->
+    <b>Real Average</b>: <b><%= (@article.average_vote*100).to_i/100.0 rescue :dunno %></b> <br/>
 
     <span class='border border-success border-right-0' >👍 #likes: <%= @article.get_likes().size %></span>
     |
