@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ```
+2024-01-03 v0.5.02 [minor] changed sth on footer to point to my gdoc.
+
 2023-12-21 v0.5.01 [MAJOR CHANGE] reinstalled TailwindCSS - not sure if it worked and/or if it broke anything!
 2023-12-21 v0.4.03 [Tenerife] Scores on Article done well!
 2023-12-18 v0.4.02 More graphs and about the app
