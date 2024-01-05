@@ -6,8 +6,8 @@
 #ENV['CORS_ORIGINS'] = 'https://domain.first.com, http://another.origin.io'
 
 puffintours_origins = [
-  "https://puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app/",
-  "https://puffintours-prod-rjjr63dzrq-ew.a.run.app/",
+  "https://puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app:443/",
+  "https://puffintours-prod-rjjr63dzrq-ew.a.run.app:443/",
   "http://localhost:8080/",
   "http://localhost:3000/",
   "http://127.0.0.1:8080/",
