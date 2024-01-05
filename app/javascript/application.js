@@ -12,9 +12,9 @@ import "chartkick/chart.js"
 ////////////////////////////////////
 // Carlessian custom code
 ////////////////////////////////////
-
+// Fatto con Bard ma non sembra fungere e mi da errore..
 // Import the fetch-api-data.js file
-import './fetch-api-data';
+//import './fetch-api-data';
 //fetchApiData();
 
 // /Carlessian code

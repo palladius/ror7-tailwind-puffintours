@@ -6,6 +6,15 @@ install:
 	bundle install
 	rails assets:precompile
 
+###########
+# Smart rails s :)
+app/assets/builds/application.js:
+	echo This aint perfect but close enough..
+	rails assets:precompile
+
+run-dev: app/assets/builds/application.js
+	rails s
+
 dev:
 	rails assets:precompile
 	rails s -p 3001
@@ -29,4 +38,11 @@ docker-run-prod:
 		-e DATABASE_USER="$(DATABASE_USER)" \
 		-e DATABASE_PASS="$(DATABASE_PASS)" \
 		-e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
-		puffintours:latest 
+		puffintours:latest
+
+clean:
+	echo Cleaning up the Assets Pipeline.
+	rake assets:clean
+	rm app/assets/builds/*
+#https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
+	rake assets:clobber
