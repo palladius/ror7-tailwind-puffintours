@@ -68,8 +68,8 @@
 
   <hr/>
   <% if (current_user.is_admin rescue false) %>
-    <%= render partial: 'articles/admin_show' %>
     <% if Rails.env == 'development' %>
+      <%= render partial: 'articles/admin_show' %>
       <% console %>
     <% end %>
     <%= link_to "Delete", article_path(@article), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>

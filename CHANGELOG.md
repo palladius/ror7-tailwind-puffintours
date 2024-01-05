@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ```
-0.5.4 CORS
+2024-01-05 v0.5.04 I've fixed CORS the coward way - enable *. But im quite fed up of all the video/image failures for my family.
+                   Will fix sometime soon if this becomes am issue, eg a lot of cross-side lyches. Also removed Admin
+                   ugly interface in prod.
 2024-01-05 v0.5.03 Cleaned upo JS - now no errors on client side. Except...
   WebSocket connection to 'ws://localhost:3000/rails/live/reload' failed:
 2024-01-03 v0.5.02 [minor] changed sth on footer to point to my gdoc.
