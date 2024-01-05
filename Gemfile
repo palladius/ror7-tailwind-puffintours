@@ -19,6 +19,7 @@ gem "chartkick" # for charts on main page
   gem 'active_median' # to help ChjartKick too: see https://geekhmer.github.io/blog/2015/05/02/ruby-on-rails-charting-with-chartkick-gem/
   #gem 'chartjs-ror' # This is just Codey autocompletion :)
 gem "langchainrb" # GenAI
+gem 'rack-cors'
 # /Riccardo
 
 gem "rails", "~> 7.0"
@@ -56,7 +57,7 @@ group :development do
   gem 'guard-zeus'
   gem 'rack-livereload'
   gem 'rails_live_reload'
-  # Riccardo END
+  # Riccardo DEV  END
 
 end
 

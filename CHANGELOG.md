@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+0.5.4 CORS
 2024-01-05 v0.5.03 Cleaned upo JS - now no errors on client side. Except...
   WebSocket connection to 'ws://localhost:3000/rails/live/reload' failed:
 2024-01-03 v0.5.02 [minor] changed sth on footer to point to my gdoc.

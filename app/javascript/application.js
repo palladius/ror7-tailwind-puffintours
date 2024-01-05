@@ -1,3 +1,5 @@
+//= require activestorage
+
 // Dependencies
 import { RalixApp } from 'ralix'
 import "@hotwired/turbo-rails"
@@ -8,7 +10,7 @@ import "chartkick/chart.js"
 // importmap: but thats not me
 //import "chartkick"
 //import "Chart.bundle"
-
+//= require activestorage
 ////////////////////////////////////
 // Carlessian custom code
 ////////////////////////////////////
