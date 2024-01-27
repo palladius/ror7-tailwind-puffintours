@@ -12,6 +12,10 @@ gem 'acts_as_votable', '~> 0.14.0'
 gem 'lolcat'
 #gem "google-cloud-storage", "~> 1.11", require: false # for ActiveStorage to GCP
 gem 'google-cloud-storage', '~> 1.48', '>= 1.48.1', require: false
+  # Questi due NON servono servono solo per il file in bin/
+  gem 'google-cloud-env', '>= 2.1', require: false # Per capire se sei su GCE o CRun..
+  gem 'google-apis-iamcredentials_v1', '~> 0.18.0', require: false
+  gem 'google-apis-iamcredentials_v2', '~> 9001.0', require: false # may 2021
 gem 'googleauth', '~> 1.9', '>= 1.9.2' # if not gives error
 gem "chartkick" # for charts on main page
   gem "groupdate" # to help chartkick do some real Date Grouping magic

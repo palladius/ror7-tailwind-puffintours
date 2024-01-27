@@ -9,6 +9,7 @@ export GOOGLE_CLIENT_SECRET='sobenme'
 # Deplot to Cloud Run on GCP
 export PROJECT_ID='puffin-tours-123'
 export GCLOUD_REGION='us-central1'
+export SA_EMAIL='app-storager@YOUR_PROJECT.iam.gserviceaccount.com'
 
 # from author
 FACEBOOK_CLIENT_ID=facebook_client_id
