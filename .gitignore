@@ -28,3 +28,4 @@ RICCARDO.private.md
 .envrc
 00-init.sh
 .DS_Store
+package-lock.json
