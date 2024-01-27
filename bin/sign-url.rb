@@ -24,23 +24,90 @@ puts "Are we on GAE: #{gcp_env.app_engine?  }" # app_engine_service_id
 puts '-' * 80
 
 bucket = storage.bucket ENV['BUCKET']
-
+IAMCredentials = Google::Apis::IamcredentialsV1
 remote_file = bucket.file ENV['FILE_TO_SIGN'], skip_lookup: false # true
 issuer = ENV['SA_EMAIL']
 
-signer = lambda do |string_to_sign|
-  IAMCredentials = Google::Apis::IamcredentialsV1
-  iam_client = IAMCredentials::IAMCredentialsService.new
-  scopes = ["https://www.googleapis.com/auth/iam"]
-  iam_client.authorization = Google::Auth.get_application_default scopes
-  request = Google::Apis::IamcredentialsV1::SignBlobRequest.new(
-    payload: string_to_sign
-  )
-  # forse devo metter prj id o numb ?
-  resource = "projects/-/serviceAccounts/#{issuer}"
-  response = iam_client.sign_service_account_blob resource, request
-  response.signed_blob
-end
-signed_url = remote_file.signed_url method: "PUT", content_type: "application/json", issuer: issuer, signer: signer
+#  https://github.com/googleapis/google-cloud-ruby/issues/13307
+def prova_bella_ma_non_va
+  signer = lambda do |string_to_sign|
+    #IAMCredentials = Google::Apis::IamcredentialsV1
+    iam_client = IAMCredentials::IAMCredentialsService.new
+    scopes = ["https://www.googleapis.com/auth/iam"]
+    iam_client.authorization = Google::Auth.get_application_default scopes
+    request = Google::Apis::IamcredentialsV1::SignBlobRequest.new(
+      payload: string_to_sign
+    )
+    # forse devo metter prj id o numb ?
+    resource = "projects/-/serviceAccounts/#{issuer}"
+    response = iam_client.sign_service_account_blob resource, request
+    response.signed_blob
+  end
+  signed_url = remote_file.signed_url method: "PUT", content_type: "application/json", issuer: issuer, signer: signer
 
-puts "signed_url: #{signed_url}"
+  puts "signed_url: #{signed_url}"
+end
+
+
+# https://github.com/googleapis/google-cloud-ruby/issues/6268
+def prova_piu_facile
+  storage = Google::Cloud::Storage.new
+  bucket = storage.bucket( ENV['BUCKET'] )
+  bucket.files.each_with_index do |f, ix|
+    break if ix > 10
+    puts("💾 #{f.name}")
+  end
+  #puts ix
+  signed_url =  bucket.signed_url('test.txt', method: 'PUT', expires: 600)
+  puts 'ok'
+end
+
+prova_piu_facile()
+
+# https://github.com/googleapis/google-cloud-ruby/issues/6268 WOW
+# require 'googleauth'
+# require 'google/cloud/storage'
+# require 'google/apis/iamcredentials_v1'
+
+# IAMCredentials = Google::Apis::IamcredentialsV1 # Alias the module
+
+
+# # The following is a hack to introduce IAMCredentialsService into the Storage library
+# # without modifying the existing library as a proof of concept.
+# class IAMSigner
+#    def initialize(issuer)
+#      @iam_credentials_client = IAMCredentials::IAMCredentialsService.new
+#      # Get the environment configured authorization
+#      scopes =  ['https://www.googleapis.com/auth/cloud-platform',
+#                 'https://www.googleapis.com/auth/compute']
+#      @iam_credentials_client.authorization = Google::Auth.get_application_default(scopes)
+#      @issuer = issuer
+#    end
+
+#    def sign(digest, string_to_sign)
+#       # Ignore digest
+#       request = {
+#             "payload": string_to_sign,
+#       }
+#       response = @iam_credentials_client.sign_service_account_blob(
+#         "projects/-/serviceAccounts/#{@issuer}",
+#         request,
+#         {}
+#       )
+#       response.signed_blob
+#    end
+# end
+
+# storage = Google::Cloud::Storage.new
+# storage_expiry_time = 5 * 60 # 5 minutes
+# bucket_name = "anima-frank"
+# file_name = "unnamed.jpg"
+# issuer = "workload-service-account@project-id.iam.gserviceaccount.com"
+# signing_key = IAMSigner.new issuer
+
+# url = storage.signed_url bucket_name, file_name, issuer: issuer,
+#                          signing_key: signing_key,
+#                          method: "GET", expires: storage_expiry_time,
+#                          version: :v4
+
+# puts url

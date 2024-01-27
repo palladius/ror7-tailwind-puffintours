@@ -11,7 +11,8 @@ google: &gcs
   bucket: puffin-tours-public
   #credentials: <%= Rails.root.join("path/to/keyfile.json") %>
   # in PROD/Docker I need to remove this, dammit. JHow do I say "dont use this?!? LEts try just removing it"
-  credentials: private/puffin-tours-secret-key.json
+  #credentials: private/puffin-tours-secret-key.json
+  credentials: <%= File.exist?('private/puffin-tours-secret-key.json') ? 'private/puffin-tours-secret-key.json' : nil %>
   project: "puffin-tours"
   #   "client_email": "puffintours-app-storager@puffin-tours.iam.gserviceaccount.com",
   #cache_control: "public, max-age=3600"
