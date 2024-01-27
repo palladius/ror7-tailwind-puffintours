@@ -46,3 +46,9 @@ clean:
 	rm app/assets/builds/*
 #https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
 	rake assets:clobber
+
+# copiato da GENAI KIDS
+# https://docs.npmjs.com/updating-packages-downloaded-from-the-registry
+npm-update:
+	npm outdated
+	yarn upgrade
