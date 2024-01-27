@@ -52,3 +52,7 @@ clean:
 npm-update:
 	npm outdated
 	yarn upgrade
+
+# learn and script with $1
+search-string-with-ack:
+	bin/search-string-in-repo.sh fetch-api-data

@@ -1,4 +1,4 @@
-<%= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
+<%#= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
 <% @pipeline_body_result = $pipeline.call( @article.body ) rescue "PipelineBody Error: #{$!}" %>
          <%#= pipeline_body_result[:output].html_safe %>
 

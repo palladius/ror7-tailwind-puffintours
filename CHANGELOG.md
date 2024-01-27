@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ```
+2024-01-27 0.5.8   Fixed locally! Now the big question is:
+    WILL SERVER WORK WITH CONFIG that doesnt work there?
+    Forse un bel File./exist? if not nil?
 2024-01-27 0.5.7   Updating all gems hoping it fixes my trix/GCS upload issue
 2024-01-27 0.5.6   Add actiontext.css stylesheet for ActionText functionality
 2024-01-?? 0.5.5   Changed CORS config AGAIN! Look at subtle difference i just enforced:

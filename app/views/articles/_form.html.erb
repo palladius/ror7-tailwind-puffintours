@@ -7,32 +7,31 @@
   </div>
 
   <!-- Upload MainImage https://edgeguides.rubyonrails.org/active_storage_overview.html -->
-  <%= form.file_field :main_image, multiple: false, direct_upload: true %>
+  <div>
+    <%= form.file_field :main_image, multiple: false, direct_upload: true %>
+  </div>
 
   <div>
     <%= form.label :tags_list %>
-    <%#= form.text_field :tag_list %>
-    <%#= form.text_field :tag_list, input_html: {value: @article.tag_list.join(',')} %>
     <!-- genio: https://stackoverflow.com/questions/27646714/rails-4-text-field-for-acts-as-taggable-on-not-separating-tags-with-a-comma -->
     <% tag_list = "tag_list" %>
     <%= form.text_field :tag_list, value: @article.tag_list.to_s, :placeholder => "Comma-separated list of tag", class: 'form-control' %>
-
   </div>
-
 
   <div>
     <%= form.label :content_date %>
     <%= form.date_field :content_date %>
   </div>
+
   <div>
     <%= form.label :article_type %>
     <%= form.text_field :article_type %>
   </div>
+
   <div>
     <%= form.label :published %>
     <%= form.check_box :published %>
   </div>
-
 
   <div>
     <%= form.label :body %>

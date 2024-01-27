@@ -3,14 +3,17 @@ test:
   root: <%= Rails.root.join("tmp/storage") %>
 
 
+# In Cloud run l'autenticazione e' gratuita.
+# In locale serve `private/puffin-tours-secret-key.json`
 
 google: &gcs
   service: GCS
   bucket: puffin-tours-public
   #credentials: <%= Rails.root.join("path/to/keyfile.json") %>
   # in PROD/Docker I need to remove this, dammit. JHow do I say "dont use this?!? LEts try just removing it"
-  #credentials: private/puffin-tours-secret-key.json
+  credentials: private/puffin-tours-secret-key.json
   project: "puffin-tours"
+  #   "client_email": "puffintours-app-storager@puffin-tours.iam.gserviceaccount.com",
   #cache_control: "public, max-age=3600"
   public: true
 

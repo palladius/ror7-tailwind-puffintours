@@ -12,12 +12,13 @@ import "chartkick/chart.js"
 //import "chartkick"
 //import "Chart.bundle"
 //= require activestorage
+
 ////////////////////////////////////
 // Carlessian custom code
 ////////////////////////////////////
 // Fatto con Bard ma non sembra fungere e mi da errore..
 // Import the fetch-api-data.js file
-//import './fetch-api-data';
+// //     import './fetch-api-data';
 //fetchApiData();
 
 // /Carlessian code
