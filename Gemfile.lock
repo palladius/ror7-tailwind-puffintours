@@ -472,8 +472,8 @@ DEPENDENCIES
   dotenv-rails
   faker (~> 2)
   gemoji
-  google-cloud-storage (~> 1.11)
-  googleauth (~> 1.9, >= 1.9.1)
+  google-cloud-storage (~> 1.48, >= 1.48.1)
+  googleauth (~> 1.9, >= 1.9.2)
   groupdate
   guard
   guard-livereload (~> 2.5)
