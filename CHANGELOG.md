@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2024-01-27 0.5.7   Updating all gems hoping it fixes my trix/GCS upload issue
 2024-01-27 0.5.6   Add actiontext.css stylesheet for ActionText functionality
 2024-01-?? 0.5.5   Changed CORS config AGAIN! Look at subtle difference i just enforced:
                    # https://guides.rubyonrails.org/v6.0.2.1/active_storage_overview.html#cross-origin-resource-sharing-cors-configuration (origin was missing!)

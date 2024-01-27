@@ -4,13 +4,11 @@ source "https://rubygems.org"
 ruby '3.2.1'
 
 # Riccardo
-gem 'sqlite3'
-#../riccardo_nifty_store/Gemfile:#gem 'acts_as_votable', '~> 0.11.1'
-# TODO quando hai internece.
-gem 'acts-as-taggable-on', '~> 9.0'
+gem 'sqlite3', '~> 1.7', '>= 1.7.1'
+gem 'acts-as-taggable-on', '~> 10.0'
 # https://gist.github.com/hilava/e8c18654f49f32db0a24ade4a3884f85
-#gem 'acts_as_votable', '~> 0.10.0'
-gem 'acts_as_votable' # https://github.com/ryanto/acts_as_votable
+#gem 'acts_as_votable' # https://github.com/ryanto/acts_as_votable
+gem 'acts_as_votable', '~> 0.14.0'
 gem 'lolcat'
 gem "google-cloud-storage", "~> 1.11", require: false # for ActiveStorage to GCP
 gem 'googleauth', '~> 1.9', '>= 1.9.1' # if not gives error
@@ -18,18 +16,19 @@ gem "chartkick" # for charts on main page
   gem "groupdate" # to help chartkick do some real Date Grouping magic
   gem 'active_median' # to help ChjartKick too: see https://geekhmer.github.io/blog/2015/05/02/ruby-on-rails-charting-with-chartkick-gem/
   #gem 'chartjs-ror' # This is just Codey autocompletion :)
-gem "langchainrb" # GenAI
+gem 'langchainrb', '~> 0.9.0'  # GenAI
 gem 'rack-cors'
 # /Riccardo
 
-gem "rails", "~> 7.0"
-gem "pg", "~> 1.4"
-gem "puma", "~> 6.4"
+#gem "rails", "~> 7.0"
+gem 'rails', '~> 7.1', '>= 7.1.3'
+gem 'pg', '~> 1.5', '>= 1.5.4'
+gem 'puma', '~> 6.4', '>= 6.4.2'
 gem "bootsnap", "~> 1.13", require: false
-gem "devise", "~> 4.8"
+gem 'devise', '~> 4.9', '>= 4.9.3'
 gem "omniauth-facebook", "~> 9.0"
 gem "omniauth-github", "~> 2.0"
-gem "omniauth-google-oauth2", "~> 1.1"
+gem 'omniauth-google-oauth2', '~> 1.1', '>= 1.1.1'
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "cancancan", "~> 3.4"
 gem "ransack", "~> 3.2"
