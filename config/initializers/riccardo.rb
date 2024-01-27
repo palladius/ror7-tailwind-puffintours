@@ -27,23 +27,23 @@ ActsAsTaggableOn.force_lowercase = true
 
 # per fare andare i video su Trix: https://stackoverflow.com/questions/56316549/how-to-display-embed-video-with-actiontext
 Rails.application.config.to_prepare do
-  ActionText::ContentHelper.allowed_tags << "iframe"
+  ActionText::ContentHelper.allowed_tags << "iframe" rescue :Err # Sometimes it gives errors.
   # oppure prova: <script async src="//www.instagram.com/embed.js"></script>).html_safe
   # #<%= raw your_action_text_object.to_plain_text %>
 end
 
 # from https://acuments.com/uploading-audio-video-pdf-with-action-text.html
-Rails.application.config.after_initialize do
-  ActionText::ContentHelper.allowed_attributes.add 'style'
-  ActionText::ContentHelper.allowed_attributes.add 'controls'
-  ActionText::ContentHelper.allowed_attributes.add 'poster'
+# Rails.application.config.after_initialize do
+#   ActionText::ContentHelper.allowed_attributes.add 'style' rescue nil
+#   ActionText::ContentHelper.allowed_attributes.add 'controls' rescue nil
+#   ActionText::ContentHelper.allowed_attributes.add 'poster'  rescue nil
 
-  ActionText::ContentHelper.allowed_tags.add 'video'
-  ActionText::ContentHelper.allowed_tags.add 'audio'
-  ActionText::ContentHelper.allowed_tags.add 'source'
-  ActionText::ContentHelper.allowed_tags.add 'embed'
-  ActionText::ContentHelper.allowed_tags.add 'iframe'
-end
+#   ActionText::ContentHelper.allowed_tags.add 'video'
+#   ActionText::ContentHelper.allowed_tags.add 'audio'
+#   ActionText::ContentHelper.allowed_tags.add 'source'
+#   ActionText::ContentHelper.allowed_tags.add 'embed'
+#   ActionText::ContentHelper.allowed_tags.add 'iframe'
+# end
 
 
 $pipeline = HTML::Pipeline.new [
