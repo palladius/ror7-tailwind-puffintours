@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ```
-0.5.5 Changed CORS config AGAIN! Look at subtle difference i just enforced: # https://guides.rubyonrails.org/v6.0.2.1/active_storage_overview.html#cross-origin-resource-sharing-cors-configuration (origin was missing!)
+2024-01-27 0.5.6   Add actiontext.css stylesheet for ActionText functionality
+2024-01-?? 0.5.5   Changed CORS config AGAIN! Look at subtle difference i just enforced:
+                   # https://guides.rubyonrails.org/v6.0.2.1/active_storage_overview.html#cross-origin-resource-sharing-cors-configuration (origin was missing!)
 2024-01-05 v0.5.04 I've fixed CORS the coward way - enable *. But im quite fed up of all the video/image failures for my family.
                    Will fix sometime soon if this becomes am issue, eg a lot of cross-side lyches. Also removed Admin
                    ugly interface in prod.

@@ -3,6 +3,7 @@
 // Dependencies
 import { RalixApp } from 'ralix'
 import "@hotwired/turbo-rails"
+// ActionText: https://guides.rubyonrails.org/action_text_overview.html
 import "trix"
 import "@rails/actiontext"
 
