@@ -4,6 +4,8 @@
 AppName = 'Puffin Tours'
 AppEmoji = '🐧🧳'
 AppVersion = File.read('VERSION').chomp
+GcsBucket = ENV.fetch('BUCKET',nil)
+raise("I need ENV[BUCKET] defined (GcsBucket=#{GcsBucket}). Dying.") if GcsBucket.nil?
 
 ProdAppUrl = 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/'
 GithubCodeUrl =  'https://github.com/palladius/ror7-tailwind-puffintours/'
