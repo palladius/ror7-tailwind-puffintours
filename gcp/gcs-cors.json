@@ -1,24 +1,30 @@
 [
     {
       "origin": [
-        "https://puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app/",
-        "https://puffintours-prod-rjjr63dzrq-ew.a.run.app/",
+        "https://puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app",
+        "https://puffintours-prod-rjjr63dzrq-ew.a.run.app",
 
-        "http://127.0.0.1:8080/",
-        "http://127.0.0.1:3000/",
-        "http://127.0.0.1:3001/",
+        "http://127.0.0.1:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
 
-        "http://localhost:8080/",
-        "http://localhost:3000/",
-        "http://localhost:3001/"
+        "http://localhost:8080",
+        "http://localhost:3000",
+        "http://localhost:3001"
         ],
-      "method": ["PUT"],
+      "method": [
+        "GET",
+        "DELETE",
+        "PUT",
+        "POST"
+      ],
       "responseHeader": [
         "Origin",
         "Content-Type",
         "Content-MD5",
         "Content-Disposition",
-        "Access-Control-Allow-Origin"
+        "Access-Control-Allow-Origin",
+        "Authorization"
       ],
       "maxAgeSeconds": 3600
     }

@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2024-01-27 0.5.10  Relaxing CORS both Rails-side both GCS side. This is driving me crazy
 2024-01-27 0.5.9   And in fact i get: Looks like something went wrong! Maybe exception is: 💛The keyfile 'private/puffin-tours-secret-key.json' is not a valid file.💛
 2024-01-27 0.5.8   Fixed locally! Now the big question is:    WILL SERVER WORK WITH CONFIG that doesnt work there?
                    Forse un bel File./exist? if not nil?

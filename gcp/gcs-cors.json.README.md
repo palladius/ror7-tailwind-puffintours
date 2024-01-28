@@ -49,3 +49,17 @@ It turns out that the version of the direct_uploads_controller.js file I had cop
 
 The commit I've tested is 372dda2a2950ad3ae5cf744ed8e3caa69a7ed44b.
 
+
+
+### GO Nucklear
+
+TODO PROVA https://stackoverflow.com/questions/66484795/cors-issue-with-gcp-signed-url
+
+   [
+            {
+                "origin": ["*"],
+                "method": ["*"],
+                "maxAgeSeconds": 3600,
+                "responseHeader": ["*"]
+            }
+        ]
