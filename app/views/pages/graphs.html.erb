@@ -1,0 +1,52 @@
+<h2>Graphs</h2>
+
+<table border='3' >
+  <tr>
+    <td width='50%' >
+      <%= line_chart Article.group_by_week(:created_at).count,title: "Articles Created by week" %>
+    <td width='50%' >
+
+    <%= pie_chart Article.group(:article_type).count, title: "Articles by type" %>
+  <tr>
+    <td width='50%' >
+      <%= pie_chart   Article.group(:user_id).count.map{|k,v| [User.find(k).email,v]}, limit:5, title: "Articles by user email" %>
+    <td width='50%' >
+      <%= column_chart Article.group_by_day_of_week(:created_at, format: "%a").count, title: "Which days do we publish articles?" %>
+  <tr>
+    <td width='50%' >
+      <%= line_chart Comment.group_by_day(:created_at).count,title: "Comments Created by day" %>
+
+      <%#= bar_chart  Article.group(:email).sum(:count)
+      #Article.all.map { |a|{name: a.title, data: a.comments.count}} rescue error
+      %>
+    <td width='50%' >
+      <%= pie_chart Comment.group(:article_id).count.map{|k,v| [ User.find(Article.find(k).user_id).email , v] }, limit:5, title: "Comments by user email" %>
+</table>
+
+More ideas in <%= link_to "https://chartkick.com/","https://chartkick.com/"  %>
+
+<h2>Data on GCS</h2>
+
+* GCS Bucket: 🪣 <%= gcs_bucket rescue "ENV unavail: #{$!}" %><br/>
+* Files in PROD count: <b><%= gcs_files.count rescue $! %></b>
+  <br/>
+* Files in PROD: <b>🏞️ <%= gcs_files[0..9].join(', 🏞️ ')rescue $! %>, ..</b>
+  <br/>
+* Link to first object: <b>🏞️ <%= gcs_files.first %></b>
+  <br/>
+* Config JSON: <pre><%= ActiveStorage::Blob.service.to_json %></pre>
+* ActiveStorage::Blob.all count: <b><%= ActiveStorage::Blob.all.count %></b>
+
+<h3>Anatomy of first Blob</h3>
+
+🕷️<pre style="overflow-x: auto; word-wrap: break-word; white-space: pre-wrap;" >🕷️ render_blob(first):
+<% blob_carlessian_hash =  render_blob(ActiveStorage::Blob.all.first)
+   magic_url = blob_carlessian_hash[:ricc_manhouse_url]
+   working_one = 'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--39b76058719e14a44bc123ca2176f8b1b9767665/24dec%20PXL_20231224_125639041.jpeg'
+                # http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--39b76058719e14a44bc123ca2176f8b1b9767665/24dec%20PXL_20231224_125639041.jpeg
+%>
+  <%= blob_carlessian_hash.to_s.gsub(', :',",\n:") %>
+</pre> <br/>
+
+🕷️ Carlessian URL a manhouse: <%= link_to(magic_url,magic_url) %><br/>
+🕷️ Carlessian URL that funges: <%= link_to(working_one,working_one) %><br/>

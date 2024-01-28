@@ -17,7 +17,8 @@ run-dev: app/assets/builds/application.js
 
 dev:
 	rails assets:precompile
-	rails s -p 3001
+	#rails s -p 3000
+	bin/dev
 
 run-prod:
 	echo Should connect to PostgreS if you set up user/pass/host/.. correctly
@@ -40,12 +41,14 @@ docker-run-prod:
 		-e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
 		puffintours:latest
 
+
 clean:
+#https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
 	echo Cleaning up the Assets Pipeline.
 	rake assets:clean
-	rm app/assets/builds/*
-#https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
 	rake assets:clobber
+# Riccardo says so
+	rm -rf node_modules/ app/assets/builds/*
 
 # copiato da GENAI KIDS
 # https://docs.npmjs.com/updating-packages-downloaded-from-the-registry
