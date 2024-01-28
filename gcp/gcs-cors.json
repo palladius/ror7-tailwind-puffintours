@@ -11,7 +11,7 @@
         "http://localhost:3001/"
         ],
       "method": ["PUT"],
-      "responseHeader": ["Origin", "Content-Type", "Content-MD5", "Content-Disposition"],
+      "responseHeader": ["Origin", "Content-Type", "Content-MD5", "Content-Disposition", "Access-Control-Allow-Origin" ],
       "maxAgeSeconds": 3600
     }
   ]

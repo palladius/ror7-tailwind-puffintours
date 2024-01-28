@@ -16,7 +16,7 @@ puffintours_origins = [
 
 Rails.application.config.middleware.use Rack::Cors do
   allow do
-    origins '*'
+    origins '*' # TODO puffintours_origins
     resource '*',
       :headers => :any,
       :methods => [:get, :post, :delete, :put, :options]
