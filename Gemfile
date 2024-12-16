@@ -26,7 +26,7 @@ gem 'rack-cors'
 # /Riccardo
 
 #gem "rails", "~> 7.0"
-gem 'rails', '~> 7.1', '>= 7.1.3'
+gem 'rails', '~> 7.1'
 gem 'pg', '~> 1.5', '>= 1.5.4'
 gem 'puma', '~> 6.4', '>= 6.4.2'
 gem "bootsnap", "~> 1.13", require: false
