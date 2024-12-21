@@ -2,8 +2,11 @@
 
 source "https://rubygems.org"
 
-ruby File.read(".ruby-version").strip
-#ruby '3.2.1'
+# Funge ma va in conflitto con Docker, quindi lo commento. Forse
+# il COPY . . non copia i file nascosti (.*?). Boh.
+# [!] There was an error parsing `Gemfile`: No such file or directory @ rb_sysopen - .ruby-version. Bundler cannot continue.
+#ruby File.read(".ruby-version").strip
+ruby '3.2.1'
 
 ###################################
 # Riccardo's Custom Dependencies
