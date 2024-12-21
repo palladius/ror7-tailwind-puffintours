@@ -11,17 +11,17 @@ export DEPLOY_VERSION='1.0.2b'
 # if it fails no probs... yet
 
 if [ -f .env.sh ] ; then
-  echo Looks like youre local
+  echo '.env.sh found: Looks like youre local'
   . .env.sh
 else
-  echo Riccardo NOT LOCAL
+  echo '.env.sh NOT found: we re probably in the Cloud'
 fi
 
 if [ -f /secretenvrc/puffintours-envrc ] ; then
-  echo Looks like youre on Cloud Run mounting an envrc directly form SM. You could be protecteder. # :)
+  echo 'Looks like youre on Cloud Run mounting an envrc directly form SM. You could be protecteder.' # :)
   . /secretenvrc/puffintours-envrc
 else
-  echo Riccardo NOT Secret
+  echo '/secretenvrc/puffintours-envrc NOT found: Riccardo probably you are NOT on Cloud Run'
 fi
 
 set -euo pipefail
