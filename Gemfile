@@ -60,6 +60,7 @@ gem "cancancan", "~> 3.4"
 gem "ransack" # , "~> 3.2"
 gem "pagy", "~> 5.10"
 gem "image_processing", "~> 1.2"
+gem 'mini_magick' # suggerito da Cursor dopo aver installato `gem install image_processing`
 gem "faker", "~> 2"
 
 # Front-end

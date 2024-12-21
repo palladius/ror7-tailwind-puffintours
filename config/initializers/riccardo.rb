@@ -79,27 +79,29 @@ puts("🐧" * 40)
 
 #if GOOGLE_APPLICATION_CREDENTIALS.nil?
   puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is nil. We are on Cloud Run.")
-
-  GeminiAiVisionClient = Gemini.new(
+  #            raise("not avail!") unless PUFFIN_TOURS_GEMINI_API_KEY
+GeminiAiVisionClientLogan = Gemini.new(
     credentials: {
       service: 'generative-language-api',
-      api_key: ENV['PUFFIN_TOURS_GEMINI_API_KEY'],
-      project_id: 'puffin-tours',
-      version: 'v1beta'
+      api_key: PUFFIN_TOURS_GEMINI_API_KEY,
+      #project_id: 'puffin-tours',
+      version: 'v1beta',
+      region: 'us-east4',
+
     },
-    options: { model: 'gemini-pro', server_sent_events: true }
+    options: { model: 'gemini-pro-vision', server_sent_events: true }
   )
 
 # else
 #   puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is not nil. We are on local.")
 #    # local
-#   GeminiAiVisionClient = Gemini.new(
-#     credentials: {
-#       service: 'vertex-ai-api',
-#       file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
-#       region: 'us-east4',
-
-#     },
-#     options: { model: 'gemini-pro-vision', server_sent_events: true }
-#   )
+GeminiAiVisionClientLocalADC = Gemini.new(
+    credentials: {
+      service: 'vertex-ai-api',
+      file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
+      region: 'us-east4',
+      project_id: 'puffin-tours',
+    },
+    options: { model: 'gemini-pro-vision', server_sent_events: true }
+  )
 # end

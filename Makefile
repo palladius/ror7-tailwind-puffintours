@@ -29,6 +29,12 @@ dev:
 	#rails s -p 3000
 	bin/dev
 
+# dev:
+# 	rails assets:precompile
+# 	#rails s -p 3000
+# 	bin/dev
+prod: run-prod
+
 run-prod:
 	echo Should connect to PostgreS if you set up user/pass/host/.. correctly
 	source .envrc && ./entrypoint-8080.sh
@@ -68,3 +74,6 @@ npm-update:
 # learn and script with $1
 search-string-with-ack:
 	bin/search-string-in-repo.sh fetch-api-data
+
+test-gemini-prod:
+	bin/test-gemini-prod.sh

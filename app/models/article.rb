@@ -92,14 +92,13 @@ class Article < ApplicationRecord
 
     #llm.chat(messages: messages)
     response = llm.chat(messages: messages)
-    chat_completion = response.chat_completion
-    self.article_synopsis = chat_completion # chat_completion.choices[0].message.content
+    #chat_completion = response.chat_completion
+    self.article_synopsis = response.chat_completion # chat_completion.choices[0].message.content
     self.save
+    {text_summary: chat_completion, save_ok: true}
   end
 
   def self.generate_summaries_for_all_articles
-    # Ricc note to self: can be nil or EMPTY, so we need to check for that in ruby, not SQL
-#    Article.where(article_synopsis: nil).each do |article|
     Article.all.each do |article|
         article.generate_summary
     end
@@ -107,26 +106,31 @@ class Article < ApplicationRecord
 
 
   def self.generate_image_summaries_for_all_articles
-    Article.where(main_image_synopsis: '').each do |article|
+#    Article.where(main_image_synopsis: '').map do |article|
+    Article.all.map do |article|
         puts "Article.##{article.id} image synopsis is being processed..."
         article.generate_image_synopsis
     end
   end
 
   def self.generate_all
-    self.generate_summaries_for_all_articles
-    self.generate_image_summaries_for_all_articles
+    a = 42 # self.generate_summaries_for_all_articles
+    b = self.generate_image_summaries_for_all_articles
+    return {text_summaries: a, image_summaries: b}
   end
 
 
+  # app/models/article.rb:140:in `generate_image_synopsis': the server responded with status 404 (Faraday::ResourceNotFound)
   def generate_image_synopsis
+    return self.main_image_synopsis if self.main_image_synopsis.present?
+
     image_size = main_image_blob.byte_size rescue -1
 
     if self.main_image.blank?
       return "Image for Article.##{self.id} is non existing"
     end
 
-    if image_size < 10000
+    if image_size < 1000
       return "Image for Article.##{self.id} is too small or non existing (image_size=#{image_size})"
     end
 
@@ -136,12 +140,13 @@ class Article < ApplicationRecord
     image_data = self.main_image.blob.download
     base64_image = Base64.strict_encode64(image_data)
 
-
-    result = GeminiAiVisionClient.stream_generate_content(
+    puts("Image is ok (b64 is #{base64_image.size/1024}KB), sending to Gemini to get a description...")
+    result = GeminiAiVisionClientLocalADC.stream_generate_content(
       { contents: [
         { role: 'user', parts: [
           { text: 'Please describe this image.' },
           { inline_data: {
+#            mime_type: self.main_image.content_type, # 'image/jpeg', # todo mime_type: self.main_image.content_type,
             mime_type: 'image/jpeg', # todo mime_type: self.main_image.content_type,
             data: base64_image,
           } }
@@ -155,7 +160,9 @@ class Article < ApplicationRecord
     end.compact.join('')
     self.main_image_synopsis = full_text
     self.save
-    return full_text
+    #return full_text
+    {image_summary: full_text, save_ok: true}
+
   end
 
 end
