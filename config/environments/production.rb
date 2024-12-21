@@ -88,6 +88,9 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # Do not dump schema after migrations.
+  # Do not dump schema after migrations. Thanks to Cursor!
   config.active_record.dump_schema_after_migration = false
+
+  # This is riccardo's custom code as well.. so pointless here.
+  #config.hosts << "puffintours-prod-rjjr63dzrq-ew.a.run.app"
 end
