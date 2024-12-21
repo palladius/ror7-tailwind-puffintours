@@ -75,7 +75,7 @@ group :development do
   gem "guard-zeus"
   gem "rack-livereload"
   gem "rails_live_reload"
-
+  gem 'annotate'
   # Riccardo DEV  END
 end
 

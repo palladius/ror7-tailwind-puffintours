@@ -38,6 +38,19 @@
     <%= form.rich_text_area :body %>
   </div>
 
+  <h2>AI side (Gemini should populate it, but in DEV or as an admin you can do it too)</h2>
+  <!-- TODO: make it a button to generate it -->
+  <div>
+    <%= form.label :article_synopsis %>
+    <%= form.text_area :article_synopsis %>
+  </div>
+  <div>
+    <%= form.label :main_image_synopsis %>
+    <%= form.text_area :main_image_synopsis %>
+  </div>
+
+
+
   <div class="mt-4">
     <%= form.submit nil, class: 'btn' %>
   </div>

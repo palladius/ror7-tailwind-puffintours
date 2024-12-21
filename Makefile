@@ -13,6 +13,8 @@ fix-arel:
 	bin/rails tmp:clear
 	bin/rails log:clear
 
+cool-stuff:
+	bundle exec annotate --models
 ###########
 # Smart rails s :)
 app/assets/builds/application.js:

@@ -85,6 +85,9 @@ GEM
     acts_as_votable (0.14.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     baran (0.1.12)
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -466,6 +469,7 @@ DEPENDENCIES
   active_median
   acts-as-taggable-on (~> 10.0)
   acts_as_votable (~> 0.14.0)
+  annotate
   bootsnap (~> 1.13)
   cancancan (~> 3.4)
   chartkick

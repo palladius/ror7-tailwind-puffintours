@@ -1,8 +1,24 @@
-
+# == Schema Information
+#
+# Table name: articles
+#
+#  id                  :integer          not null, primary key
+#  title               :string
+#  body                :text
+#  user_id             :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  article_type        :string           default("article")
+#  content_date        :date
+#  published           :boolean          default(TRUE)
+#  article_synopsis    :text
+#  main_image_synopsis :text
+#
 # 2. migration:
 #add_column :articles, :article_type, :string, default: 'article'
 #add_column :articles, :content_date, :date
 #add_column :articles, :published, :boolean, default: true
+
 
 class Article < ApplicationRecord
   belongs_to :user
@@ -26,7 +42,9 @@ class Article < ApplicationRecord
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
 
-  def self.ransackable_attributes(auth_object = nil) = ["title", "body", "content_date", "published"]
+
+
+  def self.ransackable_attributes(auth_object = nil) = ["title", "body", "content_date", "published", "article_synopsis", "main_image_synopsis"]
   def self.ransackable_associations(auth_object = nil) =  ["comments", "user"]  # Add "user" to the list
 
   def set_date_if_null
