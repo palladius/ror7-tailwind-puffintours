@@ -35,6 +35,10 @@ class User < ApplicationRecord
     [ "email",  "name" ]
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    ["articles", "avatar_attachment", "avatar_blob", "comments", "owned_taggings", "owned_tags", "votes"]
+  end
+
   def name
     @name ||= self[:name].presence || email.split("@").first
   end

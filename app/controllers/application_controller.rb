@@ -32,11 +32,4 @@ end
   #   #nil
   # end
 
-  # from BArd..
-  # def authenticate_user!
-  #   unless current_user
-  #     redirect_to login_path
-  #   end
-  # end
-
 end

@@ -1,0 +1,8 @@
+.article-content {
+  overflow: hidden; // Ensures proper float handling
+
+  img.card-img-top {
+    object-fit: cover;
+    width: 100%;
+  }
+}

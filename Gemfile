@@ -24,6 +24,10 @@ gem 'google-apis-iamcredentials_v1', '~> 0.18.0', require: false
 #gem 'google-apis-iamcredentials_v2', '~> 9001.0', require: false
 gem 'googleauth', '~> 1.9', '>= 1.9.2'
 
+# Gemini and APIs to call it.
+gem 'gemini-ai', '~> 4.2.0'
+#gem 'google-cloud-ai-generative-language-v1beta'
+
 # Charts & Analytics
 gem "chartkick"
 gem "groupdate"

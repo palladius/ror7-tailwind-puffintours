@@ -50,9 +50,8 @@
     <%= author_and_date(@article) %>
   </p>
 
-   <p><%= render_main_image(@article) %></p>
-
-  <div class="card-body">
+   <div class="article-content">
+    <%= render_main_image_card(@article) %>
     <%= @article.body %>
   </div>
 

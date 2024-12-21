@@ -1,9 +1,10 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create edit update destroy]
-  before_action :set_article, only: %i[show edit update destroy]
-  #before_action :authenticate_user!
+  # before_action :authenticate_user!, only: %i[new create edit update destroy]
+  # before_action :set_article, only: %i[show edit update destroy]
+  # #before_action :authenticate_user!
 
-  authorize_resource
+  # authorize_resource
+  load_and_authorize_resource
 
   def index
     @q = Article.ransack(params[:q])

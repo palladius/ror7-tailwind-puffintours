@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ```
+2024-12-21 0.5.14  Summarization of article and of main image done and finished! :) Only automation to call it behind the scenese where it gets generated/uploaded is missing.
+2024-12-21 0.5.13  Started embedding LangchainRb and Gemini API.
+2024-12-21 0.5.12  Added image support thanks to `cursor.sh` wow!
 2024-01-27 0.5.11  After my crazy idea of making `BUCKET` ,mandatory and breaking prod, I fixed the CRun install and
                    tried to patch the code too.
 2024-01-27 0.5.10  Relaxing CORS both Rails-side both GCS side. This is driving me crazy

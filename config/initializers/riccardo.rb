@@ -69,3 +69,35 @@ $pipeline = HTML::Pipeline.new [
                 #HTML::Pipeline::WikiLinkFilter,
 
 ENABLE_CURSOR_EXPERIMENTS = false
+PUFFIN_TOURS_GEMINI_API_KEY = ENV.fetch('PUFFIN_TOURS_GEMINI_API_KEY', nil)
+GOOGLE_APPLICATION_CREDENTIALS = ENV.fetch('GOOGLE_APPLICATION_CREDENTIALS', nil)
+
+puts("🐧" * 40)
+puts("🐧 ♊️🔑 PUFFIN_TOURS_GEMINI_API_KEY=#{PUFFIN_TOURS_GEMINI_API_KEY}")
+puts("🐧 ♊️🔑 GOOGLE_APPLICATION_CREDENTIALS=#{GOOGLE_APPLICATION_CREDENTIALS}")
+puts("🐧" * 40)
+
+
+GeminiAiVisionClient = Gemini.new(
+  credentials: {
+    service: 'vertex-ai-api',
+    file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
+    region: 'us-east4'
+  },
+  options: { model: 'gemini-pro-vision', server_sent_events: true }
+)
+
+# require 'base64'
+# image_data = @article.image.download
+
+# result = client.stream_generate_content(
+#   { contents: [
+#     { role: 'user', parts: [
+#       { text: 'Please describe this image.' },
+#       { inline_data: {
+#         mime_type: 'image/jpeg',
+#         data: Base64.strict_encode64(File.read('piano.jpg'))
+#       } }
+#     ] }
+#   ] }
+# )

@@ -80,4 +80,77 @@ class Article < ApplicationRecord
     votes1to5.sum.to_f / votes1to5.count
   end
 
+  def generate_summary
+    # lets check if its empty - if not return with a message
+    return if self.article_synopsis.present?
+    # TODO
+    raise "PUFFIN_TOURS_GEMINI_API_KEY is not set" if PUFFIN_TOURS_GEMINI_API_KEY.blank?
+    llm = Langchain::LLM::GoogleGemini.new  api_key: PUFFIN_TOURS_GEMINI_API_KEY
+    #messages = [{role: "user", content: "Summarize this article:\n\n----\n #{self.body}"}]
+    query = "Summarize this article. Start the summary with an emoji representative of the language (🇬🇧, 🇫🇷, 🇪🇸, ..) and then the summary: #{self.body}"
+    messages = [{ role: "user", parts: [{ text: query }]}]
+
+    #llm.chat(messages: messages)
+    response = llm.chat(messages: messages)
+    chat_completion = response.chat_completion
+    self.article_synopsis = chat_completion # chat_completion.choices[0].message.content
+    self.save
+  end
+
+  def self.generate_summaries_for_all_articles
+    # Ricc note to self: can be nil or EMPTY, so we need to check for that in ruby, not SQL
+#    Article.where(article_synopsis: nil).each do |article|
+    Article.all.each do |article|
+        article.generate_summary
+    end
+  end
+
+
+  def self.generate_image_summaries_for_all_articles
+    Article.where(main_image_synopsis: '').each do |article|
+        puts "Article.##{article.id} image synopsis is being processed..."
+        article.generate_image_synopsis
+    end
+  end
+
+
+  def generate_image_synopsis
+    image_size = main_image_blob.byte_size rescue -1
+
+    if self.main_image.blank?
+      return "Image for Article.##{self.id} is non existing"
+    end
+
+    if image_size < 10000
+      return "Image for Article.##{self.id} is too small or non existing (image_size=#{image_size})"
+    end
+
+    require 'base64'
+
+    # Assuming self has an image attachment named 'image'
+    image_data = self.main_image.blob.download
+    base64_image = Base64.strict_encode64(image_data)
+
+
+    result = GeminiAiVisionClient.stream_generate_content(
+      { contents: [
+        { role: 'user', parts: [
+          { text: 'Please describe this image.' },
+          { inline_data: {
+            mime_type: 'image/jpeg', # todo mime_type: self.main_image.content_type,
+            data: base64_image,
+          } }
+        ] }
+      ] }
+    )
+    #puts result.class
+    #puts result.inspect
+    full_text = result.map do |chunk|
+      chunk.dig('candidates', 0, 'content', 'parts', 0, 'text')
+    end.compact.join('')
+    self.main_image_synopsis = full_text
+    self.save
+    return full_text
+  end
+
 end
