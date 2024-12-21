@@ -84,7 +84,8 @@ GeminiAiVisionClientLogan = Gemini.new(
     credentials: {
       service: 'generative-language-api',
       api_key: PUFFIN_TOURS_GEMINI_API_KEY,
-      #project_id: 'puffin-tours',
+#      project_id: ENV.fetch('GOOGLE_CLOUD_PROJECT', nil),
+      project_id: 'puffin-tours',
       version: 'v1beta',
       region: 'us-east4',
 

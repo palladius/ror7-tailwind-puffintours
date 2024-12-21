@@ -36,7 +36,7 @@ export GIT_COMMIT_SHA="$(git rev-parse HEAD)" # big commit
 export GIT_SHORT_SHA="${GIT_COMMIT_SHA:0:7}" # first 7 chars: Riccardo reproducing what CB does for me.
 export APP_VERSION="$(cat VERSION)"
 #export APP_VERSION_LATEST="latest"
-export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur}"
+export MESSAGGIO_OCCASIONALE="${MESSAGGIO_OCCASIONALE:-MsgOcc Non datur beware of Project Id being in ENV}"
 export RAILS_MASTER_KEY="${RAILS_MASTER_KEY:-foobarbaz}"
 export BUCKET="${BUCKET:-bucket-non-datur}"
 #- "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${APP_NAME}/${APP_NAME}:sha-$SHORT_SHA"
@@ -120,6 +120,7 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="DATABASE_USER=$DATABASE_USER" \
       --set-env-vars="DATABASE_PASS=$DATABASE_PASS" \
       --set-env-vars="GOOGLE_CLOUD_PROJECT=$PROJECT_ID" \
+      --set-env-vars="PROJECT_ID=$PROJECT_ID" \
       --set-env-vars="BUCKET=$BUCKET" \
       --set-secrets="/secretenvrc/puffintours-envrc=puffintours-envrc:latest" \
       --allow-unauthenticated
