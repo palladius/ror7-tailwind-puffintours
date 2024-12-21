@@ -67,3 +67,5 @@ $pipeline = HTML::Pipeline.new [
                 #HTML::Pipeline::EmojiFilter, # GIVES ERROR
                 #HTML::Pipeline::LinkifyGitHubFilter, anchored to ruby 2 :/
                 #HTML::Pipeline::WikiLinkFilter,
+
+ENABLE_CURSOR_EXPERIMENTS = false

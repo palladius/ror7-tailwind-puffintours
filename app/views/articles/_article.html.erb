@@ -1,0 +1,31 @@
+<div class="article-card">
+  <h2><%= link_to article.title, article_path(article) %></h2>
+
+  <div class="article-metadata">
+    <span class="author">By <%= article.user.name %></span>
+    <span class="date"><%= article.content_date&.strftime("%B %d, %Y") %></span>
+
+    <% if article.tags.any? %>
+      <div class="tags">
+        Tags: <%= article.tag_list %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if article.main_image.attached? %>
+    <%= image_tag article.main_image %>
+  <% end %>
+
+  <div class="article-preview">
+    <%= truncate(strip_tags(article.body.to_s), length: 200) %>
+  </div>
+
+  <% if article.editable_by?(current_user) %>
+    <div class="actions">
+      <%= link_to "Edit", edit_article_path(article), class: "btn btn-sm" %>
+      <%= link_to "Delete", article_path(article),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+          class: "btn btn-sm btn-danger" %>
+    </div>
+  <% end %>
+</div>

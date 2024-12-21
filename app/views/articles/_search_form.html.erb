@@ -1,0 +1,20 @@
+<h2>Fatto da cursor </h2>
+
+<%= search_form_for @q do |f| %>
+  <div>
+    <%= f.label :title_cont, "Title contains" %>
+    <%= f.search_field :title_cont %>
+  </div>
+
+  <div>
+    <%= f.label :user_email_cont, "User email contains" %>
+    <%= f.search_field :user_email_cont %>
+  </div>
+
+  <div>
+    <%= f.label :content_date_gteq, "Date from" %>
+    <%= f.date_field :content_date_gteq %>
+  </div>
+
+  <%= f.submit "Search" %>
+<% end %>

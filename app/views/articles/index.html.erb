@@ -45,3 +45,20 @@
     <%== pagy_nav(@pagy) %>
   </div>
 <% end %>
+
+<% if ENABLE_CURSOR_EXPERIMENTS %>
+  <h1>Articles by cursor</h1>
+
+  This is lower quality but it was created in 30 seconds by cursor so I dont want to remove it.
+  WOW.
+
+  <%= render 'search_form' %>
+
+  <%# Rest of your index view content %>
+  <div class="articles-grid">
+    <%= render @articles %>
+  </div>
+
+  <%# Pagination links %>
+  <%== pagy_nav(@pagy) %>
+<% end %>
