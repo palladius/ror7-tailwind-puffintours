@@ -26,6 +26,16 @@ class Article < ApplicationRecord
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
 
+  # def ransackable_attributes
+  #   ["title", "body", "content_date", "published"]
+  # end
+  def self.ransackable_attributes(auth_object = nil)
+    ["title", "body", "content_date", "published"]
+  end
+  def self.ransackable_associations(auth_object = nil)
+    ["comments"]
+  end
+
   def set_date_if_null
     self.content_date ||= (self.created_at.to_date rescue  Date.today)
   end

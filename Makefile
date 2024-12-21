@@ -3,8 +3,15 @@
 # import .mk
 
 install:
+	# Me l'ha detto l'AI cosi fixo langchainrb
+	bundle config build.unicode --with-cflags="-Wno-incompatible-function-pointer-types"
 	bundle install
 	rails assets:precompile
+
+fix-arel:
+	bundle update rails activerecord activesupport
+	bin/rails tmp:clear
+	bin/rails log:clear
 
 ###########
 # Smart rails s :)
