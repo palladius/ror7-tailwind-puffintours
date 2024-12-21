@@ -30,3 +30,5 @@ RICCARDO.private.md
 .DS_Store
 package-lock.json
 log/
+.bucket-list.txt
+.ondir.was.here.touch

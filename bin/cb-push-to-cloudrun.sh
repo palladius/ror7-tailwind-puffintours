@@ -119,6 +119,7 @@ gcloud --project "$CLOUDRUN_PROJECT_ID" \
       --set-env-vars="DATABASE_NAME=$DATABASE_NAME" \
       --set-env-vars="DATABASE_USER=$DATABASE_USER" \
       --set-env-vars="DATABASE_PASS=$DATABASE_PASS" \
+      --set-env-vars="GOOGLE_CLOUD_PROJECT=$PROJECT_ID" \
       --set-env-vars="BUCKET=$BUCKET" \
       --set-secrets="/secretenvrc/puffintours-envrc=puffintours-envrc:latest" \
       --allow-unauthenticated
