@@ -77,27 +77,29 @@ puts("🐧 ♊️🔑 PUFFIN_TOURS_GEMINI_API_KEY=#{PUFFIN_TOURS_GEMINI_API_KEY}
 puts("🐧 ♊️🔑 GOOGLE_APPLICATION_CREDENTIALS=#{GOOGLE_APPLICATION_CREDENTIALS}")
 puts("🐧" * 40)
 
+#if GOOGLE_APPLICATION_CREDENTIALS.nil?
+  puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is nil. We are on Cloud Run.")
 
-GeminiAiVisionClient = Gemini.new(
-  credentials: {
-    service: 'vertex-ai-api',
-    file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
-    region: 'us-east4'
-  },
-  options: { model: 'gemini-pro-vision', server_sent_events: true }
-)
+  GeminiAiVisionClient = Gemini.new(
+    credentials: {
+      service: 'generative-language-api',
+      api_key: ENV['PUFFIN_TOURS_GEMINI_API_KEY'],
+      project_id: 'puffin-tours',
+      version: 'v1beta'
+    },
+    options: { model: 'gemini-pro', server_sent_events: true }
+  )
 
-# require 'base64'
-# image_data = @article.image.download
+# else
+#   puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is not nil. We are on local.")
+#    # local
+#   GeminiAiVisionClient = Gemini.new(
+#     credentials: {
+#       service: 'vertex-ai-api',
+#       file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
+#       region: 'us-east4',
 
-# result = client.stream_generate_content(
-#   { contents: [
-#     { role: 'user', parts: [
-#       { text: 'Please describe this image.' },
-#       { inline_data: {
-#         mime_type: 'image/jpeg',
-#         data: Base64.strict_encode64(File.read('piano.jpg'))
-#       } }
-#     ] }
-#   ] }
-# )
+#     },
+#     options: { model: 'gemini-pro-vision', server_sent_events: true }
+#   )
+# end

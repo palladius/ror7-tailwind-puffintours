@@ -56,7 +56,9 @@
   </div>
 
   <div class="card-actions">
-    <%= link_to "Edit", edit_article_path(@article), class: 'btn' %>
+    <% if can? :edit, @article %>
+      <%= link_to 'Edit', edit_article_path(@article) %>
+    <% end %>
   </div>
 
    <div class="card-carlessian-footer border-t-2 dark:border-neutral-600" >

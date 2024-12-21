@@ -113,6 +113,11 @@ class Article < ApplicationRecord
     end
   end
 
+  def self.generate_all
+    self.generate_summaries_for_all_articles
+    self.generate_image_summaries_for_all_articles
+  end
+
 
   def generate_image_synopsis
     image_size = main_image_blob.byte_size rescue -1

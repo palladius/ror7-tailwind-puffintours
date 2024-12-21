@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2024-12-21 0.5.15  Bugfix on Gemini in prod..
 2024-12-21 0.5.14  Summarization of article and of main image done and finished! :) Only automation to call it behind the scenese where it gets generated/uploaded is missing.
 2024-12-21 0.5.13  Started embedding LangchainRb and Gemini API.
 2024-12-21 0.5.12  Added image support thanks to `cursor.sh` wow!
