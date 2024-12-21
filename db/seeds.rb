@@ -21,6 +21,7 @@ end
 admins = %w{
   ricc@google.com
   palladiusbonton@gmail.com
+  riccardo.and.kate@gmail.com
 }
 
 admins.each do |email|
