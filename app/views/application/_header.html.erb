@@ -3,7 +3,7 @@
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <a href="<%= root_path %>" class="text-white text-2xl"><%= AppName %><%= AppEmoji %><%= Rails.env %></h2>
+          <a href="<%= root_path %>" class="text-white text-2xl"><%= AppName %><%= AppEmoji %><%= Rails.env %> </h2>
         </div>
         <div class="hidden sm:block">
           <div class="ml-8 flex items-baseline space-x-4">
@@ -11,7 +11,7 @@
             <a href="<%= articles_path %>" class="<%= nav_link_class("articles") %>">Articles</a>
             <a href="<%= users_path %>" class="<%= nav_link_class("users") %>">Users</a>
             <a href="<%= page_path(:about_us) %>" class="pages_about_us">About us</a>
-            <a href="/pages/about_the_app" class="pages_about_the_app">This App</a>
+            <a href="/pages/about_the_app" class="pages_about_the_app">This App v<%= AppVersion %></a>
           </div>
         </div>
       </div>
