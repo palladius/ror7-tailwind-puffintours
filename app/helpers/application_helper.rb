@@ -28,4 +28,14 @@ module ApplicationHelper
   def format_time(time_object)
     l(time_object, format: :long)
   end
-end
+
+  # TODO also add a ENV variable
+  def if_admin_and_dev
+    return '[CLEAN_INTERFACE_ENABLED]' if CLEAN_INTERFACE_ENABLED
+    if (current_user&.is_admin? && Rails.env.development?)
+      yield
+    end
+  end
+
+
+end #/module ApplicationHelper

@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ```
-2024-12-21 0.5.17  After save geminification.
+2024-12-21 0.5.20  CSS for synopsis card.
+2024-12-21 0.5.19  ???
+2024-12-21 0.5.18  After save geminification.
 2024-12-21 0.5.17  Fixing Gemini locally and in PROD.
 2024-12-21 0.5.16  Added version to header.
 2024-12-21 0.5.15  Bugfix on Gemini in prod..

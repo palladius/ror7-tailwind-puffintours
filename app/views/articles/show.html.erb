@@ -68,14 +68,18 @@
     <%= render_votes @article %>
   </div>
 
-
-  <hr/>
-  <% if (current_user.is_admin rescue false) %>
-    <% if Rails.env == 'development' %>
+  <% if_admin_and_dev do %>
+    <hr/>
+    <div class="debug-info border-t-2 mt-4 pt-2 text-gray-500">
+      <h4>🐛 Debug Info (admin+dev only)</h4>
       <%= render partial: 'articles/admin_show' %>
       <% console %>
-    <% end %>
-    <%= link_to "Delete", article_path(@article), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
-    <%= link_to "Back", articles_path, class: 'btn' %>
+      <%= link_to "Delete", article_path(@article),
+          method: :delete,
+          data: { confirm: "Are you sure?" },
+          class: 'btn btn-danger' %>
+      <%= link_to "Back", articles_path, class: 'btn' %>
+    </div>
   <% end %>
+
 </div>

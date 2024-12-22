@@ -106,3 +106,6 @@ GeminiAiVisionClientLocalADC = Gemini.new(
     options: { model: 'gemini-pro-vision', server_sent_events: true }
   )
 # end
+
+# An Env to force the clean interface. DFLT=TRUE! :)
+CLEAN_INTERFACE_ENABLED = ENV.fetch('CLEAN_INTERFACE_ENABLED', 'true').downcase == 'true'
