@@ -41,31 +41,16 @@ Rails.application.config.to_prepare do
   ]
 
   # Initialize allowed attributes if nil
+  #   # For embedded content security
   ActionText::ContentHelper.allowed_attributes ||= %w[
     href src class id width height controls
     poster preload style frameborder allowfullscreen
   ]
+
 end
 
-# For embedded content security
-# Rails.application.config.action_text.sanitizer = Rails::HTML::Sanitizer.safe_list_sanitizer.new(
-#   tags: ActionText::ContentHelper.allowed_tags,
-#   attributes: ActionText::ContentHelper.allowed_attributes
-# )
 
 # from https://acuments.com/uploading-audio-video-pdf-with-action-text.html
-# Rails.application.config.after_initialize do
-#   ActionText::ContentHelper.allowed_attributes.add 'style' rescue nil
-#   ActionText::ContentHelper.allowed_attributes.add 'controls' rescue nil
-#   ActionText::ContentHelper.allowed_attributes.add 'poster'  rescue nil
-
-#   ActionText::ContentHelper.allowed_tags.add 'video'
-#   ActionText::ContentHelper.allowed_tags.add 'audio'
-#   ActionText::ContentHelper.allowed_tags.add 'source'
-#   ActionText::ContentHelper.allowed_tags.add 'embed'
-#   ActionText::ContentHelper.allowed_tags.add 'iframe'
-# end
-
 
 $pipeline = HTML::Pipeline.new [
                   # the ones I needed
@@ -91,10 +76,7 @@ ENABLE_CURSOR_EXPERIMENTS = false
 PUFFIN_TOURS_GEMINI_API_KEY = ENV.fetch('PUFFIN_TOURS_GEMINI_API_KEY', nil)
 GOOGLE_APPLICATION_CREDENTIALS = ENV.fetch('GOOGLE_APPLICATION_CREDENTIALS', nil)
 
-puts("🐧" * 40)
-puts("🐧 ♊️🔑 PUFFIN_TOURS_GEMINI_API_KEY=#{PUFFIN_TOURS_GEMINI_API_KEY}")
-puts("🐧 ♊️🔑 GOOGLE_APPLICATION_CREDENTIALS=#{GOOGLE_APPLICATION_CREDENTIALS}")
-puts("🐧" * 40)
+
 
 #if GOOGLE_APPLICATION_CREDENTIALS.nil?
   puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is nil. We are on Cloud Run.")
@@ -129,4 +111,11 @@ GeminiAiVisionClientLocalADC = Gemini.new(
 # An Env to force the clean interface. DFLT=FALSE :)
 DEBUG = ENV.fetch('DEBUG', 'false').downcase == 'true'
 # An Env to force the clean interface. DFLT=TRUE! :)
-CLEAN_INTERFACE_ENABLED = ENV.fetch('CLEAN_INTERFACE_ENABLED', 'true').downcase == 'true'
+CLEAN_INTERFACE_ENABLED = ! DEBUG # ENV.fetch('CLEAN_INTERFACE_ENABLED', 'true').downcase == 'true'
+
+
+puts("🐧" * 40)
+puts("🐧 ♊️🔑 PUFFIN_TOURS_GEMINI_API_KEY=#{PUFFIN_TOURS_GEMINI_API_KEY}")
+puts("🐧 ♊️🔑 GOOGLE_APPLICATION_CREDENTIALS=#{GOOGLE_APPLICATION_CREDENTIALS}")
+puts("🐧 ♊️🔑 DEBUG=#{DEBUG}")
+puts("🐧" * 40)

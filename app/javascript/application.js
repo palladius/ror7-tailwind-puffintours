@@ -39,10 +39,10 @@ import RemoteModal  from './components/remote_modal'
 import Tooltip      from './components/tooltip'
 
 // Add this if you want to customize Trix behavior
-addEventListener("trix-initialize", event => {
-  // Trix is ready
-  const trix = event.target
-})
+// addEventListener("trix-initialize", event => {
+//   // Trix is ready
+//   const trix = event.target
+// })
 
 const App = new RalixApp({
   routes: {
