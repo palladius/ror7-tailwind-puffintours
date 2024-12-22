@@ -41,6 +41,7 @@ class Article < ApplicationRecord
 
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
+  after_save :generate_missing_synopses
 
 
 
@@ -92,8 +93,8 @@ class Article < ApplicationRecord
 
     #llm.chat(messages: messages)
     response = llm.chat(messages: messages)
-    #chat_completion = response.chat_completion
-    self.article_synopsis = response.chat_completion # chat_completion.choices[0].message.content
+    chat_completion = response.chat_completion
+    self.article_synopsis = chat_completion # chat_completion.choices[0].message.content
     self.save
     {text_summary: chat_completion, save_ok: true}
   end
@@ -137,7 +138,10 @@ class Article < ApplicationRecord
     require 'base64'
 
     # Assuming self has an image attachment named 'image'
-    image_data = self.main_image.blob.download
+    image_data = self.main_image.blob.download rescue nil
+    # triggers ActiveStorage::FileNotFoundError, lets catch it..
+    return "Image.blob.download for Article.##{self.id} is non existing" if image_data.blank?
+
     base64_image = Base64.strict_encode64(image_data)
 
     puts("Image is ok (b64 is #{base64_image.size/1024}KB), sending to Gemini to get a description...")
@@ -163,6 +167,27 @@ class Article < ApplicationRecord
     #return full_text
     {image_summary: full_text, save_ok: true}
 
+  end
+
+
+  private
+
+  # def generate_missing_synopses
+  #   self.generate_summary
+  #   self.generate_image_synopsis
+  # end
+
+  def generate_missing_synopses
+    #if Rails.env.production? # Only run in production to save API calls
+      if article_synopsis.blank? || main_image_synopsis.blank?
+        # Option 1: Background job (recommended)
+        #GenerateSynopsesJob.perform_later(self.id)
+
+        # Option 2: Foreground (simpler but blocks save)
+        generate_summary if article_synopsis.blank?
+        generate_image_synopsis if main_image_synopsis.blank? and self.main_image.present?
+      end
+    #end
   end
 
 end
