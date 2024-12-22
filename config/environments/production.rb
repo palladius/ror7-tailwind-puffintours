@@ -94,8 +94,8 @@ Rails.application.configure do
   # This is riccardo's custom code as well.. so pointless here.
   #config.hosts << "puffintours-prod-rjjr63dzrq-ew.a.run.app"
 
-  # Add this to allow direct URLs
-  Rails.application.routes.default_url_options[:host] = 'your-production-domain.com'
+  # Add this to allow direct URLs - from ricc-cursor
+  Rails.application.routes.default_url_options[:host] = 'puffintours-prod-rjjr63dzrq-ew.a.run.app'
 
   # Configure ActiveStorage to use GCS URLs
   config.active_storage.service_urls_expire_in = 1.hour
