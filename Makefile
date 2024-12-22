@@ -26,8 +26,7 @@ run-dev: app/assets/builds/application.js
 
 dev:
 	rails assets:precompile
-	#rails s -p 3000
-	bin/dev
+	DEBUG=true bin/dev
 
 # dev:
 # 	rails assets:precompile

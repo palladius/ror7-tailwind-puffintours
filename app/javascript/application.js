@@ -7,6 +7,11 @@ import "@hotwired/turbo-rails"
 import "trix"
 import "@rails/actiontext"
 
+// copied from https://stackoverflow.com/questions/61867995/how-to-embed-an-iframe-with-actiontext-trix-on-ruby-on-rails
+//import Trix from "trix"
+//import Rails from "@rails/ujs"
+
+
 import "chartkick/chart.js"
 // importmap: but thats not me
 //import "chartkick"
@@ -32,6 +37,12 @@ import ArticlesCtrl from './controllers/articles'
 // Components
 import RemoteModal  from './components/remote_modal'
 import Tooltip      from './components/tooltip'
+
+// Add this if you want to customize Trix behavior
+addEventListener("trix-initialize", event => {
+  // Trix is ready
+  const trix = event.target
+})
 
 const App = new RalixApp({
   routes: {

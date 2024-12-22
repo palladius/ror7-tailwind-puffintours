@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ```
-2024-12-21 0.5.20  Added DNS
+2024-12-21 0.5.23  Added `actiontext` gem and made it work. Also fixing Trix to allow iframe.
+2024-12-21 0.5.22  Added `DEBUG` variable and made bugs everywhere in page if I see it. Maybe I should use it instead of the other verbose thingy
+2024-12-21 0.5.21  Added DNS
 2024-12-21 0.5.20  CSS for synopsis card.
 2024-12-21 0.5.19  ???
 2024-12-21 0.5.18  After save geminification.

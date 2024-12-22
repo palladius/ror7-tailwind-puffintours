@@ -480,6 +480,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actiontext
   active_median
   acts-as-taggable-on (~> 10.0)
   acts_as_votable (~> 0.14.0)

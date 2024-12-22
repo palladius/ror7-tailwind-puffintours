@@ -11,9 +11,10 @@ ProdAppUrl = 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/'
 GithubCodeUrl =  'https://github.com/palladius/ror7-tailwind-puffintours/'
 
 # TODO move to ENV :)
-#Rails.application.config.hosts << "dhh-vanilla-701-dev-cdlu26pd4q-oa.a.run.app"
 Rails.application.config.hosts << 'puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app'
 Rails.application.config.hosts << 'puffintours-prod-rjjr63dzrq-ew.a.run.app'
+Rails.application.config.hosts << 'puffintours-prod-907790253572.europe-west1.run.app'
+# Added with DNS - oh wow!
 Rails.application.config.hosts << 'pt.palladius.it'
 Rails.application.config.hosts << 'tours.palladius.it'
 Rails.application.config.hosts << 'puffintours.palladius.it'
@@ -31,10 +32,26 @@ ActsAsTaggableOn.force_lowercase = true
 
 # per fare andare i video su Trix: https://stackoverflow.com/questions/56316549/how-to-display-embed-video-with-actiontext
 Rails.application.config.to_prepare do
-  ActionText::ContentHelper.allowed_tags << "iframe" rescue :Err # Sometimes it gives errors.
-  # oppure prova: <script async src="//www.instagram.com/embed.js"></script>).html_safe
-  # #<%= raw your_action_text_object.to_plain_text %>
+
+  # Initialize allowed tags if nil
+  ActionText::ContentHelper.allowed_tags ||= %w[
+    div p br blockquote pre h1 h2 h3 h4 h5 h6
+    ul ol li strong em a img code iframe
+    audio video source embed
+  ]
+
+  # Initialize allowed attributes if nil
+  ActionText::ContentHelper.allowed_attributes ||= %w[
+    href src class id width height controls
+    poster preload style frameborder allowfullscreen
+  ]
 end
+
+# For embedded content security
+# Rails.application.config.action_text.sanitizer = Rails::HTML::Sanitizer.safe_list_sanitizer.new(
+#   tags: ActionText::ContentHelper.allowed_tags,
+#   attributes: ActionText::ContentHelper.allowed_attributes
+# )
 
 # from https://acuments.com/uploading-audio-video-pdf-with-action-text.html
 # Rails.application.config.after_initialize do
@@ -109,5 +126,7 @@ GeminiAiVisionClientLocalADC = Gemini.new(
   )
 # end
 
+# An Env to force the clean interface. DFLT=FALSE :)
+DEBUG = ENV.fetch('DEBUG', 'false').downcase == 'true'
 # An Env to force the clean interface. DFLT=TRUE! :)
 CLEAN_INTERFACE_ENABLED = ENV.fetch('CLEAN_INTERFACE_ENABLED', 'true').downcase == 'true'

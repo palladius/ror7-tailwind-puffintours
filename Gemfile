@@ -108,3 +108,5 @@ gem 'gemoji'
 #ImageMaxWidthFilter
 
 gem "tailwindcss-rails", "~> 2.3"
+
+gem "actiontext" # image_processing  is already there..for image handling

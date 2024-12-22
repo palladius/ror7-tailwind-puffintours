@@ -2,6 +2,9 @@
   <div class="border-t border-slate-900/5 py-5">
     <p class="mt-4 text-center text-sm leading-6 text-slate-500">
       <%= AppName %> v<b><%= AppVersion %></b>
+<% if DEBUG %>
+     <b>(Warning 🐞 DEBUG 🐞 Enabled!)</b>
+<% end %>
       <br/>
       <!--
         DEB: DATABASE_HOST = <%= ENV.fetch('DATABASE_HOST', :dunno) %>
