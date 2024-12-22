@@ -1,0 +1,13 @@
+<% if article.article_synopsis.present? %>
+  <div class="synopsis-card">
+    <div class="synopsis-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    </div>
+    <div class="synopsis-content">
+      <h3>Article Summary</h3>
+      <p><%= article.article_synopsis %></p>
+    </div>
+  </div>
+<% end %>

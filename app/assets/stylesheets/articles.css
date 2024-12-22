@@ -1,0 +1,32 @@
+.synopsis-card {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 1rem;
+}
+
+.synopsis-icon {
+  flex-shrink: 0;
+}
+
+.synopsis-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #3b82f6;
+}
+
+.synopsis-content h3 {
+  color: #1e3a8a;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.synopsis-content p {
+  color: #1e40af;
+  line-height: 1.6;
+}
