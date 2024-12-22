@@ -14,7 +14,9 @@ GithubCodeUrl =  'https://github.com/palladius/ror7-tailwind-puffintours/'
 #Rails.application.config.hosts << "dhh-vanilla-701-dev-cdlu26pd4q-oa.a.run.app"
 Rails.application.config.hosts << 'puffintours-prova-con-secret-rjjr63dzrq-uc.a.run.app'
 Rails.application.config.hosts << 'puffintours-prod-rjjr63dzrq-ew.a.run.app'
-#Rails.application.config.hosts << 'puffintours-prod-rjjr63dzrq-ew.a.run.app'
+Rails.application.config.hosts << 'pt.palladius.it'
+Rails.application.config.hosts << 'tours.palladius.it'
+Rails.application.config.hosts << 'puffintours.palladius.it'
 
 # TODO Add an ENV cosi glielo do da ENV e vaffanbagno!
 # Remove the rescue after it works..

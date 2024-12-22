@@ -58,4 +58,13 @@ module ArticlesHelper
     end
   end
 
+  def gemini_or_truncated_body(article, length = 160)
+    # if gemini created synoptic use it, otherwise a truncated version of the body
+    if article.article_synopsis.present?
+      article.article_synopsis
+    else
+      truncate strip_tags(article.body.to_s), length: length
+    end
+  end
+
 end

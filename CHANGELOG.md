@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2024-12-21 0.5.20  Added DNS
 2024-12-21 0.5.20  CSS for synopsis card.
 2024-12-21 0.5.19  ???
 2024-12-21 0.5.18  After save geminification.
