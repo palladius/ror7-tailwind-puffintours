@@ -1,8 +1,13 @@
 <% if article.article_synopsis.present? %>
   <div class="synopsis-card">
     <div class="synopsis-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      <!-- Simpler SVG with explicit viewBox and no scaling -->
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.5 13.5L13.5 3.5M13.5 3.5H6.5M13.5 3.5V10.5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
       </svg>
     </div>
     <div class="synopsis-content">
