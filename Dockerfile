@@ -1,5 +1,5 @@
 # Dockerfile copiato da ror-rails-goldie copialo da la..
-FROM ruby:3.2.1
+FROM ruby:3.4.5
 
 ###################################
 # Dockerfile HITSORY

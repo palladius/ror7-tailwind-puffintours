@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ```
+2025-08-25 0.6.0  Updated Ruby version to 3.4.5.
 2024-12-25 0.5.24  removing ENV from PROD in header.
 2024-12-21 0.5.23  Added `actiontext` gem and made it work. Also fixing Trix to allow iframe.
 2024-12-21 0.5.22  Added `DEBUG` variable and made bugs everywhere in page if I see it. Maybe I should use it instead of the other verbose thingy
