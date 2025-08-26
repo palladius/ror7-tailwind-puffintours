@@ -24,7 +24,8 @@ RUN apt-get install -y \
   build-essential \
   libvips \
   libmariadb-dev \
-  libpq-dev &&\
+  libpq-dev \
+  libclang-dev &&\
   curl -sSL https://deb.nodesource.com/setup_20.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-keyring.gpg && \
   echo "deb [signed-by=/usr/share/keyrings/yarn-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
@@ -36,7 +37,7 @@ WORKDIR $APP_HOME
 
 #########################################################################
 # 1. We copy these files from our current application to the /app container
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./ 
 # We install all the dependencies
 RUN bundle install
 
