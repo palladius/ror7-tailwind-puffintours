@@ -16,17 +16,17 @@ fix-arel:
 cool-stuff:
 	bundle exec annotate --models
 ###########
-# # Smart rails s :)
+# Smart rails s :)
 # "app/assets/builds/application.js":
 # 	echo This aint perfect but close enough..
 # 	rails assets:precompile
 
-run-dev: #
+run-dev: # "app/assets/builds/application.js"
 	rails s
 
-# dev:
-# 	rails assets:precompile
-# 	DEBUG=true bin/dev
+dev:
+	rails assets:precompile
+	DEBUG=true bin/dev
 
 # dev:
 # 	rails assets:precompile
@@ -41,27 +41,28 @@ run-prod:
 credential-edits:
 	EDITOR='code --wait' rails credentials:edit
 
+
 docker-build:
 	docker build -t puffintours:latest .
 
 # "Missing `secret_key_base` for '#{Rails.env}' environment, set this string with `bin/rails credentials:edit`"
 docker-run-prod:
-# TODO Add also DB stuff
+	# TODO Add also DB stuff
 	docker run -it -p 8080:8080 \
 		-e DATABASE_HOST="$(DATABASE_HOST)" \
 		-e DATABASE_NAME="$(DATABASE_NAME)" \
 		-e DATABASE_USER="$(DATABASE_USER)" \
 		-e DATABASE_PASS="$(DATABASE_PASS)" \
 		-e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
-		puffintours:latest
+	puffintours:latest
 
 
 clean:
-#https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
+	#https://stackoverflow.com/questions/9335803/confusion-about-rake-assetsclean-cleanup-on-the-asset-pipeline-in-rails
 	echo Cleaning up the Assets Pipeline.
 	rake assets:clean
 	rake assets:clobber
-# Riccardo says so
+	# Riccardo says so
 	rm -rf node_modules/ app/assets/builds/*
 
 # copiato da GENAI KIDS
@@ -76,3 +77,8 @@ search-string-with-ack:
 
 test-gemini-prod:
 	bin/test-gemini-prod.sh
+
+make-admin EMAIL:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+    bin/rails runner "user = User.find_by(email: '{{EMAIL}}'); if user; user.update(is_admin: true); puts 'User {{EMAIL}} is now an admin.'; else; puts 'User not found.'; end"

@@ -23,6 +23,13 @@
   </div>
 
   <div>
+    <p>
+      <b>Admin:</b>
+      <%= current_user.admin? ? '👔 (true)' : '👨 (false)' %>
+    </p>
+  </div>
+
+  <div>
     <%= form.label :password %>
     <%= form.password_field :password %>
   </div>

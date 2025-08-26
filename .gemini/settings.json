@@ -1,0 +1,11 @@
+{
+    "checkpointing": {
+        "enabled": true
+    },
+    "mcpServers": {
+        //"github": {   "url": "https://api.githubcopilot.com/mcp/"   },
+        //"steren-cloud-run": {      "command": "npx",      "args": ["-y", "https://github.com/GoogleCloudPlatform/cloud-run-mcp"]    },
+        "playwright": {      "command": "npx",      "args": ["@playwright/mcp@latest"]    }
+        //"context7": {       "type": "http",       "url": "https://mcp.context7.com/mcp"    }
+    }
+}

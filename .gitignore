@@ -32,3 +32,6 @@ package-lock.json
 log/
 .bucket-list.txt
 .ondir.was.here.touch
+t
+db/development.sqlite3-shm
+db/development.sqlite3-wal

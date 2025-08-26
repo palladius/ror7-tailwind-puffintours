@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.6.1 - 2025-08-25
+
+### Added
+- `just make-admin EMAIL` command to make a user an admin.
+- Display admin status in user show and edit pages.
+
 ```
 2025-08-25 0.6.0  Updated Ruby version to 3.4.5.
 2024-12-25 0.5.24  removing ENV from PROD in header.
