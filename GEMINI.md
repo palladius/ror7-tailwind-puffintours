@@ -40,3 +40,4 @@ Often you'll get ruby issues because you're using the wrong ruby (/usr/bin, or /
 ## Prod app
 
 * App in prod is here: https://puffintours-prod-rjjr63dzrq-ew.a.run.app/ . It's always interesting to see at which version it is at. Maybe the Cloud Build is stuck.
+* Check dependabot alerts via `gh api /repos/palladius/ror7-tailwind-puffintours/dependabot/alerts`

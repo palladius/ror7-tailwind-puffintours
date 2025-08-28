@@ -9,7 +9,7 @@
 #             to set up GCS, and permissions, SA, ..)
 #
 # Note: to enable CB access to SecretManager, you need to click on SA permissions. Note
-#       that enablibng Cloud Run required some magical additional access which Im not sure
+#       that enabling Cloud Run required some magical additional access which Im not sure
 #       how to reproduce in IAC. See https://screenshot.googleplex.com/4wEvj93LprtUdgU
 ###############################################################################
 
