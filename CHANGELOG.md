@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.6.3 - 2025-08-28
+
+### Added
+
+- Add logo and prod URL to README.md.
+- Fix failing test by adding `csv` gem.
+
 ## v0.6.2 - 2025-08-28
 
 🇫🇷  fix: Update data for Papà and Alessandro.

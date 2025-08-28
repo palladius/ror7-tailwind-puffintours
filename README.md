@@ -1,3 +1,11 @@
+![Puffin Tours Logo](palladius76_logo_for_a_company_called_Puffin_tours_specializing_541eb4f4-c338-4855-ba13-832592886cb3.png)
+
+## Production URL
+
+The production application is running at: [https://puffintours-prod-rjjr63dzrq-ew.a.run.app/](https://puffintours-prod-rjjr63dzrq-ew.a.run.app/)
+
+---
+
 # Ricc Puffin Tours
 
 * Copied from https://github.com/ralixjs/rails-ralix-tailwind . Why? I am a bit lost in 4 different ways of Rails 7 to manage Js and im not a JS specialist... hence.. someone did the effort for me so why not standing on the shoulders of giants?

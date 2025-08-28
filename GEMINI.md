@@ -14,6 +14,7 @@ Often you'll get ruby issues because you're using the wrong ruby (/usr/bin, or /
 * Check logs in `log/` folder.
 * To test the app live, you can use `curl` for simple things (200 vs 500, or text grepping); for UI complicated stuff, use MCP+Playwright.
 * Upon every commit, a Cloud Build will trigger a build and deploy on Cloud Run.
+* Before doing a major change (edit `cloud_build.yaml`, or `Gemfile`, ..) ask for permission and explain why that edit is being done. Better safe than sorry.
 
 ## features and bugs
 
@@ -39,5 +40,5 @@ Often you'll get ruby issues because you're using the wrong ruby (/usr/bin, or /
 
 ## Prod app
 
-* App in prod is here: https://puffintours-prod-rjjr63dzrq-ew.a.run.app/ . It's always interesting to see at which version it is at. Maybe the Cloud Build is stuck.
-* Check dependabot alerts via `gh api /repos/palladius/ror7-tailwind-puffintours/dependabot/alerts`
+* App in prod is here: `https://puffintours-prod-rjjr63dzrq-ew.a.run.app/` . It's always interesting to see at which version it is at. Maybe the Cloud Build is stuck.
+* Check dependabot alerts via `gh api /repos/palladius/ror7-tailwind-puffintours/dependabot/alerts`.

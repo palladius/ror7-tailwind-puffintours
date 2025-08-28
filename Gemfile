@@ -14,6 +14,7 @@ source "https://rubygems.org"
 
 # Database
 gem 'sqlite3', '~> 1.7', '>= 1.7.1'
+gem 'csv'
 
 # Models & Features
 gem 'acts-as-taggable-on', '~> 10.0'
