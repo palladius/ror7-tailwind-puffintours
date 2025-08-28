@@ -82,3 +82,8 @@ make-admin EMAIL:
     #!/usr/bin/env bash
     set -euxo pipefail
     bin/rails runner "user = User.find_by(email: '{{EMAIL}}'); if user; user.update(is_admin: true); puts 'User {{EMAIL}} is now an admin.'; else; puts 'User not found.'; end"
+
+
+# New Gemini feature from 28aug25 - auto edit!
+gemini:
+  gemini -c --approval-mode auto-edit
