@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   include GcpHelper
+  before_action :authenticate_user!, only: [:family]
 
   def family
   end

@@ -10,6 +10,9 @@
             <a href="<%= root_path %>" class="<%= nav_link_class("home") %>">Home</a>
             <a href="<%= articles_path %>" class="<%= nav_link_class("articles") %>">Articles</a>
             <a href="<%= users_path %>" class="<%= nav_link_class("users") %>">Users</a>
+            <% if user_signed_in? %>
+              <a href="<%= family_path %>" class="<%= nav_link_class("family") %>">Family</a>
+            <% end %>
             <a href="<%= page_path(:about_us) %>" class="pages_about_us">About us</a>
             <a href="/pages/about_the_app" class="pages_about_the_app">This App v<%= AppVersion %></a>
           </div>
@@ -41,6 +44,9 @@
       <a href="<%= root_path %>" class="<%= nav_link_class("home", "block") %>">Home</a>
       <a href="<%= articles_path %>" class="<%= nav_link_class("articles", "block") %>">Articles</a>
       <a href="<%= users_path %>" class="<%= nav_link_class("users", "block") %>">Users</a>
+      <% if user_signed_in? %>
+        <a href="<%= family_path %>" class="<%= nav_link_class("family", "block") %>">Family</a>
+      <% end %>
       <% unless user_signed_in? %>
         <a href="<%= new_user_session_path %>" class="<%= nav_link_class(nil, "block") %>">Sign in</a>
       <% end %>
