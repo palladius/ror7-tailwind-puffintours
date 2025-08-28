@@ -1,0 +1,24 @@
+- nickname: Mamma
+  name: Kate
+  surname: Knight
+  dob: 1981-01-06
+  description: Mummy is into reading and yoga.
+  thumbnail: family/mamma.png
+- nickname: Papà
+  name: Riccardo
+  surname: Carlesso
+  dob: 1960-10-23
+  description: Papino paffutello. Ama sport, tecnologia e il 🎹 piano.
+  thumbnail: family/papino.png
+- nickname: Alessandro
+  name: Alessandro
+  surname: Carlesso
+  dob: 2000-01-01
+  description: Il figlio grande. Ama i Pokemon e piangere.
+  thumbnail: family/alessandro.png
+- nickname: Sebastian
+  name: Sebastian
+  surname: Carlesso
+  dob: 2020-05-18
+  description: Il piccolo. Ama i tram e mangiare.
+  thumbnail: family/sebastian.png

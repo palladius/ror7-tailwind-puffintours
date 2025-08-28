@@ -1,2 +1,13 @@
-<h1>Family Page</h1>
-<p>This is the family page.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <% @family_members.each do |member| %>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <%= image_tag member['thumbnail'], class: "w-full h-48 object-cover" %>
+      <div class="p-4">
+        <h3 class="text-lg font-medium text-gray-900"><%= member['nickname'] %></h3>
+        <p class="text-sm text-gray-500"><%= member['name'] %> <%= member['surname'] %></p>
+        <p class="text-sm text-gray-500"><%= member['dob'] %></p>
+        <p class="mt-2 text-base text-gray-700"><%= member['description'] %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
