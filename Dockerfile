@@ -19,13 +19,14 @@ ENV APP_HOME   /riccardo-rails-app
 # dal 1.1. voglio anche PGsql: # sudo apt install postgresql postgresql-contrib libpq-dev
 # Dal 1.0.6 voglio anche libvips che se no ciocca.
 RUN apt-get update
-RUN apt-get install -y \
-  curl \
-  build-essential \
-  libvips \
-  libmariadb-dev \
-  libpq-dev \
-  libclang-dev &&\
+RUN apt-get install -y 
+  curl 
+  build-essential 
+  libvips 
+  libmariadb-dev 
+  libpq-dev 
+  libclang-dev 
+  llvm-dev &&\
   curl -sSL https://deb.nodesource.com/setup_20.x | bash - && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-keyring.gpg && \
   echo "deb [signed-by=/usr/share/keyrings/yarn-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \

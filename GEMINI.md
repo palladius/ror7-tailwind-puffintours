@@ -34,7 +34,7 @@ Often you'll get ruby issues because you're using the wrong ruby (/usr/bin, or /
 
 ## Local file
 
-* All ENV vars are in `.envrc`, included `BUCKET`, GCP configs, and so on.
+* All ENV vars are in `.envrc`, included `BUCKET`, GCP configs, and so on. Use `direnv` to auto pull those vars in current bash context, or simply `source`.
 * GCP config is under `gcp/`.
 
 ## Prod app

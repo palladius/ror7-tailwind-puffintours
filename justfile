@@ -1,5 +1,3 @@
-
-
 # import .mk
 
 install:
@@ -49,11 +47,11 @@ docker-build:
 docker-run-prod:
 	# TODO Add also DB stuff
 	docker run -it -p 8080:8080 \
-		-e DATABASE_HOST="$(DATABASE_HOST)" \
-		-e DATABASE_NAME="$(DATABASE_NAME)" \
-		-e DATABASE_USER="$(DATABASE_USER)" \
-		-e DATABASE_PASS="$(DATABASE_PASS)" \
-		-e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
+	  -e DATABASE_HOST="$(DATABASE_HOST)" \
+	  -e DATABASE_NAME="$(DATABASE_NAME)" \
+	  -e DATABASE_USER="$(DATABASE_USER)" \
+	  -e DATABASE_PASS="$(DATABASE_PASS)" \
+	  -e RAILS_MASTER_KEY="$(RAILS_MASTER_KEY)" \
 	puffintours:latest
 
 
@@ -75,6 +73,7 @@ npm-update:
 search-string-with-ack:
 	bin/search-string-in-repo.sh fetch-api-data
 
+
 test-gemini-prod:
 	bin/test-gemini-prod.sh
 
@@ -87,3 +86,21 @@ make-admin EMAIL:
 # New Gemini feature from 28aug25 - auto edit!
 gemini:
   gemini -c --approval-mode auto_edit
+
+# List latest 10 CB builds, possible the first might still be running
+cloud-build-list:
+    gcloud builds list --project=puffin-tours --limit=10
+
+# Show the log of a specific Cloud Build, eg 7c82188e-485a-4735-a70d-fb303fbfe5a0
+cloud-build-show-log build_id:
+    @echo "Showing log for build ID: {{build_id}}. Use --stream to follow the log indefinitely (you can do it, but I want Gemini NOT to do it)."
+    gcloud builds log {{build_id}} --project=puffin-tours
+
+# show Cloud Run logs
+cloud-run-logs:
+    @echo "☁️  Fetching logs for Cloud Run environment..."
+    gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=puffintours-prod-rjjr63dzrq-ew.a.run.app" --project=puffin-tours --limit=100 --format="value(timestamp, severity, textPayload)"
+
+# Shows git logs in timestamped way
+git-logs-timestamped:
+    git log --pretty=format:'%h %ad | %s%d [%an]' --date=iso -n 10
