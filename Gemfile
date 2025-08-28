@@ -97,7 +97,7 @@ gem 'html-pipeline-vimeo'
 
 # less useful but nice:
 gem 'html-pipeline-wiki-link' # HTML::Pipeline::MarkdownFilter,
-gem 'commonmarker'
+gem 'commonmarker', '0.23.9'
 gem 'rouge'
 gem 'sanitize'
 gem 'rinku'
