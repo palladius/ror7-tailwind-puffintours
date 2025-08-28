@@ -86,4 +86,4 @@ make-admin EMAIL:
 
 # New Gemini feature from 28aug25 - auto edit!
 gemini:
-  gemini -c --approval-mode auto-edit
+  gemini -c --approval-mode auto_edit

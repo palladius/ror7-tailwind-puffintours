@@ -34,5 +34,9 @@ Often you'll get ruby issues because you're using the wrong ruby (/usr/bin, or /
 
 ## Local file
 
-* All ENV vars are in `.envrc`
+* All ENV vars are in `.envrc`, included `BUCKET`, GCP configs, and so on.
 * GCP config is under `gcp/`.
+
+## Prod app
+
+* App in prod is here: https://puffintours-prod-rjjr63dzrq-ew.a.run.app/ . It's always interesting to see at which version it is at. Maybe the Cloud Build is stuck.
