@@ -4,6 +4,7 @@ FROM ruby:3.4.5
 ###################################
 # Dockerfile HITSORY
 ###################################
+# 2025-08-28 v0.6.4 Fixed Dockerfile RUN instruction concatenation.
 # 2023-10-22 v0.3 from node_18 to node_20: https://deb.nodesource.com/setup_X
 # 2023-10-22 v0.2 Moved from node_10 to node_18
 ###################################

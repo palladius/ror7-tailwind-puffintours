@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.6.4 - 2025-08-28
+
+### Fixed
+
+- Corrected Dockerfile `RUN` instruction concatenation, fixing Cloud Build failures.
+
 ## v0.6.3 - 2025-08-28
 
 ### Added
