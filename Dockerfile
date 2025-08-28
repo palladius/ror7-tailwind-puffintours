@@ -2,7 +2,7 @@
 FROM ruby:3.4.5
 
 ###################################
-# Dockerfile HITSORY
+# Dockerfile HISTORY
 ###################################
 # 2025-08-28 v0.6.4 Fixed Dockerfile RUN instruction concatenation.
 # 2023-10-22 v0.3 from node_18 to node_20: https://deb.nodesource.com/setup_X
@@ -15,8 +15,7 @@ ENV APP_HOME   /riccardo-rails-app
 # Added for YARN or it wont work...
 # https://medium.com/@yuliaoletskaya/how-to-start-your-rails-app-in-a-docker-container-9f9ce29ff6d6
 
-# TODO   Node.js 10.x is no longer actively supported!
-
+# v0.6.4: added clang to fix build Failed: fd94eca9-2924-4b80-a4c3-2b51e23232fa
 # dal 1.1. voglio anche PGsql: # sudo apt install postgresql postgresql-contrib libpq-dev
 # Dal 1.0.6 voglio anche libvips che se no ciocca.
 RUN apt-get update && apt-get install -y curl build-essential libvips libmariadb-dev libpq-dev libclang-dev clang llvm-dev && curl -sSL https://deb.nodesource.com/setup_20.x | bash - && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/yarn-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && apt-get update && apt-get install -y nodejs yarn
@@ -27,7 +26,7 @@ WORKDIR $APP_HOME
 
 #########################################################################
 # 1. We copy these files from our current application to the /app container
-COPY Gemfile Gemfile.lock ./ 
+COPY Gemfile Gemfile.lock ./
 # We install all the dependencies
 RUN bundle install
 
