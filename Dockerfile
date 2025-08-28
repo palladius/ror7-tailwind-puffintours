@@ -26,6 +26,7 @@ libvips
 libmariadb-dev 
 libpq-dev 
 libclang-dev 
+clang 
 llvm-dev && 
 curl -sSL https://deb.nodesource.com/setup_20.x | bash - && 
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-keyring.gpg && 
