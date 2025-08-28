@@ -7,13 +7,13 @@
 - nickname: Papà
   name: Riccardo
   surname: Carlesso
-  dob: 1960-10-23
   description: Papino paffutello. Ama sport, tecnologia e il 🎹 piano.
+  dob: 1976-12-29
   thumbnail: family/papino.png
 - nickname: Alessandro
   name: Alessandro
   surname: Carlesso
-  dob: 2000-01-01
+  dob: 2018-01-30
   description: Il figlio grande. Ama i Pokemon e piangere.
   thumbnail: family/alessandro.png
 - nickname: Sebastian

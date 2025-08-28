@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 0.6.1 - 2025-08-25
+## v0.6.2 - 2025-08-28
+
+🇫🇷  fix: Update data for Papà and Alessandro.
+
+## v0.6.1 - 2025-08-28
 
 ### Added
 
