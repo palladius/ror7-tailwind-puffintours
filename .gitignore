@@ -1,3 +1,4 @@
+
 # Ignore bundler config.
 /.bundle
 
@@ -36,3 +37,4 @@ t
 db/development.sqlite3-shm
 db/development.sqlite3-wal
 envrc.copia-su-sm
+blobs.txt
