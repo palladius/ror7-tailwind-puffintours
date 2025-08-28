@@ -1,0 +1,7 @@
+one:
+  email: user1@example.com
+  password: password
+
+two:
+  email: user2@example.com
+  password: password
