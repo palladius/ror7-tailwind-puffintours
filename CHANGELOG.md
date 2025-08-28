@@ -362,4 +362,4 @@
 
 ### Added
 
-- Initial stesure :)
+- Added a new `/family` page, with a controller, view and route.

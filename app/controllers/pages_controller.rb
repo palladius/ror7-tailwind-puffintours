@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
   include GcpHelper
 
+  def family
+  end
 
   def show
     render template: "pages/#{params[:page]}"
