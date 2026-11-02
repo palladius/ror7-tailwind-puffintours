@@ -17,8 +17,15 @@ development:
   timeout: 5000
 
 test:
+  <% if ENV["TEST_DATABASE_URL"].present? %>
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_test") %>
+  url: <%= ENV["TEST_DATABASE_URL"] %>
+  <% else %>
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  <% end %>
 
 production:
   <<: *default

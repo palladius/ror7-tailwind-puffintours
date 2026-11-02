@@ -47,7 +47,7 @@
       It looks like it can transform Vimeo and Youtube naked urls super easy, but not attached video from disk :/
 
       <h3>Mentioned users:</h3>
-      <%= @pipeline_body_result[:mentioned_usernames] %>
+      <%= @pipeline_body_result&.dig(:mentioned_usernames) %>
 
       <% @blobs = ActiveStorage::Attachment.where(record_id: @article.id) #, record_type: "Article"  %>
       <h3>Mentioned Blobbez: <%= @blobs.count %></h3>
@@ -72,4 +72,4 @@
     <% end %>
       <h3>Pipeline:</h3>
 
-    <%= @pipeline_body_result[:output].to_s.html_safe %>
+    <%= @pipeline_body_result&.dig(:output).to_s.html_safe %>

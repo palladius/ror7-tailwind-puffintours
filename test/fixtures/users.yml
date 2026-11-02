@@ -1,7 +1,11 @@
 one:
+  name: Riccardo
   email: user1@example.com
-  password: password
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  is_admin: true
 
 two:
+  name: Kate
   email: user2@example.com
-  password: password
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  is_admin: false

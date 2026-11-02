@@ -21,8 +21,11 @@ if ! ls public/assets/.sprockets-manifest-*.json >/dev/null 2>&1; then
   RAILS_ENV=production bundle exec rails assets:precompile
 fi
 
-# Run pending database migrations
-RAILS_ENV=production bundle exec rake db:migrate
+# Only run blocking db:migrate before server start if explicitly requested via RUN_DB_MIGRATE=true.
+# By default, Puma binds to $PORT immediately and checks pending migrations in config/puma.rb on_booted.
+if [ "${RUN_DB_MIGRATE:-false}" = "true" ]; then
+  RAILS_ENV=production bundle exec rake db:migrate
+fi
 
 if [ "${RUN_DB_SEED:-false}" = "true" ]; then
   RAILS_ENV=production bundle exec rake db:seed

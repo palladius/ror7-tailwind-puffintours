@@ -121,7 +121,6 @@ module ArticlesHelper
         image_tag(
           img_src,
           alt: article.title,
-          loading: "lazy",
           class: "card-media-img object-cover",
           onerror: "this.onerror=null;this.src='#{fallback_asset}';"
         )

@@ -29,9 +29,17 @@ Rails.application.config.hosts << ENV['APP_CLOUDRUN_URL'] if ENV.fetch('APP_CLOU
 #E, [2023-10-22T10:06:40.314767 #30] ERROR -- : [ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: puffintours-prod-rjjr63dzrq-ew.a.run.app
 Rails.application.config.hosts << "localhost"
 Rails.application.config.hosts << "127.0.0.1"
+Rails.application.config.hosts << ".example.com"
+Rails.application.config.hosts << IPAddr.new("10.0.0.0/8")
+Rails.application.config.hosts << IPAddr.new("172.16.0.0/12")
+Rails.application.config.hosts << IPAddr.new("192.168.0.0/16")
 
 # https://github.com/mbleigh/acts-as-taggable-on?search=1
 ActsAsTaggableOn.force_lowercase = true
+
+# Prevent Pagy::OverflowError (500) when requesting out-of-range ?page=N
+require "pagy/extras/overflow"
+Pagy::DEFAULT[:overflow] = :last_page
 
 # per fare andare i video su Trix: https://stackoverflow.com/questions/56316549/how-to-display-embed-video-with-actiontext
 Rails.application.config.to_prepare do

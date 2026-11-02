@@ -17,6 +17,29 @@ worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 #
 port ENV.fetch("PORT") { 3000 }
 
+# Keep-alive timeout > Render's 60s load balancer timeout to prevent 502 Bad Gateway
+persistent_timeout 65
+first_data_timeout 30
+
+# Run any pending migrations after Puma has bound to $PORT so Render's port scanner
+# sees the open port immediately without booting a second Ruby process.
+after_booted do
+  if ENV["RAILS_ENV"] == "production" && ENV.fetch("AUTO_MIGRATE_ON_BOOT", "true") == "true"
+    Thread.new do
+      begin
+        ActiveRecord::Base.connection_pool.with_connection do
+          if ActiveRecord::Base.connection.migration_context.needs_migration?
+            Rails.logger.info("🐧 Running pending database migrations after Puma boot...")
+            ActiveRecord::Tasks::DatabaseTasks.migrate
+          end
+        end
+      rescue StandardError => e
+        Rails.logger.warn("🐧 Post-boot migration check skipped: #{e.class} - #{e.message}")
+      end
+    end
+  end
+end
+
 # Specifies the `environment` that Puma will run in.
 #
 environment ENV.fetch("RAILS_ENV") { "development" }

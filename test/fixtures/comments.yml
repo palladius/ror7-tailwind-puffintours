@@ -15,17 +15,17 @@
 #
 
 one:
-  body: MyText
-  article_id: 1
-  parent_id: 1
-  vote: 1
+  body: Great trip organization!
+  article: one
+  user: one
+  vote: 5
   internal_notes: MyText
-  active: false
+  active: true
 
 two:
-  body: MyText
-  article_id: 1
-  parent_id: 1
-  vote: 1
+  body: Loved the tapas place.
+  article: one
+  user: two
+  vote: 4
   internal_notes: MyText
-  active: false
+  active: true

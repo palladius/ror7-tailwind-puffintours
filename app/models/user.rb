@@ -32,7 +32,7 @@ class User < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
 #    ["created_at", "email", "encrypted_password", "id", "id_value", "is_admin", "name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "updated_at"]
 #    # Lets remove password related fields and dates or timestamps which dont make sense
-    [ "email",  "name" ]
+    [ "email", "name", "created_at", "is_admin" ]
   end
 
   def self.ransackable_associations(auth_object = nil)

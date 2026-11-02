@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v0.7.2 - 2026-11-02
+
+### Added
+- Added comprehensive TDD test suite (`23 runs, 79 assertions`) in [`test/integration/routes_and_502_prevention_test.rb`](test/integration/routes_and_502_prevention_test.rb), [`test/controllers/comments_controller_test.rb`](test/controllers/comments_controller_test.rb), and [`test/models/comment_test.rb`](test/models/comment_test.rb).
+- Added automated Playwright E2E verification script [`test/playwright/e2e_verify.py`](test/playwright/e2e_verify.py) verifying all public and authenticated routes, Glassmorphic/A2UI toggle, 5-star hover rating widget, sorting, and zero `500`/`502` responses.
+- Added lightweight `GET /up` Rails health-check endpoint in [`config/routes.rb`](config/routes.rb) and `healthCheckPath: /up` in [`render.yaml`](render.yaml).
+
+### Fixed
+- Eliminated startup port-binding delay on Render.com (`No open ports detected, continuing to scan...` -> `502 Bad Gateway` on cold starts) by moving pending migration checks into Puma's `after_booted` hook in [`config/puma.rb`](config/puma.rb) instead of booting a separate `rake db:migrate` Ruby process before Puma in [`entrypoint-8080.sh`](entrypoint-8080.sh).
+- Set `persistent_timeout 65` and `first_data_timeout 30` in [`config/puma.rb`](config/puma.rb) (matching Render's load balancer keep-alive requirements) and allowed internal healthcheck RFC1918 subnets in [`config/initializers/riccardo.rb`](config/initializers/riccardo.rb).
+- Fixed `Pagy::OverflowError` (`500 Internal Server Error`) on out-of-range pagination (`?page=N`) via `pagy/extras/overflow` (`:last_page`).
+- Fixed `User.ransackable_attributes` in [`app/models/user.rb`](app/models/user.rb) to permit sorting by `created_at` and `is_admin` on `/users`.
+- Fixed nested `[@article, @comment]` routes and redirects in [`app/controllers/comments_controller.rb`](app/controllers/comments_controller.rb) and [`app/views/comments/`](app/views/comments/).
+- Fixed nil-safety in [`app/views/articles/_admin_show.html.erb`](app/views/articles/_admin_show.html.erb) when `@pipeline_body_result` is nil.
+
 ## v0.7.1 - 2026-11-02
 
 ### Fixed

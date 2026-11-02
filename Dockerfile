@@ -31,5 +31,5 @@ COPY . .
 # 4. Precompile assets at build time using Rails 8 SECRET_KEY_BASE_DUMMY=1 (no secrets or DB required!)
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
-EXPOSE 8080
+EXPOSE 10000 8080
 CMD ["/riccardo-rails-app/entrypoint-8080.sh"]

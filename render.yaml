@@ -7,6 +7,7 @@ services:
     plan: free
     region: frankfurt
     autoDeploy: true
+    healthCheckPath: /up
     envVars:
       - key: RAILS_ENV
         value: production

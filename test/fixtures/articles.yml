@@ -1,7 +1,16 @@
 one:
-  title: MyString
-  body: MyText
+  title: Barcelona Family Trip
+  body: Wonderful sunny weekend in Barcelona with the family.
+  article_type: trip
+  published: true
+  content_date: 2026-06-15
+  article_synopsis: "🇪🇸 A sunny family trip to Barcelona with great food and architecture."
+  user: one
 
 two:
-  title: MyString
-  body: MyText
+  title: Private Zurich Notes
+  body: Secret family notes from Zurich.
+  article_type: family
+  published: false
+  content_date: 2026-07-01
+  user: two

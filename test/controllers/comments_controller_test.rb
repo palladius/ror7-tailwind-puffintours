@@ -2,10 +2,10 @@ require "test_helper"
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
     @article = articles(:one)
     @comment = comments(:one)
-    @comment.article = @article
-    @comment.save
+    sign_in @user
   end
 
   test "should get index" do
@@ -18,12 +18,25 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create comment" do
-    assert_difference("Comment.count") do
-      post article_comments_url(@article), params: { comment: { active: @comment.active, body: @comment.body, internal_notes: @comment.internal_notes, parent_id: @comment.parent_id, vote: @comment.vote } }
+  test "should create comment with text and vote" do
+    assert_difference("Comment.count", 1) do
+      post article_comments_url(@article), params: {
+        comment: { body: "Great family trip!", vote: 5 }
+      }
     end
 
-    assert_redirected_to article_comment_url(@article, Comment.last)
+    assert_redirected_to article_url(@article)
+  end
+
+  test "should create star rating comment without body text" do
+    assert_difference("Comment.count", 1) do
+      post article_comments_url(@article), params: {
+        comment: { body: "", vote: 4 }
+      }
+    end
+
+    assert_redirected_to article_url(@article)
+    assert_equal 4, Comment.last.vote
   end
 
   test "should show comment" do
@@ -37,15 +50,17 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update comment" do
-    patch article_comment_url(@article, @comment), params: { comment: { active: @comment.active, body: @comment.body, internal_notes: @comment.internal_notes, parent_id: @comment.parent_id, vote: @comment.vote } }
+    patch article_comment_url(@article, @comment), params: {
+      comment: { body: "Updated comment body", vote: 5 }
+    }
     assert_redirected_to article_comment_url(@article, @comment)
   end
 
-  test "should destroy comment" do
+  test "should destroy comment and redirect to article" do
     assert_difference("Comment.count", -1) do
       delete article_comment_url(@article, @comment)
     end
 
-    assert_redirected_to article_comments_url(@article)
+    assert_redirected_to article_url(@article)
   end
 end
