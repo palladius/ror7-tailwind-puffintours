@@ -1,36 +1,31 @@
 #!/bin/bash
+set -e
 
-set -x
+if [ -f .envrc ]; then
+  source .envrc
+fi
 
-#source .env.sh
-source .envrc
-
-# serve in prod per non imputtanire gli assets!
 export RAILS_ENV=${RAILS_ENV:-production}
 export RAILS_SERVE_STATIC_FILES=true
 export RAILS_LOG_TO_STDOUT=yesplease
+export PORT=${PORT:-8080}
 
-echo '------------------------------------------------------'
-echo "Welcome to $0 v$VER"
-echo "RAILS_ENV: $RAILS_ENV"
-echo "DB HOST:   $DATABASE_HOST"
-echo "RAILS_MASTER_KEY:  ${RAILS_MASTER_KEY:1:4}.. (removeme when it works)"
-echo '------------------------------------------------------'
+echo "------------------------------------------------------"
+echo "🐧 Starting Puffin Tours (RAILS_ENV=$RAILS_ENV, PORT=$PORT)"
+echo "DB HOST: ${DATABASE_HOST:-via DATABASE_URL}"
+echo "------------------------------------------------------"
 
-#export RAILS_MASTER_KEY=0b6df96739181851e3b696c3f88714bf
+# Only precompile at startup if assets were not already baked into the image
+if ! ls public/assets/.sprockets-manifest-*.json >/dev/null 2>&1; then
+  echo "Precompiling assets..."
+  RAILS_ENV=production bundle exec rails assets:precompile
+fi
 
-#echo DISK_FILOSOFIA="dev:$RAILS_STORAGE_BACKEND_DEV/prod:$RAILS_STORAGE_BACKEND_PROD"
-# Thois is needed in PROD
-# Articolo figo: https://stackoverflow.com/questions/49440304/rails-asset-is-not-present-in-asset-pipeline-when-using-image-tag
-#rails assets:precompile
-RAILS_ENV=production rails assets:precompile
-#RAILS_ENV=production bundle exec rails assets:precompile
+# Run pending database migrations
+RAILS_ENV=production bundle exec rake db:migrate
 
+if [ "${RUN_DB_SEED:-false}" = "true" ]; then
+  RAILS_ENV=production bundle exec rake db:seed
+fi
 
-RAILS_ENV=production rake db:migrate
-RAILS_ENV=production rake db:seed
-
-# Maybe it fixes the prod error.. maybe not
-yarn install --check-files
-
-RAILS_ENV=production bundle exec rails s -p 8080 -b 0.0.0.0
+exec bundle exec rails s -p "$PORT" -b 0.0.0.0

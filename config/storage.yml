@@ -2,20 +2,20 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
-
-# In Cloud run l'autenticazione e' gratuita.
-# In locale serve `private/puffin-tours-secret-key.json`
-
+# In Cloud Run l'autenticazione avviene via ADC/IAM (iam: true + gsa_email) o con il file JSON se presente.
+# In locale se vuoi testare GCS serve `private/puffin-tours-secret-key.json` e ACTIVE_STORAGE_SERVICE=gcs.
 gcs: &gcs
   service: GCS
-  project: puffin-tours
+  project: <%= ENV.fetch("PROJECT_ID", "puffin-tours") %>
+  bucket: <%= ENV.fetch("BUCKET", "puffin-tours-public") %>
+<% if File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) %>
   credentials: <%= Rails.root.join("private/puffin-tours-secret-key.json") %>
-  bucket: puffin-tours-public
-  credentials: <%= File.exist?('private/puffin-tours-secret-key.json') ? 'private/puffin-tours-secret-key.json' : nil %>
-  project: "puffin-tours"
+<% else %>
+  iam: true
+  gsa_email: <%= ENV.fetch("SA_EMAIL", "puffintours-app-storager@puffin-tours.iam.gserviceaccount.com") %>
+<% end %>
   public: true
 
-# If you want a different config for development/production:
 development:
   <<: *gcs
 
@@ -23,6 +23,5 @@ production:
   <<: *gcs
 
 local:
-  <<: *gcs
-  #service: Disk
-  #root: <%= Rails.root.join("storage") %>
+  service: Disk
+  root: <%= Rails.root.join("storage") %>

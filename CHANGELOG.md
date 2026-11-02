@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.7.0 - 2026-11-02
+
+### Added
+- Upgraded application to **Rails 8.1.4** on Ruby `3.4.5` (`config.load_defaults 8.0`).
+- Added interactive **Google A2UI (`<a2ui>`)** declarative surface view mode on `/articles`.
+- Added [`render.yaml`](render.yaml) Blueprint and `DATABASE_URL` support in [`config/database.yml`](config/database.yml) for 1-click free hosting on **Render.com** (and Supabase/Neon).
+- Added minimalist interactive 5-star hover rating widget (`1..5 ⭐`) + optional compact comment bar on article pages.
+- Added quick `🗑️ Destroy` actions on both `/articles/:id` and `/articles` cards.
+
+### Changed
+- Complete **Frosted Glassmorphic & Rounded (`rounded-3xl`)** UI overhaul across navbar, footer, hero header, search bar, tag pills, and article cards.
+- Optimized [`Dockerfile`](Dockerfile) and [`entrypoint-8080.sh`](entrypoint-8080.sh) to precompile assets at image build time (`SECRET_KEY_BASE_DUMMY=1`) and cache `yarn`/`bundle` layers separately.
+- Updated Gemini AI model from defunct `gemini-pro-vision` to `gemini-2.5-flash`.
+
+### Fixed
+- Fixed ActionText video embeds (`<video controls>`) in [`app/views/active_storage/blobs/_blob.html.erb`](app/views/active_storage/blobs/_blob.html.erb) and added `@rails/activestorage` direct upload initialization.
+- Fixed GCS offline/billing fallback on article covers and N+1 queries in `ArticlesController#index`.
+
 ## v0.6.4 - 2025-08-28
 
 ### Fixed

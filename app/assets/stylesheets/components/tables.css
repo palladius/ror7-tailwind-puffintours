@@ -1,23 +1,27 @@
 table {
-  @apply w-full text-sm text-left;
+  @apply w-full text-sm text-left border-collapse;
 }
 
 table thead {
-  @apply text-xs uppercase bg-slate-200;
+  @apply text-xs font-semibold tracking-wider text-slate-600 uppercase bg-slate-100 border-b border-slate-200;
 }
 
 table tbody {
-  @apply bg-white;
+  @apply bg-white divide-y divide-slate-200;
+}
+
+table tbody tr:hover {
+  @apply bg-slate-50/80 transition-colors;
 }
 
 table th, table td {
-  @apply py-4 px-6;
+  @apply py-3.5 px-5;
 }
 
 table img {
-  min-width: 30px;
+  min-width: 36px;
 }
 
 .table-responsive {
-  @apply overflow-x-auto relative;
+  @apply overflow-x-auto relative rounded-xl border border-slate-200 shadow-sm bg-white;
 }

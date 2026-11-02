@@ -22,26 +22,16 @@ module Services
       url = "https://reqres.in/api/products/#{rand_1_12}"
       spotify_url = 'https://api.spotify.com/v1/search?type=artist&q=tycho'
       uri = URI(url)
-      response = Net::HTTP.get(uri)
+      response = Net::HTTP.get_response(uri)
       if response.code.to_i == 200
         puts "All good - continuing"
       else
-        #raise StandardError, "API request failed with code: #{response.code}"
-        puts $stderr."API request failed with code: #{response.code}"
+        $stderr.puts "API request failed with code: #{response.code}"
         return "API request to #{url} failed with code: #{response.code}"
       end
-      response = JSON.parse(response)
-#       {"data"=>
-#   {"id"=>3,
-#    "name"=>"true red",
-#    "year"=>2002,
-#    "color"=>"#BF1932",
-#    "pantone_value"=>"19-1664"},
-#  "support"=>
-#   {"url"=>"https://reqres.in/#support-heading",
-#    "text"=>"To keep ReqRes free, contributions towards server costs are appreciated!"}}
-      textual_value =  response['data']['name'] rescue "[Some error: #{$!}]" # response.inspect
-      return "This is a real remote API response from #{url}, returning: "" (#{textual_value})"
+      parsed = JSON.parse(response.body)
+      textual_value = parsed.dig('data', 'name') rescue "[Some error: #{$!}]"
+      return "This is a real remote API response from #{url}, returning: (#{textual_value})"
     end
 
   end

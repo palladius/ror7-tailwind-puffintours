@@ -2,14 +2,15 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # guest user (not logged in)
+    can :read, Article
 
-    # Admin can manage all
+    return unless user&.persisted?
+
     if user.admin?
       can :manage, :all
     else
-      # Regular users can edit their own articles
-      can :read, Article
+      # Regular logged-in users can create articles and edit/destroy their own
+      can :create, Article
       can [:update, :edit, :destroy], Article, user_id: user.id
     end
   end

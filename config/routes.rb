@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :articles do
     resources :comments
   end
+  get "/tags/:tag" => "articles#index", as: :tag
   resource :user, only: %i[edit update destroy]
   resources :users, only: %i[index show]
 

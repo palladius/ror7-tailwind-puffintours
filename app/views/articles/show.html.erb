@@ -1,85 +1,147 @@
-<%#= javascript_include_tag "fetch-api-data", "data-turbo-track": "reload" %>
-<% @pipeline_body_result = $pipeline.call( @article.body ) rescue "PipelineBody Error: #{$!}" %>
-         <%#= pipeline_body_result[:output].html_safe %>
+<% @pipeline_body_result = $pipeline.call(@article.body.to_s) rescue { output: "PipelineBody Error: #{$!}", mentioned_usernames: [] } %>
 
-<div class="card my-4">
-  <h1 class="card-title"><%= @article.title %></h1>
-
-  <%= render 'show_nifty_synopsis_card', article: @article %>
-
-  <%= render partial: 'articles/five_stars' %>
-
-  <div class="card-subtitle float-right">
-    <h2>🍗 Votes</h2>
-    <!-- im offline idont know how to cut a float to two decimals -->
-    <b>Real Average</b>: <b><%= (@article.average_vote*100).to_i/100.0 rescue :dunno %></b> <br/>
-
-    <span class='border border-success border-right-0' >👍 #likes: <%= @article.get_likes().size %></span>
-    |
-    <span class='border border-danger border-left-0' >👎🏾 #dislikes: <%= @article.get_dislikes().size %></span>
-    <br/>
-
-    <div class="card my-1 card-subtitle float-right" >
-        <div class="card-body border-zinc-700">
-          <h2>💬 Comments</h2>
-            <%= render @article.comments %>
-          <% if current_user %>
-            <%= form_with(model: [@article, @article.comments.build]) do |f| %>
-              <div class="form-group border border-info rounded-pill">
-                <%= f.label '💬 New comment' %>
-                <%= f.text_area :body, class: 'form-control' %>
-
-                <div class='' >
-                  <%= f.label :vote, style: "display: block" %>
-                  <%#= f.number_field :vote %>
-                  <%= f.select :vote, options_for_select( (0..5).step(1), 3) # 3 bdeing the middle gorund ...
-                  %>
-                  <%= f.submit 'Submit', class: 'btn btn-primary border-dashed' %>
-                    </div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-
-  </div>
-
- <!--  <img class="float-right ..." src="path/to/image.jpg">
-  <p class="card-subtitle">tailwind float right: https://tailwindcss.com/docs/float
- -->
-
-
-  <p class="card-subtitle">
-    <%= author_and_date(@article) %>
-  </p>
-
-   <p><%= render_main_image(@article) %></p>
-
-  <div class="card-body">
-    <%= @article.body %>
-  </div>
-
-  <div class="card-actions">
-    <%= link_to "Edit", edit_article_path(@article), class: 'btn' %>
-  </div>
-
-   <div class="card-carlessian-footer border-t-2 dark:border-neutral-600" >
-    <%= render_tags @article %> |
-    <%= render_votes @article %>
-  </div>
-
-  <% if_admin_and_dev do %>
-    <hr/>
-    <div class="debug-info border-t-2 mt-4 pt-2 text-gray-500">
-      <h4>🐛 Debug Info (admin+dev only)</h4>
-      <%= render partial: 'articles/admin_show' %>
-      <% console %>
-      <%= link_to "Delete", article_path(@article),
-          method: :delete,
-          data: { confirm: "Are you sure?" },
-          class: 'btn btn-danger' %>
-      <%= link_to "Back", articles_path, class: 'btn' %>
-    </div>
+<div class="mb-5 flex items-center justify-between">
+  <%= link_to articles_path, class: "btn btn-outline btn-sm no-underline" do %>
+    <span>← Back to Stories</span>
   <% end %>
-
+  <div class="flex items-center gap-2">
+    <% if @article.editable_by?(current_user) %>
+      <%= link_to edit_article_path(@article), class: "btn btn-sm no-underline" do %>
+        <span>✍️ Edit Story</span>
+      <% end %>
+      <%= button_to article_path(@article),
+            method: :delete,
+            form: { data: { turbo_confirm: "Are you sure you want to destroy '#{@article.title}'?" }, class: "inline-block m-0" },
+            class: "btn btn-danger btn-sm" do %>
+        <span>🗑️ Destroy</span>
+      <% end %>
+    <% end %>
+  </div>
 </div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+  <!-- Main Story Column (8 cols) -->
+  <article class="card lg:col-span-8 overflow-hidden">
+    <%= render_card_cover(@article) %>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+      <p class="card-subtitle m-0">
+        <%= author_and_date(@article) %>
+      </p>
+    </div>
+
+    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-1 mb-4"><%= @article.title %></h1>
+
+    <%= render 'show_nifty_synopsis_card', article: @article %>
+
+    <div class="card-body prose max-w-none text-slate-800 leading-relaxed my-6">
+      <%= @article.body %>
+    </div>
+
+    <div class="card-carlessian-footer border-t border-slate-200/70 pt-4 mt-6 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap gap-1.5">
+        <%= render_tags @article %>
+      </div>
+      <div class="text-xs font-semibold text-slate-500">
+        <%= render_votes @article %>
+      </div>
+    </div>
+
+    <% if_admin_and_dev do %>
+      <div class="debug-info border-t border-slate-200/70 mt-6 pt-4 text-xs text-slate-500">
+        <h4 class="font-bold text-slate-700 mb-2">🐛 Debug Info (admin + dev only)</h4>
+        <%= render partial: 'articles/admin_show' %>
+      </div>
+    <% end %>
+  </article>
+
+  <!-- Minimalist Rating & Comment Card (4 cols) -->
+  <aside class="card lg:col-span-4 !p-5 space-y-4">
+    <% avg = (@article.average_vote * 10).round / 10.0 rescue 0.0 %>
+    <div class="flex items-center justify-between pb-3 border-b border-slate-200/60">
+      <div class="flex items-center gap-1.5">
+        <span class="text-amber-500 text-lg leading-none">★</span>
+        <span class="text-base font-extrabold text-slate-900"><%= avg > 0 ? avg : "—" %></span>
+        <span class="text-xs text-slate-400">/ 5</span>
+      </div>
+      <span class="text-xs text-slate-500 font-medium"><%= @article.comments.count %> feedback</span>
+    </div>
+
+    <% if current_user %>
+      <%= form_with(model: [@article, @article.comments.build], class: "space-y-3") do |f| %>
+        <%= f.hidden_field :vote, value: 5, id: "minimal-star-vote-input" %>
+
+        <!-- 5 Stars Hover Bar (1..5) -->
+        <div class="flex items-center justify-between">
+          <div id="minimal-star-picker" class="inline-flex items-center gap-1 select-none" onmouseleave="resetStarsToSelected()">
+            <% (1..5).each do |star_val| %>
+              <button type="button"
+                      data-star="<%= star_val %>"
+                      onmouseenter="previewStars(<%= star_val %>)"
+                      onclick="selectStars(<%= star_val %>)"
+                      class="star-btn p-0.5 text-2xl leading-none transition-transform duration-150 hover:scale-125 focus:outline-none cursor-pointer bg-transparent border-0"
+                      aria-label="Rate <%= star_val %> out of 5">
+                ★
+              </button>
+            <% end %>
+          </div>
+          <span id="minimal-star-label" class="text-xs font-semibold text-amber-700">5 / 5</span>
+        </div>
+
+        <!-- Optional Compact Comment + Submit -->
+        <div class="flex items-center gap-2">
+          <%= f.text_field :body,
+                placeholder: "Commento (opzionale)...",
+                class: "!my-0 flex-1 rounded-full border-slate-200/90 bg-white/80 px-3.5 py-1.5 text-xs text-slate-800 focus:border-amber-500" %>
+          <%= f.submit "Invia", class: "btn btn-sm !py-1.5 !px-3.5 text-xs shrink-0" %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-xs text-slate-500 m-0">
+        <%= link_to "Sign in", new_user_session_path, class: "font-semibold text-amber-700" %> per votare o commentare.
+      </p>
+    <% end %>
+
+    <% if @article.comments.any? %>
+      <div class="pt-2 border-t border-slate-200/60 max-h-72 overflow-y-auto divide-y divide-slate-200/50">
+        <%= render @article.comments %>
+      </div>
+    <% end %>
+  </aside>
+</div>
+
+<script>
+  let selectedStarCount = 5;
+
+  function renderStarColors(activeCount) {
+    const buttons = document.querySelectorAll('#minimal-star-picker .star-btn');
+    buttons.forEach(btn => {
+      const val = parseInt(btn.getAttribute('data-star'), 10);
+      if (val <= activeCount) {
+        btn.style.color = '#f59e0b'; // amber-500
+      } else {
+        btn.style.color = '#cbd5e1'; // slate-300
+      }
+    });
+    const label = document.getElementById('minimal-star-label');
+    if (label) label.textContent = `${activeCount} / 5`;
+  }
+
+  function previewStars(val) {
+    renderStarColors(val);
+  }
+
+  function selectStars(val) {
+    selectedStarCount = val;
+    const input = document.getElementById('minimal-star-vote-input');
+    if (input) input.value = val;
+    renderStarColors(val);
+  }
+
+  function resetStarsToSelected() {
+    renderStarColors(selectedStarCount);
+  }
+
+  document.addEventListener('turbo:load', () => renderStarColors(selectedStarCount));
+  renderStarColors(selectedStarCount);
+</script>

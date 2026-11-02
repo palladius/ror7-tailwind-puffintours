@@ -58,13 +58,13 @@ class Article < ApplicationRecord
     # https://github.com/mbleigh/acts-as-taggable-on
     self.tag_list.add("puffintours")
     #self.tag_list.add("awesome", "slick")
-    self.liked_by(@user)
+    self.liked_by(@user) if @user
   end
 
 
   # for chatring purposes..
   def user_email
-    self.user.email
+    self.user&.email
   end
 
   def editable_by?(user)
@@ -77,26 +77,32 @@ class Article < ApplicationRecord
   # => [nil, nil, 3, 3, 3, nil, 1, 5] => [3, 3, 3, 1, 5, 4]
   def average_vote
     # TODO cache / compute efficiently
-    votes1to5 = comments.map{|c| c.vote if c.vote > 0}.compact_blank
+    votes1to5 = comments.map { |c| c.vote if c.vote.to_i > 0 }.compact_blank
+    return 0.0 if votes1to5.empty?
     votes1to5.sum.to_f / votes1to5.count
   end
 
   def generate_summary
     # lets check if its empty - if not return with a message
     return if self.article_synopsis.present?
-    # TODO
     raise "PUFFIN_TOURS_GEMINI_API_KEY is not set" if PUFFIN_TOURS_GEMINI_API_KEY.blank?
-    llm = Langchain::LLM::GoogleGemini.new  api_key: PUFFIN_TOURS_GEMINI_API_KEY
-    #messages = [{role: "user", content: "Summarize this article:\n\n----\n #{self.body}"}]
-    query = "Summarize this article. Start the summary with an emoji representative of the language (🇬🇧, 🇫🇷, 🇪🇸, ..) and then the summary: #{self.body}"
-    messages = [{ role: "user", parts: [{ text: query }]}]
 
-    #llm.chat(messages: messages)
-    response = llm.chat(messages: messages)
-    chat_completion = response.chat_completion
-    self.article_synopsis = chat_completion # chat_completion.choices[0].message.content
-    self.save
-    {text_summary: chat_completion, save_ok: true}
+    query = "Summarize this article. Start the summary with an emoji representative of the language (🇬🇧, 🇫🇷, 🇪🇸, ..) and then the summary: #{self.body.to_plain_text rescue self.body}"
+    client = GeminiAiVisionClientLogan || GeminiAiVisionClientLocalADC
+    raise "Gemini client not configured" unless client
+
+    result = client.stream_generate_content(
+      { contents: [{ role: 'user', parts: [{ text: query }] }] }
+    )
+    chat_completion = result.map do |chunk|
+      chunk.dig('candidates', 0, 'content', 'parts', 0, 'text')
+    end.compact.join('').strip
+
+    if chat_completion.present?
+      self.article_synopsis = chat_completion
+      update_column(:article_synopsis, chat_completion) if persisted?
+    end
+    { text_summary: chat_completion, save_ok: chat_completion.present? }
   end
 
   def self.generate_summaries_for_all_articles
@@ -145,49 +151,49 @@ class Article < ApplicationRecord
     base64_image = Base64.strict_encode64(image_data)
 
     puts("Image is ok (b64 is #{base64_image.size/1024}KB), sending to Gemini to get a description...")
-    result = GeminiAiVisionClientLocalADC.stream_generate_content(
+    client = GeminiAiVisionClientLogan || GeminiAiVisionClientLocalADC
+    return "Gemini client not available" unless client
+
+    result = client.stream_generate_content(
       { contents: [
         { role: 'user', parts: [
           { text: 'Please describe this image.' },
           { inline_data: {
-#            mime_type: self.main_image.content_type, # 'image/jpeg', # todo mime_type: self.main_image.content_type,
-            mime_type: 'image/jpeg', # todo mime_type: self.main_image.content_type,
+            mime_type: self.main_image.content_type || 'image/jpeg',
             data: base64_image,
           } }
         ] }
       ] }
     )
-    #puts result.class
-    #puts result.inspect
     full_text = result.map do |chunk|
       chunk.dig('candidates', 0, 'content', 'parts', 0, 'text')
-    end.compact.join('')
-    self.main_image_synopsis = full_text
-    self.save
-    #return full_text
-    {image_summary: full_text, save_ok: true}
-
+    end.compact.join('').strip
+    if full_text.present?
+      self.main_image_synopsis = full_text
+      update_column(:main_image_synopsis, full_text) if persisted?
+    end
+    { image_summary: full_text, save_ok: full_text.present? }
   end
 
 
   private
 
-  # def generate_missing_synopses
-  #   self.generate_summary
-  #   self.generate_image_synopsis
-  # end
-
   def generate_missing_synopses
-    #if Rails.env.production? # Only run in production to save API calls
-      if article_synopsis.blank? || main_image_synopsis.blank?
-        # Option 1: Background job (recommended)
-        #GenerateSynopsesJob.perform_later(self.id)
-
-        # Option 2: Foreground (simpler but blocks save)
-        generate_summary if article_synopsis.blank?
-        generate_image_synopsis if main_image_synopsis.blank? and self.main_image.present?
+    return if PUFFIN_TOURS_GEMINI_API_KEY.blank?
+    if article_synopsis.blank?
+      begin
+        generate_summary
+      rescue => e
+        Rails.logger.warn("Gemini summary generation skipped/failed for Article ##{id}: #{e.message}")
       end
-    #end
+    end
+    if main_image_synopsis.blank? && self.main_image.attached?
+      begin
+        generate_image_synopsis
+      rescue => e
+        Rails.logger.warn("Gemini image synopsis generation skipped/failed for Article ##{id}: #{e.message}")
+      end
+    end
   end
 
 end

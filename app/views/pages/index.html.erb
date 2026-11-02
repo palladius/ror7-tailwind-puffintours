@@ -1,17 +1,33 @@
-<div class="text-center my-24">
-  <h1 class="tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-    <span><%= AppName %></span><br>
-    <span class="text-yellow-600">orangey Rails + Ralix + Tailwind </span>
-  </h1>
+<div class="glass-panel rounded-3xl p-8 sm:p-14 my-8 text-center relative overflow-hidden">
+  <div class="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-gradient-to-br from-amber-400/30 to-orange-500/20 blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-gradient-to-tr from-sky-400/30 to-indigo-500/20 blur-3xl pointer-events-none"></div>
 
-  <p class="mt-5 mb-10 text-gray-500 sm:text-lg md:text-xl">
-    <%= AppEmoji %><%= AppName %>,
-    inspired by Starter Kit to build Rails applications fast, with Ralix, Tailwind and more!<br/>
-    <%= image_tag "logo/puffinMcMuffin.png", width: '400' %>
-  </p>
+  <div class="relative max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 rounded-full bg-amber-500/15 border border-amber-500/30 px-4 py-1 text-xs font-bold uppercase tracking-wider text-amber-900 mb-5">
+      <span>🐧 <%= AppName %> · Rails <%= Rails.version %> + Gemini 2.5 Flash</span>
+    </div>
 
-  <a href="https://github.com/palladius/ror7-tailwind-puffintours" class="btn">Code (🐙)</a>
-  <a href="<%= articles_path %>" class="btn btn-outline ml-4">🧳 Articles</a>
-  <a href="/pages/graphs" class="btn btn-outline ml-4">📊 Graphs2</a>
+    <h1 class="tracking-tight text-slate-900 sm:text-5xl md:text-6xl font-extrabold my-2">
+      <span><%= AppName %></span><br>
+      <span class="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent">
+        Family Trips, AI Stories &amp; Memories
+      </span>
+    </h1>
 
+    <p class="mt-4 mb-8 text-slate-600 sm:text-lg max-w-2xl mx-auto">
+      <%= AppEmoji %> Welcome to the Carlesso family travel blog — built with Rails 8, Ralix, Tailwind CSS, ActiveStorage &amp; Google Gemini AI.
+    </p>
+
+    <div class="my-8 flex justify-center">
+      <div class="rounded-3xl p-3 bg-white/75 backdrop-blur-md border border-white/90 shadow-xl inline-block">
+        <%= image_tag "logo/puffinMcMuffin.png", width: '320', class: "rounded-2xl", alt: "Puffin McMuffin" %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
+      <a href="<%= articles_path %>" class="btn no-underline">🧳 Explore Stories (<%= Article.count %>)</a>
+      <a href="/pages/graphs" class="btn btn-outline no-underline">📊 Analytics &amp; Graphs</a>
+      <a href="https://github.com/palladius/ror7-tailwind-puffintours" target="_blank" rel="noopener" class="btn btn-outline no-underline">🐙 Source Code</a>
+    </div>
+  </div>
 </div>

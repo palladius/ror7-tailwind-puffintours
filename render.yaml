@@ -1,0 +1,38 @@
+# Render.com Blueprint for Puffin Tours (Rails 8 + Docker)
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: puffin-tours
+    runtime: docker
+    plan: free
+    region: frankfurt
+    autoDeploy: true
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
+      - key: ACTIVE_STORAGE_SERVICE
+        value: local
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: PUFFIN_TOURS_GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      # Provide either DATABASE_URL (e.g. Supabase / Neon / Render Postgres)
+      # OR the 4 DATABASE_* variables below (e.g. existing Cloud SQL pg-prod)
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_HOST
+        sync: false
+      - key: DATABASE_NAME
+        sync: false
+      - key: DATABASE_USER
+        sync: false
+      - key: DATABASE_PASS
+        sync: false

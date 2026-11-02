@@ -3,9 +3,6 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-# development:
-#   <<: *default
-#   database: <%= ENV.fetch("DATABASE_NAME", "puffintours_development")  %>
 development:
   adapter: sqlite3
   database: db/development.sqlite3
@@ -14,11 +11,15 @@ development:
 
 test:
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_test")  %>
+  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_test") %>
 
 production:
   <<: *default
-  host:     <%= ENV.fetch("DATABASE_HOST", "1.2.3.4")  %>
-  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_production")  %>
-  username: <%= ENV.fetch("DATABASE_USER", "puffintours_produser")  %>
-  password: <%= ENV.fetch("DATABASE_PASS", "YouReallyWishItWasThatEasyUh?")  %>
+  <% if ENV["DATABASE_URL"].present? %>
+  url: <%= ENV["DATABASE_URL"] %>
+  <% else %>
+  host:     <%= ENV.fetch("DATABASE_HOST", "1.2.3.4") %>
+  database: <%= ENV.fetch("DATABASE_NAME", "puffintours_production") %>
+  username: <%= ENV.fetch("DATABASE_USER", "puffintours_produser") %>
+  password: <%= ENV.fetch("DATABASE_PASS", "YouReallyWishItWasThatEasyUh?") %>
+  <% end %>

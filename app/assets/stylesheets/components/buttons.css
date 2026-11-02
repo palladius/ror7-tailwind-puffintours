@@ -1,39 +1,56 @@
 .btn {
-  @apply bg-yellow-500 text-white border-2 border-yellow-500 py-3 px-6 rounded cursor-pointer outline-none;
+  @apply inline-flex items-center justify-center gap-2 font-semibold py-2.5 px-5 rounded-full transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 text-white border border-amber-500/80;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  box-shadow: 0 6px 18px -3px rgba(234, 88, 12, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn:hover {
+  @apply text-white;
+  background: linear-gradient(135deg, #d97706 0%, #c2410c 100%);
+  box-shadow: 0 10px 22px -3px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-sm {
+  @apply py-1.5 px-3.5 text-xs font-semibold rounded-full;
 }
 
 .btn-outline {
-  @apply bg-transparent text-yellow-500;
+  @apply text-slate-800 hover:text-amber-800 border border-slate-300/90 hover:border-amber-400;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .btn-outline:hover {
-  @apply bg-yellow-500 text-white;
+  background: rgba(254, 243, 199, 0.65);
+  box-shadow: 0 6px 14px rgba(245, 158, 11, 0.15);
 }
 
 .btn-danger {
-  @apply bg-transparent border-red-600 text-red-600;
-}
-
-.btn-danger:hover {
-  @apply bg-red-600 text-white;
+  @apply bg-white hover:bg-red-600 border border-red-500 text-red-600 hover:text-white;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: none;
 }
 
 .btn-facebook {
-  background-color: #1877F2;
+  background: #1877F2;
   border-color: #1877F2;
 }
 
 .btn-github {
-  background-color: #333;
-  border-color: #333;
+  background: #24292F;
+  border-color: #24292F;
 }
 
 .btn-google {
-  background-color: #EA4335;
+  background: #EA4335;
   border-color: #EA4335;
 }
 
 .btn svg {
   display: inline;
   vertical-align: text-top;
+  width: 1.15rem;
+  height: 1.15rem;
 }

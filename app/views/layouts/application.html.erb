@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,8 +15,8 @@
   <body class="<%= body_class %>">
     <%= render "application/header" %>
     <%= render "application/flash_messages" %>
-    <main>
-      <div class="mx-auto p-6 md:px-12">
+    <main class="flex-1">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <%= yield %>
       </div>
     </main>

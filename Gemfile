@@ -13,11 +13,11 @@ source "https://rubygems.org"
 ###################################
 
 # Database
-gem 'sqlite3', '~> 1.7', '>= 1.7.1'
+gem 'sqlite3', '>= 2.1'
 gem 'csv'
 
 # Models & Features
-gem 'acts-as-taggable-on', '~> 10.0'
+gem 'acts-as-taggable-on', '>= 11.0'
 gem 'acts_as_votable', '~> 0.14.0'
 gem 'lolcat'
 
@@ -48,9 +48,9 @@ gem 'rack-cors'
 ###################################
 
 #gem "rails", "~> 7.0"
-gem 'rails', '~> 7.1', '>= 7.1.3'
+gem 'rails', '~> 8.0'
 gem 'pg', '~> 1.5', '>= 1.5.4'
-gem 'puma', '~> 6.4', '>= 6.4.2'
+gem 'puma', '>= 6.4'
 gem "bootsnap", "~> 1.13", require: false
 gem 'devise', '~> 4.9', '>= 4.9.3'
 gem "omniauth-facebook", "~> 9.0"
@@ -81,10 +81,10 @@ group :development do
   gem "guard-livereload", "~> 2.5", require: false
   gem "listen"
   gem "guard"
-  gem "guard-zeus"
-  gem "rack-livereload"
+  # gem "guard-zeus" # Incompatible with modern Ruby 3.4 / Rails 8
+  # gem "rack-livereload" # Locked to rack < 3.2, conflicts with Rails 8
   gem "rails_live_reload"
-  gem 'annotate'
+  # gem 'annotate' # Locked to activerecord < 8.0
   # Riccardo DEV  END
 end
 
@@ -97,7 +97,7 @@ gem 'html-pipeline-vimeo'
 
 # less useful but nice:
 gem 'html-pipeline-wiki-link' # HTML::Pipeline::MarkdownFilter,
-gem 'commonmarker', '0.23.9'
+gem 'commonmarker', '~> 0.23'
 gem 'rouge'
 gem 'sanitize'
 gem 'rinku'

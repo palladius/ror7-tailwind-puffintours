@@ -1,7 +1,24 @@
+.pagy-nav.pagination {
+  @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-full;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+}
+
 .pagination .page {
-  @apply text-xl p-2;
+  @apply text-sm font-semibold px-3.5 py-1.5 rounded-full text-slate-700 hover:bg-amber-100/70 transition-all;
+}
+
+.pagination .page a {
+  @apply text-slate-700 hover:text-amber-800 no-underline;
 }
 
 .pagination .page.active {
-  @apply bg-indigo-600 text-white rounded;
+  @apply text-white font-bold rounded-full shadow-sm;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+}
+
+.pagination .page.disabled {
+  @apply text-slate-300 cursor-not-allowed hover:bg-transparent;
 }

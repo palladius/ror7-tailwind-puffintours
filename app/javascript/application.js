@@ -1,11 +1,12 @@
-//= require activestorage
-
 // Dependencies
 import { RalixApp } from 'ralix'
 import "@hotwired/turbo-rails"
+import * as ActiveStorage from "@rails/activestorage"
 // ActionText: https://guides.rubyonrails.org/action_text_overview.html
 import "trix"
 import "@rails/actiontext"
+
+ActiveStorage.start()
 
 // copied from https://stackoverflow.com/questions/61867995/how-to-embed-an-iframe-with-actiontext-trix-on-ruby-on-rails
 //import Trix from "trix"

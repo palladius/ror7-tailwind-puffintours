@@ -48,8 +48,9 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
+    article = @comment.article
     @comment.destroy
-    redirect_to comments_url, notice: "Comment was successfully destroyed.", status: :see_other
+    redirect_to (article || comments_url), notice: "Comment was successfully destroyed.", status: :see_other
   end
 
   private

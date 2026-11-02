@@ -8,7 +8,9 @@ class ArticlesController < ApplicationController
 
   def index
     @q = Article.ransack(params[:q])
-    @pagy, @articles = pagy(@q.result.order(created_at: :desc), items: 6)
+    scope = @q.result.includes(:user, :tags, :comments, :votes_for, :rich_text_body, main_image_attachment: :blob).order(created_at: :desc)
+    scope = scope.tagged_with(params[:tag]) if params[:tag].present?
+    @pagy, @articles = pagy(scope, items: 6)
   end
 
   def show
@@ -42,7 +44,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
 
-    redirect_to articles_url, notice: "Article was successfully destroyed."
+    redirect_to articles_path, notice: "Article was successfully destroyed."
   end
 
   private

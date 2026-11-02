@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+export PATH="$HOME/.rbenv/shims:$HOME/.nvm/versions/node/v20.20.2/lib/node_modules/corepack/shims:$HOME/.nvm/versions/node/v20.20.2/bin:$PATH"
+
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman

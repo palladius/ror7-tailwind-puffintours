@@ -17,6 +17,15 @@
 class Comment < ApplicationRecord
   belongs_to :article
   belongs_to :user
-  validates :body, presence: true
 
+  validates :vote, inclusion: { in: 0..5 }, allow_nil: true
+  validate :body_or_vote_present
+
+  private
+
+  def body_or_vote_present
+    if body.to_s.strip.blank? && vote.to_i <= 0
+      errors.add(:base, "Seleziona da 1 a 5 stelle o scrivi un commento.")
+    end
+  end
 end

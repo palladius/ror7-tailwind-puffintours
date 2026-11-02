@@ -1,8 +1,11 @@
-<% if article.article_synopsis.present? %>
-  <div class="synopsis-card">
-    <p class="synopsis-text">
-      <span class="synopsis-icon"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
-      "<%=  content_tag(:i ,article.article_synopsis) %>"
+<% syn = clean_gemini_synopsis(article) %>
+<% if syn.present? %>
+  <div class="my-5 rounded-3xl bg-gradient-to-br from-amber-50/95 via-white/90 to-sky-50/90 border border-amber-300/70 p-5 shadow-sm">
+    <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-amber-800 mb-2">
+      <span>♊️ Gemini AI Synopsis</span>
+    </div>
+    <p class="m-0 text-sm sm:text-base text-slate-700 italic leading-relaxed">
+      “<%= syn %>”
     </p>
   </div>
 <% end %>

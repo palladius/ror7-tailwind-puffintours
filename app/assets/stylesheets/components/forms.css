@@ -1,11 +1,17 @@
-input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]), textarea {
-  @apply w-full max-w-lg mt-2 mb-4 block rounded focus:border-indigo-600 focus:ring focus:ring-indigo-300 focus:ring-opacity-50;
+label {
+  @apply block text-sm font-semibold text-slate-700 mb-1.5;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="file"]), textarea, select {
+  @apply w-full max-w-xl mt-1 mb-4 block rounded-2xl border-slate-200/90 shadow-sm text-slate-800 focus:border-amber-500 focus:ring focus:ring-amber-200 focus:ring-opacity-50 transition-all;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
 }
 
 input[type="file"] {
-  @apply text-slate-400 bg-white border border-gray-500 cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-gray-500 file:text-white hover:file:bg-gray-600;
+  @apply text-sm text-slate-600 bg-white/80 border border-slate-200 rounded-2xl cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 mb-4;
 }
 
 .form-actions {
-  @apply flex gap-4 my-4;
+  @apply flex items-center gap-4 my-6;
 }

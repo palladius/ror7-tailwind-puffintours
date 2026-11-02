@@ -1,6 +1,6 @@
 <h1>My account</h1>
 
-<%= form_with(model: current_user) do |form| %>
+<%= form_with(model: current_user, url: user_path, method: :patch) do |form| %>
   <%= render "application/error_messages", object: current_user %>
 
   <div class="mb-4">
@@ -51,5 +51,5 @@
 
 <div class="mt-8">
   <p>Be careful! This action is irreversible.</p>
-  <%= button_to "Delete my account", user_path(current_user), method: :delete, class: "btn btn-danger" %>
+  <%= button_to "Delete my account", user_path, method: :delete, class: "btn btn-danger" %>
 </div>

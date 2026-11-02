@@ -37,8 +37,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :gcs
+  # Store uploaded files on GCS when credentials/Cloud Run are available, otherwise local disk (e.g. Render free tier).
+  default_storage_service = (File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) || ENV["K_SERVICE"].present?) ? "gcs" : "local"
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", default_storage_service).to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -95,7 +96,7 @@ Rails.application.configure do
   #config.hosts << "puffintours-prod-rjjr63dzrq-ew.a.run.app"
 
   # Add this to allow direct URLs - from ricc-cursor
-  Rails.application.routes.default_url_options[:host] = 'puffintours-prod-rjjr63dzrq-ew.a.run.app'
+  Rails.application.routes.default_url_options[:host] = ENV.fetch('DEFAULT_URL_HOST', ENV.fetch('RENDER_EXTERNAL_HOSTNAME', 'puffintours-prod-rjjr63dzrq-ew.a.run.app'))
 
   # Configure ActiveStorage to use GCS URLs
   config.active_storage.service_urls_expire_in = 1.hour

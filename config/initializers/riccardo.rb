@@ -4,8 +4,7 @@
 AppName = 'Puffin Tours'
 AppEmoji = '🐧🧳'
 AppVersion = File.read('VERSION').chomp
-GcsBucket = ENV.fetch('BUCKET',nil)
-raise("I need ENV[BUCKET] defined (GcsBucket=#{GcsBucket}). Dying.") if GcsBucket.nil?
+GcsBucket = ENV.fetch('BUCKET', 'puffin-tours-public')
 
 ProdAppUrl = 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/'
 GithubCodeUrl =  'https://github.com/palladius/ror7-tailwind-puffintours/'
@@ -18,6 +17,8 @@ Rails.application.config.hosts << 'puffintours-prod-907790253572.europe-west1.ru
 Rails.application.config.hosts << 'pt.palladius.it'
 Rails.application.config.hosts << 'tours.palladius.it'
 Rails.application.config.hosts << 'puffintours.palladius.it'
+Rails.application.config.hosts << '.onrender.com'
+Rails.application.config.hosts << ENV['RENDER_EXTERNAL_HOSTNAME'] if ENV['RENDER_EXTERNAL_HOSTNAME'].present?
 
 # TODO Add an ENV cosi glielo do da ENV e vaffanbagno!
 # Remove the rescue after it works..
@@ -26,6 +27,7 @@ Rails.application.config.hosts << ENV['APP_CLOUDRUN_URL'] if ENV.fetch('APP_CLOU
 # Se no non va in localhost :)
 #E, [2023-10-22T10:06:40.314767 #30] ERROR -- : [ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: puffintours-prod-rjjr63dzrq-ew.a.run.app
 Rails.application.config.hosts << "localhost"
+Rails.application.config.hosts << "127.0.0.1"
 
 # https://github.com/mbleigh/acts-as-taggable-on?search=1
 ActsAsTaggableOn.force_lowercase = true
@@ -75,38 +77,32 @@ $pipeline = HTML::Pipeline.new [
 ENABLE_CURSOR_EXPERIMENTS = false
 PUFFIN_TOURS_GEMINI_API_KEY = ENV.fetch('PUFFIN_TOURS_GEMINI_API_KEY', nil)
 GOOGLE_APPLICATION_CREDENTIALS = ENV.fetch('GOOGLE_APPLICATION_CREDENTIALS', nil)
+GEMINI_MODEL = ENV.fetch('GEMINI_MODEL', 'gemini-2.5-flash')
 
-
-
-#if GOOGLE_APPLICATION_CREDENTIALS.nil?
-  puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is nil. We are on Cloud Run.")
-  #            raise("not avail!") unless PUFFIN_TOURS_GEMINI_API_KEY
-GeminiAiVisionClientLogan = Gemini.new(
+GeminiAiVisionClientLogan = if PUFFIN_TOURS_GEMINI_API_KEY.present?
+  Gemini.new(
     credentials: {
       service: 'generative-language-api',
       api_key: PUFFIN_TOURS_GEMINI_API_KEY,
-#      project_id: ENV.fetch('GOOGLE_CLOUD_PROJECT', nil),
-      project_id: 'puffin-tours',
       version: 'v1beta',
-      region: 'us-east4',
-
     },
-    options: { model: 'gemini-pro-vision', server_sent_events: true }
-  )
+    options: { model: GEMINI_MODEL, server_sent_events: true }
+  ) rescue nil
+end
 
-# else
-#   puts("🐧 GOOGLE_APPLICATION_CREDENTIALS is not nil. We are on local.")
-#    # local
-GeminiAiVisionClientLocalADC = Gemini.new(
+GeminiAiVisionClientLocalADC = if GOOGLE_APPLICATION_CREDENTIALS.present? && File.exist?(GOOGLE_APPLICATION_CREDENTIALS)
+  Gemini.new(
     credentials: {
       service: 'vertex-ai-api',
-      file_path: GOOGLE_APPLICATION_CREDENTIALS, # 'google-credentials.json',
+      file_path: GOOGLE_APPLICATION_CREDENTIALS,
       region: 'us-east4',
-      project_id: 'puffin-tours',
+      project_id: ENV.fetch('PROJECT_ID', 'puffin-tours'),
     },
-    options: { model: 'gemini-pro-vision', server_sent_events: true }
-  )
-# end
+    options: { model: GEMINI_MODEL, server_sent_events: true }
+  ) rescue GeminiAiVisionClientLogan
+else
+  GeminiAiVisionClientLogan
+end
 
 # An Env to force the clean interface. DFLT=FALSE :)
 DEBUG = ENV.fetch('DEBUG', 'false').downcase == 'true'

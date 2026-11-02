@@ -249,6 +249,13 @@
   dependencies:
     spark-md5 "^3.0.1"
 
+"@rails/activestorage@^8.0.0":
+  version "8.1.400"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.1.400.tgz#355c3b59e238f837ef422d148b361d9a96b28fe6"
+  integrity sha512-ScpkkHXTQ7QByvzLbnrnubpsWRKhlu08kXyRhSV+Hh1s1X43lv5T0PFLhXAvmqrIcq8nQ2up8iyuCmIzacPDDw==
+  dependencies:
+    spark-md5 "^3.0.1"
+
 "@tailwindcss/forms@^0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@tailwindcss/forms/-/forms-0.5.7.tgz#db5421f062a757b5f828bc9286ba626c6685e821"

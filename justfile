@@ -26,8 +26,7 @@ run-dev: # "app/assets/builds/application.js"
 	rails s
 
 dev:
-	rails assets:precompile
-	DEBUG=true bin/dev
+	export PATH="$HOME/.rbenv/shims:$HOME/.nvm/versions/node/v20.20.2/lib/node_modules/corepack/shims:$HOME/.nvm/versions/node/v20.20.2/bin:$PATH" && rails assets:precompile && DEBUG=true bin/dev
 
 # dev:
 # 	rails assets:precompile
