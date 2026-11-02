@@ -1,5 +1,3 @@
-<% @pipeline_body_result = $pipeline.call(@article.body.to_s) rescue { output: "PipelineBody Error: #{$!}", mentioned_usernames: [] } %>
-
 <div class="mb-5 flex items-center justify-between">
   <%= link_to articles_path, class: "btn btn-outline btn-sm no-underline" do %>
     <span>← Back to Stories</span>

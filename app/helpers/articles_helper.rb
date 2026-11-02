@@ -194,7 +194,7 @@ module ArticlesHelper
   end
 
   def clean_body_excerpt(article, length = 140)
-    raw = strip_tags(article.body.to_s).squish
+    raw = strip_tags(article.body&.body&.to_html.to_s).squish
     return "No body text written yet — click to read or edit this story." if raw.blank?
     if raw.match?(/\A(asd|asdf|gfh)[a-z0-9\s]*\z/i)
       return "Quick sandbox test note (“#{truncate(raw, length: 32)}”)."

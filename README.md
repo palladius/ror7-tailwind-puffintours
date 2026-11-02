@@ -2,7 +2,8 @@
 
 ## Production URL
 
-The production application is running at: [https://puffintours-prod-rjjr63dzrq-ew.a.run.app/](https://puffintours-prod-rjjr63dzrq-ew.a.run.app/)
+- **Render.com (Active)**: [https://ror7-tailwind-puffintours.onrender.com/](https://ror7-tailwind-puffintours.onrender.com/)
+- **Cloud Run (GCP)**: [https://puffintours-prod-rjjr63dzrq-ew.a.run.app/](https://puffintours-prod-rjjr63dzrq-ew.a.run.app/)
 
 ---
 

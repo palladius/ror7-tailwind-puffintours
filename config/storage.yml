@@ -2,26 +2,34 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
-# In Cloud Run l'autenticazione avviene via ADC/IAM (iam: true + gsa_email) o con il file JSON se presente.
-# In locale se vuoi testare GCS serve `private/puffin-tours-secret-key.json` e ACTIVE_STORAGE_SERVICE=gcs.
+local: &local
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+<% if File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) %>
 gcs: &gcs
   service: GCS
   project: <%= ENV.fetch("PROJECT_ID", "puffin-tours") %>
   bucket: <%= ENV.fetch("BUCKET", "puffin-tours-public") %>
-<% if File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) %>
   credentials: <%= Rails.root.join("private/puffin-tours-secret-key.json") %>
-<% else %>
+  public: true
+<% elsif ENV["K_SERVICE"].present? %>
+gcs: &gcs
+  service: GCS
+  project: <%= ENV.fetch("PROJECT_ID", "puffin-tours") %>
+  bucket: <%= ENV.fetch("BUCKET", "puffin-tours-public") %>
   iam: true
   gsa_email: <%= ENV.fetch("SA_EMAIL", "puffintours-app-storager@puffin-tours.iam.gserviceaccount.com") %>
-<% end %>
   public: true
+<% else %>
+# On non-GCP hosts without a key file (e.g. Render.com), map gcs to local Disk
+# so ActiveStorage never hangs trying to reach GCP Metadata Server 169.254.169.254.
+gcs: &gcs
+  <<: *local
+<% end %>
 
 development:
   <<: *gcs
 
 production:
   <<: *gcs
-
-local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>

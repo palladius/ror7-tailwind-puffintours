@@ -2,6 +2,13 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  connect_timeout: 5
+  checkout_timeout: 5
+  reaping_frequency: 10
+  keepalives: 1
+  keepalives_idle: 30
+  keepalives_interval: 10
+  keepalives_count: 3
 
 development:
   adapter: sqlite3

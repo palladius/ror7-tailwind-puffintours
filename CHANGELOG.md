@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.7.1 - 2026-11-02
+
+### Fixed
+- Eliminated `502 Bad Gateway` timeouts on Render.com caused by:
+  1. `GcpHelper#gcs_files` and `config/storage.yml` (`iam: true`) attempting to contact the GCP Metadata Server (`169.254.169.254`) when running outside GCP without a JSON key file (especially triggered when Turbo prefetched `/pages/graphs` on navbar hover).
+  2. `ArticlesHelper#clean_body_excerpt` calling `article.body.to_s` (which rendered all ActionText attachments and queried `active_storage_blobs` on index pages) instead of `article.body&.body&.to_html`.
+  3. Removed duplicate `$pipeline.call(@article.body.to_s)` execution on `articles/show.html.erb`.
+  4. Added PostgreSQL TCP keepalives (`keepalives: 1`, `connect_timeout: 5`) in `config/database.yml` and `<meta name="turbo-prefetch" content="false">` to prevent idle connection drops and speculative link-hover floods on Render's 512MB instance.
+
 ## v0.7.0 - 2026-11-02
 
 ### Added
