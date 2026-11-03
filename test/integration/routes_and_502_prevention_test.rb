@@ -108,6 +108,22 @@ class RoutesAnd502PreventionTest < ActionDispatch::IntegrationTest
     assert_select "video[controls]"
   end
 
+  test "image ActionText attachment renders direct blob URL without requiring MiniMagick convert representation" do
+    png_bytes = Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==")
+    img_blob = ActiveStorage::Blob.create_and_upload!(
+      io: StringIO.new(png_bytes),
+      filename: "trix_paste.png",
+      content_type: "image/png"
+    )
+    @public_article.update!(body: "<p>Pasted photo:</p><action-text-attachment sgid=\"#{img_blob.attachable_sgid}\"></action-text-attachment>")
+
+    get article_path(@public_article)
+    assert_response :success
+    refute_match(%r{/rails/active_storage/representations/}, response.body,
+      "Image blob partial must not generate /representations/ URLs that require ImageMagick 'convert' binary")
+    assert_match(%r{/rails/active_storage/blobs/|storage\.googleapis\.com/puffintours-assets/}, response.body)
+  end
+
   test "non-GCP environment does not hang on metadata server when rendering /pages/graphs" do
     # Simulate Render environment where neither K_SERVICE nor local secret key file exist
     old_k_service = ENV["K_SERVICE"]

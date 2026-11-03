@@ -28,7 +28,7 @@ after_booted do
     Thread.new do
       begin
         ActiveRecord::Base.connection_pool.with_connection do
-          if ActiveRecord::Base.connection.migration_context.needs_migration?
+          if ActiveRecord::Base.connection_pool.migration_context.needs_migration?
             Rails.logger.info("🐧 Running pending database migrations after Puma boot...")
             ActiveRecord::Tasks::DatabaseTasks.migrate
           end
