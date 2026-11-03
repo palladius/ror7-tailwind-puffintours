@@ -13,7 +13,7 @@
       <div class="inline-flex items-center gap-2 rounded-full bg-amber-500/15 border border-amber-500/30 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-900 mb-3">
         <span>🐧 Puffin Tours Journal</span>
         <span>•</span>
-        <span><%= Article.count %> Stories</span>
+        <span><%= @pagy.count %> Stories</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 my-0">
         Family Trips &amp; <span class="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent">AI Chronicles</span>
@@ -261,7 +261,7 @@ root = Column([header, controls, feed])
         hasAi: syn.present?,
         hasMedia: a.main_image&.attached? || false,
         synopsis: syn.presence || clean_body_excerpt(a, 140),
-        coverUrl: local_blob_available?(a) ? url_for(a.main_image) : asset_path(fallback_puffin_asset(a)),
+        coverUrl: local_blob_available?(a) ? fast_blob_url(a.main_image) : asset_path(fallback_puffin_asset(a)),
         url: article_path(a),
         editUrl: edit_article_path(a)
       }

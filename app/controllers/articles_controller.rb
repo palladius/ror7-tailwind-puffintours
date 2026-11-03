@@ -4,16 +4,19 @@ class ArticlesController < ApplicationController
   # #before_action :authenticate_user!
 
   # authorize_resource
-  load_and_authorize_resource
+  load_and_authorize_resource except: %i[index show]
 
   def index
-    @q = Article.ransack(params[:q])
+    authorize! :read, Article
+    @q = Article.accessible_by(current_ability).ransack(params[:q])
     scope = @q.result.includes(:user, :tags, :comments, :votes_for, :rich_text_body, main_image_attachment: :blob).order(created_at: :desc)
     scope = scope.tagged_with(params[:tag]) if params[:tag].present?
     @pagy, @articles = pagy(scope, items: 6)
   end
 
   def show
+    @article = Article.includes(:user, :tags, :votes_for, comments: :user, rich_text_body: { embeds_attachments: :blob }, main_image_attachment: :blob).find(params[:id])
+    authorize! :read, @article
   end
 
   def new

@@ -48,17 +48,29 @@ module ArticlesHelper
     count > 0 ? "👏 #{count}" : "👏 0"
   end
 
-  @@gcs_unavailable = false
-
   def local_blob_available?(article)
     return false unless article.main_image&.attached?
-    return false if @@gcs_unavailable
 
     blob = article.main_image.blob
-    ActiveStorage::Blob.service.exist?(blob.key)
-  rescue StandardError => e
-    @@gcs_unavailable = true if e.class.name.include?("PermissionDenied") || e.message.include?("accountDisabled")
+    service = ActiveStorage::Blob.service
+    if service.respond_to?(:path_for)
+      File.exist?(service.path_for(blob.key))
+    else
+      # Never perform blocking synchronous HTTP .exist? calls to GCS during HTML rendering;
+      # client-side onerror fallback handles any missing legacy objects in 0ms server time.
+      true
+    end
+  rescue StandardError
     false
+  end
+
+  def fast_blob_url(attachment_or_blob)
+    blob = attachment_or_blob.respond_to?(:blob) ? attachment_or_blob.blob : attachment_or_blob
+    if ActiveStorage::Blob.service.class.name.include?("GCS")
+      "https://storage.googleapis.com/#{GcsBucket}/#{blob.key}"
+    else
+      url_for(attachment_or_blob)
+    end
   end
 
   def fallback_puffin_asset(article)
@@ -75,11 +87,13 @@ module ArticlesHelper
     raw_type = article.article_type.presence || "article"
     t = raw_type.to_s.downcase
     title_down = article.title.to_s.downcase
-    icon = if t.include?("trip") || t.include?("travel") || article.tag_list.intersect?(%w[barcelona spain trip])
+    # Use preloaded article.tags in memory instead of article.tag_list (which triggers N+1 SQL queries)
+    tag_names = article.tags.map { |tg| tg.name.to_s.downcase }
+    icon = if t.include?("trip") || t.include?("travel") || tag_names.intersect?(%w[barcelona spain trip])
       "🧳"
     elsif t.include?("video") || title_down.include?("video")
       "🎬"
-    elsif t.include?("family") || article.tag_list.include?("carlessos")
+    elsif t.include?("family") || tag_names.include?("carlessos")
       "👨‍👩‍👦‍👦"
     else
       "📰"
@@ -92,7 +106,7 @@ module ArticlesHelper
     fallback_asset = asset_path(fallback_puffin_asset(article))
     gradient_cls = fallback_cover_gradient(article)
 
-    img_src = has_local ? url_for(article.main_image) : fallback_asset
+    img_src = has_local ? fast_blob_url(article.main_image) : fallback_asset
 
     visibility_badge = if article.published == false
       content_tag(

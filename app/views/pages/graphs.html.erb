@@ -9,7 +9,7 @@
     <%= pie_chart Article.group(:article_type).count, title: "Articles by type" %>
   <tr>
     <td width='50%' >
-      <%= pie_chart Article.group(:user_id).count.map { |k, v| [User.find_by(id: k)&.email || "User ##{k}", v] }, limit: 5, title: "Articles by user email" %>
+      <%= pie_chart Article.left_joins(:user).group("COALESCE(users.email, 'Unknown')").count, limit: 5, title: "Articles by user email" %>
     <td width='50%' >
       <%= column_chart Article.group_by_day_of_week(:created_at, format: "%a").count, title: "Which days do we publish articles?" %>
   <tr>
@@ -20,7 +20,7 @@
       #Article.all.map { |a|{name: a.title, data: a.comments.count}} rescue error
       %>
     <td width='50%' >
-      <%= pie_chart Comment.group(:article_id).count.map { |k, v| [Article.find_by(id: k)&.user&.email || "Article ##{k}", v] }, limit: 5, title: "Comments by user email" %>
+      <%= pie_chart Comment.left_joins(article: :user).group("COALESCE(users.email, 'Unknown')").count, limit: 5, title: "Comments by user email" %>
 </table>
 
 More ideas in <%= link_to "https://chartkick.com/","https://chartkick.com/"  %>

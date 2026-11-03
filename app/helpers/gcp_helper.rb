@@ -22,17 +22,19 @@ module GcpHelper
       return @gcs_files = ["(GCS offline or running outside GCP)"]
     end
 
-    require "google/cloud/storage"
-    keyfile = gcp_keyfile_path
-    storage_opts = {
-      project_id: ENV.fetch("GCS_PROJECT_ID", "ric-cccwiki"),
-      timeout: 3,
-      retries: 0
-    }
-    storage_opts[:credentials] = keyfile.to_s if keyfile.present?
-    storage = Google::Cloud::Storage.new(**storage_opts)
-    bucket = storage.bucket(bucket_name)
-    @gcs_files = bucket ? bucket.files.first(20).map(&:name) : []
+    @gcs_files = Rails.cache.fetch("gcs_files_#{bucket_name}", expires_in: 5.minutes) do
+      require "google/cloud/storage"
+      keyfile = gcp_keyfile_path
+      storage_opts = {
+        project_id: ENV.fetch("GCS_PROJECT_ID", "ric-cccwiki"),
+        timeout: 3,
+        retries: 0
+      }
+      storage_opts[:credentials] = keyfile.to_s if keyfile.present?
+      storage = Google::Cloud::Storage.new(**storage_opts)
+      bucket = storage.bucket(bucket_name, skip_lookup: true)
+      bucket ? bucket.files(max: 20).first(20).map(&:name) : []
+    end
   rescue StandardError => e
     @gcs_files = ["(GCS unavailable: #{e.class})"]
   end

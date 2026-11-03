@@ -41,7 +41,7 @@ class Article < ApplicationRecord
 
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
-  after_save :generate_missing_synopses
+  after_commit :enqueue_missing_synopses, on: %i[create update]
 
 
 
@@ -177,6 +177,21 @@ class Article < ApplicationRecord
 
 
   private
+
+  def enqueue_missing_synopses
+    return if PUFFIN_TOURS_GEMINI_API_KEY.blank?
+    return if article_synopsis.present? && (main_image_synopsis.present? || !main_image.attached?)
+
+    article_id = id
+    Thread.new do
+      Rails.application.executor.wrap do
+        art = Article.find_by(id: article_id)
+        art&.send(:generate_missing_synopses)
+      end
+    rescue => e
+      Rails.logger.warn("Async Gemini synopsis skipped/failed for Article ##{article_id}: #{e.message}")
+    end
+  end
 
   def generate_missing_synopses
     return if PUFFIN_TOURS_GEMINI_API_KEY.blank?

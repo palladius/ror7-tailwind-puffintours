@@ -1,12 +1,14 @@
 <%
-  has_local = (!defined?(@@gcs_unavailable) || !@@gcs_unavailable) && (ActiveStorage::Blob.service.exist?(blob.key) rescue false)
+  service = ActiveStorage::Blob.service
+  has_local = service.respond_to?(:path_for) ? (File.exist?(service.path_for(blob.key)) rescue false) : false
   gcs_url = "https://storage.googleapis.com/#{GcsBucket}/#{blob.key}"
+  media_url = has_local ? url_for(blob) : gcs_url
   fallback_img = asset_path("logo/puffin-suitcase.png")
 %>
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %> my-4">
   <% if blob.video? %>
     <div class="rounded-2xl overflow-hidden bg-slate-900/95 border border-slate-700/80 shadow-md p-3 text-white max-w-xl">
-      <video controls preload="metadata" class="w-full rounded-xl max-h-96 bg-black" src="<%= has_local ? url_for(blob) : gcs_url %>">
+      <video controls preload="metadata" class="w-full rounded-xl max-h-96 bg-black" src="<%= media_url %>">
         Your browser does not support HTML5 video.
       </video>
       <div class="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300 px-1">
@@ -23,19 +25,13 @@
     </div>
   <% elsif blob.audio? %>
     <div class="rounded-2xl bg-white/80 border border-slate-200 p-3 shadow-sm max-w-md">
-      <audio controls class="w-full" src="<%= has_local ? url_for(blob) : gcs_url %>"></audio>
+      <audio controls class="w-full" src="<%= media_url %>"></audio>
       <div class="mt-1 text-xs text-slate-500">🎵 <%= blob.filename %> (<%= number_to_human_size blob.byte_size %>)</div>
     </div>
   <% elsif blob.representable? %>
-    <% if has_local %>
-      <%= image_tag url_for(blob),
-            class: "rounded-2xl shadow-sm max-h-[600px] w-auto object-contain",
-            onerror: "this.onerror=null;this.src='#{fallback_img}';" %>
-    <% else %>
-      <%= image_tag gcs_url,
-            class: "rounded-2xl shadow-sm max-h-80 object-cover",
-            onerror: "this.onerror=null;this.src='#{fallback_img}';" %>
-    <% end %>
+    <%= image_tag media_url,
+          class: "rounded-2xl shadow-sm max-h-[600px] w-auto object-contain",
+          onerror: "this.onerror=null;this.src='#{fallback_img}';" %>
     <figcaption class="attachment__caption text-xs text-slate-500 mt-1">
       <% if caption = blob.try(:caption) %>
         <%= caption %>
