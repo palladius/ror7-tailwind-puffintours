@@ -5,6 +5,13 @@ if [ -f .envrc ]; then
   source .envrc
 fi
 
+# Materialize GCP service account key from GCP_SA_JSON_BASE64 when running on Render / external hosts
+if [ -n "${GCP_SA_JSON_BASE64:-}" ]; then
+  echo "$GCP_SA_JSON_BASE64" | base64 -d > /tmp/gcp-sa.json
+  export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-sa.json
+  echo "🔑 Decoded GCP_SA_JSON_BASE64 into /tmp/gcp-sa.json"
+fi
+
 export RAILS_ENV=${RAILS_ENV:-production}
 export RAILS_SERVE_STATIC_FILES=true
 export RAILS_LOG_TO_STDOUT=yesplease

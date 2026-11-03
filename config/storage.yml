@@ -6,23 +6,28 @@ local: &local
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-<% if File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) %>
+<%
+  local_sa = Rails.root.join("private/puffin-tours-secret-key.json")
+  tmp_sa = Pathname.new("/tmp/gcp-sa.json")
+  active_sa = File.exist?(local_sa) ? local_sa : (File.exist?(tmp_sa) ? tmp_sa : nil)
+%>
+<% if active_sa %>
 gcs: &gcs
   service: GCS
-  project: <%= ENV.fetch("PROJECT_ID", "puffin-tours") %>
-  bucket: <%= ENV.fetch("BUCKET", "puffin-tours-public") %>
-  credentials: <%= Rails.root.join("private/puffin-tours-secret-key.json") %>
+  project: <%= ENV.fetch("GCS_PROJECT_ID", "ric-cccwiki") %>
+  bucket: <%= ENV.fetch("BUCKET", "puffintours-assets") %>
+  credentials: <%= active_sa %>
   public: true
 <% elsif ENV["K_SERVICE"].present? %>
 gcs: &gcs
   service: GCS
-  project: <%= ENV.fetch("PROJECT_ID", "puffin-tours") %>
-  bucket: <%= ENV.fetch("BUCKET", "puffin-tours-public") %>
+  project: <%= ENV.fetch("GCS_PROJECT_ID", "ric-cccwiki") %>
+  bucket: <%= ENV.fetch("BUCKET", "puffintours-assets") %>
   iam: true
   gsa_email: <%= ENV.fetch("SA_EMAIL", "puffintours-app-storager@puffin-tours.iam.gserviceaccount.com") %>
   public: true
 <% else %>
-# On non-GCP hosts without a key file (e.g. Render.com), map gcs to local Disk
+# On non-GCP hosts without a key file (e.g. Render.com without GCP_SA_JSON_BASE64), map gcs to local Disk
 # so ActiveStorage never hangs trying to reach GCP Metadata Server 169.254.169.254.
 gcs: &gcs
   <<: *local

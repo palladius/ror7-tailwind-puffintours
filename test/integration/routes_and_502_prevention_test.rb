@@ -142,4 +142,14 @@ class RoutesAnd502PreventionTest < ActionDispatch::IntegrationTest
     )
     assert_match(/Insights on images and videos/, rendered)
   end
+
+  test "GcpHelper#gcp_keyfile_path detects /tmp/gcp-sa.json and default bucket is puffintours-assets" do
+    helper = Object.new.extend(GcpHelper)
+    tmp_key = "/tmp/gcp-sa-test-probe.json"
+    File.write(tmp_key, '{"type":"service_account"}')
+    assert_equal tmp_key, helper.gcp_keyfile_path(custom_fallback: tmp_key).to_s
+    assert_equal "puffintours-assets", GcsBucket
+  ensure
+    File.delete(tmp_key) if tmp_key && File.exist?(tmp_key)
+  end
 end

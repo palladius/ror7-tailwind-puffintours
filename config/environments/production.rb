@@ -37,9 +37,10 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Store uploaded files on GCS when credentials/Cloud Run are available, otherwise local disk (e.g. Render free tier).
-  default_storage_service = (File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) || ENV["K_SERVICE"].present?) ? "gcs" : "local"
-  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", default_storage_service).to_sym
+  # Store uploaded files on GCS when credentials/Cloud Run are available, otherwise local disk.
+  has_gcs_creds = File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) || File.exist?("/tmp/gcp-sa.json") || ENV["K_SERVICE"].present?
+  default_storage_service = has_gcs_creds ? "gcs" : "local"
+  config.active_storage.service = (has_gcs_creds ? "gcs" : ENV.fetch("ACTIVE_STORAGE_SERVICE", default_storage_service)).to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

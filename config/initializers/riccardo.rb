@@ -4,7 +4,7 @@
 AppName = 'Puffin Tours'
 AppEmoji = '🐧🧳'
 AppVersion = File.read('VERSION').chomp
-GcsBucket = ENV.fetch('BUCKET', 'puffin-tours-public')
+GcsBucket = ENV.fetch('BUCKET', 'puffintours-assets')
 
 ProdAppUrl = 'https://ror7-tailwind-puffintours.onrender.com/'
 CloudRunProdAppUrl = 'https://puffintours-prod-rjjr63dzrq-ew.a.run.app/'

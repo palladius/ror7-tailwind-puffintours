@@ -1,17 +1,37 @@
 module GcpHelper
+  def gcp_keyfile_path(custom_fallback: nil)
+    return Pathname.new(custom_fallback) if custom_fallback && File.exist?(custom_fallback)
+
+    local_key = Rails.root.join("private/puffin-tours-secret-key.json")
+    return local_key if File.exist?(local_key)
+
+    tmp_key = Pathname.new("/tmp/gcp-sa.json")
+    return tmp_key if File.exist?(tmp_key)
+
+    nil
+  end
+
   def gcp_credentials_available?
-    File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) || ENV["K_SERVICE"].present?
+    gcp_keyfile_path.present? || ENV["K_SERVICE"].present?
   end
 
   def gcs_files
     return @gcs_files if defined?(@gcs_files)
-    unless gcp_credentials_available? && ENV["BUCKET"].present?
+    bucket_name = ENV.fetch("BUCKET", GcsBucket)
+    unless gcp_credentials_available? && bucket_name.present?
       return @gcs_files = ["(GCS offline or running outside GCP)"]
     end
 
     require "google/cloud/storage"
-    storage = Google::Cloud::Storage.new(timeout: 3, retries: 0)
-    bucket = storage.bucket(ENV["BUCKET"])
+    keyfile = gcp_keyfile_path
+    storage_opts = {
+      project_id: ENV.fetch("GCS_PROJECT_ID", "ric-cccwiki"),
+      timeout: 3,
+      retries: 0
+    }
+    storage_opts[:credentials] = keyfile.to_s if keyfile.present?
+    storage = Google::Cloud::Storage.new(**storage_opts)
+    bucket = storage.bucket(bucket_name)
     @gcs_files = bucket ? bucket.files.first(20).map(&:name) : []
   rescue StandardError => e
     @gcs_files = ["(GCS unavailable: #{e.class})"]
