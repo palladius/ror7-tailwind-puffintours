@@ -15,8 +15,12 @@ services:
         value: "true"
       - key: RAILS_LOG_TO_STDOUT
         value: "true"
-      - key: ACTIVE_STORAGE_SERVICE
-        value: local
+      - key: BUCKET
+        value: puffintours-assets
+      - key: PROJECT_ID
+        value: ric-cccwiki
+      - key: GCP_SA_JSON_BASE64
+        sync: false
       - key: RAILS_MASTER_KEY
         sync: false
       - key: PUFFIN_TOURS_GEMINI_API_KEY

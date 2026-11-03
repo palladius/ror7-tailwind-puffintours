@@ -38,6 +38,16 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on GCS when credentials/Cloud Run are available, otherwise local disk.
+  if !File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) && !File.exist?("/tmp/gcp-sa.json")
+    begin
+      if (sa_json = Rails.application.credentials.dig(:gcp, :sa_json)).present?
+        File.write("/tmp/gcp-sa.json", sa_json)
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"] ||= "/tmp/gcp-sa.json"
+      end
+    rescue StandardError => e
+      warn "⚠️ Could not materialize /tmp/gcp-sa.json from Rails credentials: #{e.message}"
+    end
+  end
   has_gcs_creds = File.exist?(Rails.root.join("private/puffin-tours-secret-key.json")) || File.exist?("/tmp/gcp-sa.json") || ENV["K_SERVICE"].present?
   default_storage_service = has_gcs_creds ? "gcs" : "local"
   config.active_storage.service = (has_gcs_creds ? "gcs" : ENV.fetch("ACTIVE_STORAGE_SERVICE", default_storage_service)).to_sym
