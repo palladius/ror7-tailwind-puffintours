@@ -1,9 +1,5 @@
 class ArticlesController < ApplicationController
-  # before_action :authenticate_user!, only: %i[new create edit update destroy]
-  # before_action :set_article, only: %i[show edit update destroy]
-  # #before_action :authenticate_user!
-
-  # authorize_resource
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
   load_and_authorize_resource except: %i[index show]
 
   def index

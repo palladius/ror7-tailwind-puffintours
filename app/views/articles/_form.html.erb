@@ -35,6 +35,7 @@
 
   <div>
     <%= form.label :body %>
+    <div id="trix-upload-status" class="hidden my-2 rounded-xl bg-amber-50 border border-amber-300 px-3.5 py-2 text-xs font-semibold text-amber-900"></div>
     <%= form.rich_text_area :body %>
   </div>
 
@@ -49,9 +50,53 @@
     <%= form.text_area :main_image_synopsis %>
   </div>
 
-
-
   <div class="mt-4">
-    <%= form.submit nil, class: 'btn' %>
+    <%= form.submit nil, class: 'btn', id: 'article-submit-btn' %>
   </div>
 <% end %>
+
+<script>
+  (function() {
+    let pendingTrixUploads = 0;
+    const updateSubmitState = () => {
+      const btn = document.getElementById('article-submit-btn');
+      const status = document.getElementById('trix-upload-status');
+      if (!btn || !status) return;
+      if (pendingTrixUploads > 0) {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        status.classList.remove('hidden');
+        status.textContent = `☁️ Uploading ${pendingTrixUploads} attachment(s) to Google Cloud Storage (gs://<%= GcsBucket %>)... please wait before saving.`;
+      } else {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        if (status.textContent.includes('Uploading')) {
+          status.textContent = '✅ Attachment uploaded to Google Cloud Storage! Ready to save.';
+        }
+      }
+    };
+
+    document.addEventListener('trix-attachment-add', (event) => {
+      if (event.attachment && event.attachment.file) {
+        pendingTrixUploads++;
+        updateSubmitState();
+      }
+    });
+
+    document.addEventListener('direct-upload:end', () => {
+      if (pendingTrixUploads > 0) pendingTrixUploads--;
+      updateSubmitState();
+    });
+
+    document.addEventListener('direct-upload:error', (event) => {
+      if (pendingTrixUploads > 0) pendingTrixUploads--;
+      const status = document.getElementById('trix-upload-status');
+      if (status) {
+        status.classList.remove('hidden');
+        status.textContent = `⚠️ Upload error: ${event.detail?.error || 'Direct upload failed'}`;
+      }
+      const btn = document.getElementById('article-submit-btn');
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    });
+  })();
+</script>

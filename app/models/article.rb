@@ -36,12 +36,18 @@ class Article < ApplicationRecord
 
   has_rich_text :body
 
-  validates :title, :body, presence: true
-  validates :title, length: { minimum: 5 }
+  before_validation :ensure_body_fallback
+  validates :title, presence: true, length: { minimum: 2 }
 
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
   after_commit :enqueue_missing_synopses, on: %i[create update]
+
+  def ensure_body_fallback
+    if body.blank? && !main_image.attached? && title.present?
+      self.body = "<p>#{ERB::Util.html_escape(title)}</p>"
+    end
+  end
 
 
 

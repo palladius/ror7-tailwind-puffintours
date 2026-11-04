@@ -168,4 +168,22 @@ class RoutesAnd502PreventionTest < ActionDispatch::IntegrationTest
   ensure
     File.delete(tmp_key) if tmp_key && File.exist?(tmp_key)
   end
+
+  test "unauthenticated user visiting /articles/new is redirected to /users/sign_in" do
+    get new_article_path
+    assert_redirected_to new_user_session_path
+  end
+
+  test "signed in user can create article even with short title or empty body" do
+    sign_in @admin
+    assert_difference("Article.count", 1) do
+      post articles_path, params: {
+        article: {
+          title: "Ciao",
+          body: ""
+        }
+      }
+    end
+    assert_response :redirect
+  end
 end

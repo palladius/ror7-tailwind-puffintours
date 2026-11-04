@@ -3,7 +3,11 @@ class ApplicationController < ActionController::Base
 
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referer || root_path, alert: exception.message
+    if user_signed_in?
+      redirect_to request.referer || root_path, alert: exception.message
+    else
+      redirect_to new_user_session_path, alert: "Please sign in to continue."
+    end
   end
 
   # before_action :set_cors
