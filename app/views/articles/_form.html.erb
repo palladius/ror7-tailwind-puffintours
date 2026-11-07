@@ -57,46 +57,93 @@
 
 <script>
   (function() {
-    let pendingTrixUploads = 0;
-    const updateSubmitState = () => {
+    if (window._puffinTrixAddHandler) {
+      document.removeEventListener('trix-attachment-add', window._puffinTrixAddHandler);
+    }
+    if (window._puffinTrixRemoveHandler) {
+      document.removeEventListener('trix-attachment-remove', window._puffinTrixRemoveHandler);
+    }
+    if (window._puffinDirectUploadProgressHandler) {
+      document.removeEventListener('direct-upload:progress', window._puffinDirectUploadProgressHandler);
+    }
+    if (window._puffinDirectUploadErrorHandler) {
+      document.removeEventListener('direct-upload:error', window._puffinDirectUploadErrorHandler);
+    }
+
+    const activeAttachments = new Set();
+
+    const updateSubmitState = (errorMsg) => {
       const btn = document.getElementById('article-submit-btn');
       const status = document.getElementById('trix-upload-status');
       if (!btn || !status) return;
-      if (pendingTrixUploads > 0) {
+
+      if (errorMsg) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        status.className = 'my-2 rounded-xl bg-rose-50 border border-rose-300 px-3.5 py-2 text-xs font-semibold text-rose-900';
+        status.textContent = `⚠️ Upload error: ${errorMsg}`;
+        return;
+      }
+
+      if (activeAttachments.size > 0) {
         btn.disabled = true;
         btn.style.opacity = '0.6';
-        status.classList.remove('hidden');
-        status.textContent = `☁️ Uploading ${pendingTrixUploads} attachment(s) to Google Cloud Storage (gs://<%= GcsBucket %>)... please wait before saving.`;
+        status.className = 'my-2 rounded-xl bg-amber-50 border border-amber-300 px-3.5 py-2 text-xs font-semibold text-amber-900';
+        status.textContent = `☁️ Uploading ${activeAttachments.size} attachment(s) to Google Cloud Storage (gs://<%= GcsBucket %>)...`;
       } else {
         btn.disabled = false;
         btn.style.opacity = '1';
         if (status.textContent.includes('Uploading')) {
-          status.textContent = '✅ Attachment uploaded to Google Cloud Storage! Ready to save.';
+          status.className = 'my-2 rounded-xl bg-emerald-50 border border-emerald-300 px-3.5 py-2 text-xs font-semibold text-emerald-900';
+          status.textContent = '✅ Image uploaded to Google Cloud Storage (gs://<%= GcsBucket %>)! Ready to save.';
         }
       }
     };
 
-    document.addEventListener('trix-attachment-add', (event) => {
-      if (event.attachment && event.attachment.file) {
-        pendingTrixUploads++;
+    window._puffinTrixAddHandler = (event) => {
+      const att = event.attachment;
+      if (!att || !att.file) return;
+
+      activeAttachments.add(att);
+      updateSubmitState();
+
+      // ActionText AttachmentUpload sets sgid on the Trix attachment when the GCS PUT completes
+      // (it does NOT dispatch the DOM event direct-upload:end). Poll until sgid is set (max 45s).
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        const hasSgid = att.getAttribute && (att.getAttribute('sgid') || att.getAttribute('url'));
+        const timedOut = (Date.now() - startedAt) > 45000;
+        if (hasSgid || timedOut) {
+          clearInterval(timer);
+          activeAttachments.delete(att);
+          updateSubmitState(timedOut && !hasSgid ? 'Upload timed out, please try again.' : null);
+        }
+      }, 150);
+    };
+
+    window._puffinTrixRemoveHandler = (event) => {
+      if (event.attachment) {
+        activeAttachments.delete(event.attachment);
         updateSubmitState();
       }
-    });
+    };
 
-    document.addEventListener('direct-upload:end', () => {
-      if (pendingTrixUploads > 0) pendingTrixUploads--;
-      updateSubmitState();
-    });
-
-    document.addEventListener('direct-upload:error', (event) => {
-      if (pendingTrixUploads > 0) pendingTrixUploads--;
+    window._puffinDirectUploadProgressHandler = (event) => {
       const status = document.getElementById('trix-upload-status');
-      if (status) {
-        status.classList.remove('hidden');
-        status.textContent = `⚠️ Upload error: ${event.detail?.error || 'Direct upload failed'}`;
-      }
-      const btn = document.getElementById('article-submit-btn');
-      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    });
+      if (!status) return;
+      const pct = event.detail && event.detail.progress ? Math.round(event.detail.progress) : 0;
+      status.className = 'my-2 rounded-xl bg-amber-50 border border-amber-300 px-3.5 py-2 text-xs font-semibold text-amber-900';
+      status.textContent = `☁️ Uploading cover image to Google Cloud Storage (gs://<%= GcsBucket %>)... ${pct}%`;
+    };
+
+    window._puffinDirectUploadErrorHandler = (event) => {
+      const error = (event.detail && event.detail.error) || 'Direct upload to GCS failed';
+      updateSubmitState(error);
+    };
+
+    document.addEventListener('trix-attachment-add', window._puffinTrixAddHandler);
+    document.addEventListener('trix-attachment-remove', window._puffinTrixRemoveHandler);
+    document.addEventListener('direct-upload:progress', window._puffinDirectUploadProgressHandler);
+    document.addEventListener('direct-upload:error', window._puffinDirectUploadErrorHandler);
   })();
 </script>

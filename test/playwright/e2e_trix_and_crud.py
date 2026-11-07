@@ -142,10 +142,23 @@ def run_test():
         )
         trix_html = page.locator("input[name='article[body]']").input_value()
         print(f"  ✅ Trix hidden input populated with sgid! Snippet: {trix_html[:160]}...")
+
+        # Wait briefly for the 150ms polling timer in _form.html.erb to re-enable #article-submit-btn
+        page.wait_for_function(
+            """() => {
+                const btn = document.getElementById('article-submit-btn');
+                const status = document.getElementById('trix-upload-status');
+                return btn && !btn.disabled && status && status.textContent.includes('Ready to save');
+            }""",
+            timeout=5000,
+        )
+        status_text = page.locator("#trix-upload-status").inner_text()
+        assert not page.locator("#article-submit-btn").is_disabled(), "Submit button remained disabled after Trix upload!"
+        print(f"  ✅ Submit button unlocked & status banner updated: '{status_text}'")
         page.screenshot(path=f"{SCREENSHOT_DIR}/03_trix_image_pasted.png")
 
         # Submit the article form and wait for Turbo navigation to /articles/:id
-        page.locator("form input[type='submit'], form button[type='submit']").click()
+        page.locator("#article-submit-btn").click()
         page.wait_for_url(re.compile(r"/articles/\d+$"), timeout=30000)
         page.wait_for_load_state("networkidle")
 

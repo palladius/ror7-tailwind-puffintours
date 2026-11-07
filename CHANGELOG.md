@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.7.3 - 2026-11-07
+
+### Added
+- Provisioned and configured **`gs://puffintours-assets`** in GCP project `ric-cccwiki` (`europe-west1`) with CORS (`PUT`, `POST`, `GET`, `HEAD`, `OPTIONS`), public read (`allUsers -> roles/storage.objectViewer`), and IAM write access for `puffintours-app-storager@puffin-tours.iam.gserviceaccount.com`.
+- Encrypted GCP Service Account credentials in [`config/credentials.yml.enc`](config/credentials.yml.enc) and auto-materialized `/tmp/gcp-sa.json` on boot in [`config/environments/production.rb`](config/environments/production.rb).
+- Added [`test/playwright/e2e_trix_and_crud.py`](test/playwright/e2e_trix_and_crud.py) and `assert_no_broken_images` in [`test/playwright/e2e_verify.py`](test/playwright/e2e_verify.py) to verify dual-user login, Trix image paste -> GCS Direct Upload, submit button unlock, and zero broken `<img>` elements across all routes.
+
+### Fixed
+- **Trix GCS Upload Form Hang**: Fixed a bug in [`app/views/articles/_form.html.erb`](app/views/articles/_form.html.erb) where attaching an image in `<trix-editor>` incremented `pendingTrixUploads` and disabled `#article-submit-btn` while waiting for `direct-upload:end` (which `@rails/actiontext`'s `AttachmentUpload` never dispatches). Now polls `att.getAttribute('sgid') || att.getAttribute('url')` so the submit button unlocks immediately (~1s) once the GCS `PUT` finishes and displays `✅ Image uploaded to Google Cloud Storage (gs://puffintours-assets)! Ready to save.`.
+- **Broken Images on `/articles` & Turbo Navigation**:
+  - Updated `cover_image_blob(article)` in [`app/helpers/articles_helper.rb`](app/helpers/articles_helper.rb) so articles without a separate `main_image` automatically display their first embedded Trix image as the card cover, while legacy deleted blobs (`id < 163`) and non-image blobs (`video/mp4`) cleanly fall back to the Puffin cover assets.
+  - Added `repairBrokenImages()` in [`app/views/layouts/application.html.erb`](app/views/layouts/application.html.erb) to fix Chrome/Turbo Drive detached-`DOMParser` `onerror` suppression.
+- **Latency & Asset Size Optimization**:
+  - Compressed the 4 fallback PNGs in `app/assets/images/logo/*.png` from **5.5 MB** down to **633 KB (-88.5%)**.
+  - Enabled `--minify` on `esbuild` (`1.4 MB` -> `637 KB`), `Rack::Deflater` gzip compression, `Cache-Control: public, max-age=31536000, immutable`, and `memory_store` caching with `after_commit` invalidation on `/articles` (`4,010 ms` -> **`18 ms`** warm).
+
 ## v0.7.2 - 2026-11-02
 
 ### Added
