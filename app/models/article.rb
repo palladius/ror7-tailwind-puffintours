@@ -41,7 +41,22 @@ class Article < ApplicationRecord
 
   before_save :set_date_if_null
   before_save :various_tests # just fo testing
+  after_commit :bump_cache_version
   after_commit :enqueue_missing_synopses, on: %i[create update]
+
+  @@cache_version = 1
+  def self.cache_version = @@cache_version
+  def self.bump_cache_version!
+    @@cache_version += 1
+  end
+
+  def self.cached_count
+    Rails.cache.fetch(["articles_total_count", cache_version], expires_in: 5.minutes) { count }
+  end
+
+  def bump_cache_version
+    self.class.bump_cache_version!
+  end
 
   def ensure_body_fallback
     if body.blank? && !main_image.attached? && title.present?

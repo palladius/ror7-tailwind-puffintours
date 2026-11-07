@@ -48,6 +48,10 @@ module ArticlesHelper
     count > 0 ? "👏 #{count}" : "👏 0"
   end
 
+  # Blob #163 (2026-11-03) is the first blob uploaded to gs://puffintours-assets.
+  # Earlier blobs (2023-2025) belong to old local disks or disabled buckets.
+  PUFFIN_ASSETS_MIN_BLOB_ID = 163
+
   def blob_available_as_image?(blob)
     return false unless blob.present? && blob.image?
 
@@ -55,10 +59,7 @@ module ArticlesHelper
     if service.respond_to?(:path_for)
       File.exist?(service.path_for(blob.key))
     else
-      return false if blob.service_name == "local"
-      return true if blob.created_at && blob.created_at > 10.minutes.ago
-
-      gcs_key_exists?(blob.key)
+      blob.service_name == "gcs" && blob.id.to_i >= PUFFIN_ASSETS_MIN_BLOB_ID
     end
   rescue StandardError
     false

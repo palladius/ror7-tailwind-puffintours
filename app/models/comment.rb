@@ -21,6 +21,8 @@ class Comment < ApplicationRecord
   validates :vote, inclusion: { in: 0..5 }, allow_nil: true
   validate :body_or_vote_present
 
+  after_commit -> { Article.bump_cache_version! }
+
   private
 
   def body_or_vote_present

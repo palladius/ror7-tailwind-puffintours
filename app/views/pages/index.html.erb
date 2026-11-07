@@ -25,7 +25,7 @@
     </div>
 
     <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
-      <a href="<%= articles_path %>" class="btn no-underline">🧳 Explore Stories (<%= Article.count %>)</a>
+      <a href="<%= articles_path %>" class="btn no-underline">🧳 Explore Stories (<%= Article.cached_count %>)</a>
       <a href="/pages/graphs" class="btn btn-outline no-underline">📊 Analytics &amp; Graphs</a>
       <a href="https://github.com/palladius/ror7-tailwind-puffintours" target="_blank" rel="noopener" class="btn btn-outline no-underline">🐙 Source Code</a>
     </div>
