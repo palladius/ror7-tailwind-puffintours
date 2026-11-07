@@ -186,4 +186,33 @@ class RoutesAnd502PreventionTest < ActionDispatch::IntegrationTest
     end
     assert_response :redirect
   end
+
+  test "article card cover falls back to Trix embedded image when main_image is not attached" do
+    png_bytes = Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==")
+    trix_blob = ActiveStorage::Blob.create_and_upload!(
+      io: StringIO.new(png_bytes),
+      filename: "trix_cover.png",
+      content_type: "image/png"
+    )
+    @public_article.update!(body: "<p>With trix photo</p><action-text-attachment sgid=\"#{trix_blob.attachable_sgid}\"></action-text-attachment>")
+
+    get articles_path
+    assert_response :success
+    assert_match(/trix_cover\.png|#{trix_blob.key}/, response.body,
+      "Expected /articles card cover to use Trix embedded image when main_image is blank")
+  end
+
+  test "article card cover does not render non-image video blob inside img tag" do
+    video_blob = ActiveStorage::Blob.create_and_upload!(
+      io: StringIO.new("fake-mp4-bytes"),
+      filename: "not_an_image.mp4",
+      content_type: "video/mp4"
+    )
+    @public_article.main_image.attach(video_blob)
+
+    get articles_path
+    assert_response :success
+    refute_match(/not_an_image\.mp4/, response.body,
+      "Video blobs must not be rendered inside card cover <img> src")
+  end
 end

@@ -23,5 +23,23 @@
     </main>
     <%= render "application/footer" %>
     <%= render "application/remote_modal" %>
+    <script>
+      function repairBrokenImages() {
+        document.querySelectorAll('img[data-fallback-src]').forEach((img) => {
+          const fallback = img.getAttribute('data-fallback-src');
+          if (!fallback) return;
+          img.addEventListener('error', () => {
+            if (img.src !== fallback) img.src = fallback;
+          }, { once: true });
+          if (img.complete && img.naturalWidth === 0 && img.src !== fallback) {
+            img.src = fallback;
+          }
+        });
+      }
+      document.addEventListener('DOMContentLoaded', repairBrokenImages);
+      document.addEventListener('turbo:load', repairBrokenImages);
+      document.addEventListener('turbo:frame-load', repairBrokenImages);
+      setTimeout(repairBrokenImages, 600);
+    </script>
   </body>
 </html>

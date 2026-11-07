@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   def index
     authorize! :read, Article
     @q = Article.accessible_by(current_ability).ransack(params[:q])
-    scope = @q.result.includes(:user, :tags, :comments, :votes_for, :rich_text_body, main_image_attachment: :blob).order(created_at: :desc)
+    scope = @q.result.includes(:user, :tags, :comments, :votes_for, rich_text_body: { embeds_attachments: :blob }, main_image_attachment: :blob).order(created_at: :desc)
     scope = scope.tagged_with(params[:tag]) if params[:tag].present?
     @pagy, @articles = pagy(scope, items: 6)
   end

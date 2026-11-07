@@ -48,20 +48,39 @@ module ArticlesHelper
     count > 0 ? "👏 #{count}" : "👏 0"
   end
 
-  def local_blob_available?(article)
-    return false unless article.main_image&.attached?
+  def blob_available_as_image?(blob)
+    return false unless blob.present? && blob.image?
 
-    blob = article.main_image.blob
     service = ActiveStorage::Blob.service
     if service.respond_to?(:path_for)
       File.exist?(service.path_for(blob.key))
     else
-      # Never perform blocking synchronous HTTP .exist? calls to GCS during HTML rendering;
-      # client-side onerror fallback handles any missing legacy objects in 0ms server time.
-      true
+      return false if blob.service_name == "local"
+      return true if blob.created_at && blob.created_at > 10.minutes.ago
+
+      gcs_key_exists?(blob.key)
     end
   rescue StandardError
     false
+  end
+
+  def cover_image_blob(article)
+    if article.main_image&.attached? && blob_available_as_image?(article.main_image.blob)
+      return article.main_image.blob
+    end
+
+    if article.rich_text_body&.embeds_blobs.present?
+      trix_blob = article.rich_text_body.embeds_blobs.find { |b| blob_available_as_image?(b) }
+      return trix_blob if trix_blob
+    end
+
+    nil
+  rescue StandardError
+    nil
+  end
+
+  def local_blob_available?(article)
+    cover_image_blob(article).present?
   end
 
   def fast_blob_url(attachment_or_blob)
@@ -69,7 +88,7 @@ module ArticlesHelper
     if ActiveStorage::Blob.service.class.name.include?("GCS")
       "https://storage.googleapis.com/#{GcsBucket}/#{blob.key}"
     else
-      url_for(attachment_or_blob)
+      url_for(blob)
     end
   end
 
@@ -102,11 +121,11 @@ module ArticlesHelper
   end
 
   def render_card_cover(article)
-    has_local = local_blob_available?(article)
+    cover_blob = cover_image_blob(article)
     fallback_asset = asset_path(fallback_puffin_asset(article))
     gradient_cls = fallback_cover_gradient(article)
 
-    img_src = has_local ? fast_blob_url(article.main_image) : fallback_asset
+    img_src = cover_blob ? fast_blob_url(cover_blob) : fallback_asset
 
     visibility_badge = if article.published == false
       content_tag(
@@ -136,6 +155,7 @@ module ArticlesHelper
           img_src,
           alt: article.title,
           class: "card-media-img object-cover",
+          data: { fallback_src: fallback_asset },
           onerror: "this.onerror=null;this.src='#{fallback_asset}';"
         )
       )
@@ -148,20 +168,23 @@ module ArticlesHelper
   end
 
   def render_main_image(article)
-    if local_blob_available?(article)
+    cover_blob = cover_image_blob(article)
+    fallback_asset = asset_path(fallback_puffin_asset(article))
+    if cover_blob
       image_tag(
-        url_for(article.main_image),
+        fast_blob_url(cover_blob),
         alt: article.title,
-        class: "rounded-2xl shadow-md max-h-96 w-auto object-cover border border-white/80"
+        class: "rounded-2xl shadow-md max-h-96 w-auto object-cover border border-white/80",
+        data: { fallback_src: fallback_asset },
+        onerror: "this.onerror=null;this.src='#{fallback_asset}';"
       )
     else
-      fallback_asset = fallback_puffin_asset(article)
       content_tag(:div, class: "inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r #{fallback_cover_gradient(article)} p-3 border border-white/80 shadow-sm") do
         image_tag(fallback_asset, alt: article.title, class: "h-16 w-16 rounded-xl object-contain bg-white/70 p-1") +
           content_tag(:div, class: "text-xs text-slate-700 pr-2") do
             if article.main_image&.attached?
               content_tag(:div, "☁️ Media stored on GCS bucket (#{GcsBucket})", class: "font-semibold text-slate-800") +
-                content_tag(:div, "Showing Puffin emblem while cloud bucket is offline", class: "text-slate-500")
+                content_tag(:div, "Showing Puffin emblem while cloud object is unavailable", class: "text-slate-500")
             else
               content_tag(:div, "🐧 Puffin Tours Story", class: "font-semibold text-slate-800") +
                 content_tag(:div, "No cover photo attached yet", class: "text-slate-500")
@@ -174,18 +197,18 @@ module ArticlesHelper
   def render_main_image_card(article)
     return unless article.main_image&.attached?
 
-    img_source = if local_blob_available?(article)
-      url_for(article.main_image)
-    else
-      asset_path(fallback_puffin_asset(article))
-    end
+    fallback_asset = asset_path(fallback_puffin_asset(article))
+    cover_blob = cover_image_blob(article)
+    img_source = cover_blob ? fast_blob_url(cover_blob) : fallback_asset
 
     content_tag(:div, class: "card my-4 max-w-md") do
       concat(
         image_tag(
           img_source,
           class: "rounded-2xl w-full object-cover max-h-72",
-          alt: article.title
+          alt: article.title,
+          data: { fallback_src: fallback_asset },
+          onerror: "this.onerror=null;this.src='#{fallback_asset}';"
         )
       )
       if article.main_image_synopsis.present?

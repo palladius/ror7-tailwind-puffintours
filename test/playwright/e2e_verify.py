@@ -41,6 +41,21 @@ def run_e2e():
 
         page.on("response", on_response)
 
+        def assert_no_broken_images(label):
+            try:
+                page.wait_for_function(
+                    "() => Array.from(document.querySelectorAll('img')).every(img => img.complete && img.naturalWidth > 0)",
+                    timeout=10000,
+                )
+            except Exception:
+                pass
+            broken = page.evaluate("""() => {
+                return Array.from(document.querySelectorAll('img'))
+                    .filter(img => !img.complete || img.naturalWidth === 0)
+                    .map(img => ({ alt: img.alt, src: img.src, naturalWidth: img.naturalWidth }));
+            }""")
+            assert not broken, f"Broken images found on {label}: {broken}"
+
         def goto_and_verify(path, expected_selector="body"):
             url = f"{BASE_URL}{path}"
             resp = page.goto(url, wait_until="networkidle", timeout=45000)
@@ -49,13 +64,20 @@ def run_e2e():
             print(f"  [{status}] {path}")
             assert status < 500, f"HTTP {status} on {url}"
             page.wait_for_selector(expected_selector, timeout=15000)
+            assert_no_broken_images(path)
             return resp
 
         print(f"🐧 Running Playwright E2E against {BASE_URL} ...")
 
-        # 1. Public pages
+        # 1. Public pages + Turbo Drive navigation from / -> /articles
         goto_and_verify("/", "h1")
         page.screenshot(path=f"{SCREENSHOT_DIR}/01_home.png")
+
+        # Click 'Articles' in navbar to verify Turbo Drive navigation does not break any <img>
+        page.click("nav a[href='/articles']")
+        page.wait_for_url("**/articles", timeout=15000)
+        page.wait_for_load_state("networkidle")
+        assert_no_broken_images("Turbo / -> /articles")
 
         goto_and_verify("/articles", "#btn-view-a2ui")
         page.screenshot(path=f"{SCREENSHOT_DIR}/02_articles_glass.png")

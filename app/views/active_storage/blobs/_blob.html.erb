@@ -1,9 +1,16 @@
 <%
   service = ActiveStorage::Blob.service
   has_local = service.respond_to?(:path_for) ? (File.exist?(service.path_for(blob.key)) rescue false) : false
+  has_gcs = !has_local && blob.service_name != "local" && ((blob.created_at && blob.created_at > 10.minutes.ago) || (gcs_key_exists?(blob.key) rescue false))
   gcs_url = "https://storage.googleapis.com/#{GcsBucket}/#{blob.key}"
-  media_url = has_local ? url_for(blob) : gcs_url
   fallback_img = asset_path("logo/puffin-suitcase.png")
+  media_url = if has_local
+    url_for(blob)
+  elsif has_gcs
+    gcs_url
+  else
+    blob.representable? ? fallback_img : gcs_url
+  end
 %>
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %> my-4">
   <% if blob.video? %>
@@ -31,6 +38,7 @@
   <% elsif blob.representable? %>
     <%= image_tag media_url,
           class: "rounded-2xl shadow-sm max-h-[600px] w-auto object-contain",
+          data: { fallback_src: fallback_img },
           onerror: "this.onerror=null;this.src='#{fallback_img}';" %>
     <figcaption class="attachment__caption text-xs text-slate-500 mt-1">
       <% if caption = blob.try(:caption) %>

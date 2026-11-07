@@ -33,10 +33,19 @@ module GcpHelper
       storage_opts[:credentials] = keyfile.to_s if keyfile.present?
       storage = Google::Cloud::Storage.new(**storage_opts)
       bucket = storage.bucket(bucket_name, skip_lookup: true)
-      bucket ? bucket.files(max: 20).first(20).map(&:name) : []
+      bucket ? bucket.files(max: 200).first(200).map(&:name) : []
     end
   rescue StandardError => e
     @gcs_files = ["(GCS unavailable: #{e.class})"]
+  end
+
+  def gcs_key_exists?(key)
+    return false if key.blank?
+
+    files = gcs_files
+    return false if files.first.to_s.start_with?("(GCS ")
+
+    files.include?(key)
   end
 
   def gcs_bucket

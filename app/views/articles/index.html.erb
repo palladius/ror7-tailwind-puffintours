@@ -253,15 +253,16 @@ root = Column([header, controls, feed])
   const PUFFIN_A2UI_DATA = <%= raw(
     @articles.map { |a|
       syn = clean_gemini_synopsis(a)
+      cb = cover_image_blob(a)
       {
         id: a.id,
         title: a.title,
         author: (a.user&.name || "Puffin").capitalize,
         date: (a.content_date || a.created_at&.to_date).to_s,
         hasAi: syn.present?,
-        hasMedia: a.main_image&.attached? || false,
+        hasMedia: cb.present? || a.main_image&.attached? || false,
         synopsis: syn.presence || clean_body_excerpt(a, 140),
-        coverUrl: local_blob_available?(a) ? fast_blob_url(a.main_image) : asset_path(fallback_puffin_asset(a)),
+        coverUrl: cb ? fast_blob_url(cb) : asset_path(fallback_puffin_asset(a)),
         url: article_path(a),
         editUrl: edit_article_path(a)
       }
