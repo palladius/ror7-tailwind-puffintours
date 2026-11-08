@@ -5,24 +5,11 @@ class ArticlesController < ApplicationController
   def index
     authorize! :read, Article
     @q = Article.accessible_by(current_ability).ransack(params[:q])
+    scope = @q.result.includes(:user, :tags, :comments, :votes_for, rich_text_body: { embeds_attachments: :blob }, main_image_attachment: :blob).order(created_at: :desc)
+    scope = scope.tagged_with(params[:tag]) if params[:tag].present?
     if params[:q].blank? && params[:tag].blank?
-      page_num = [(params[:page] || 1).to_i, 1].max
-      total_count, @articles = Rails.cache.fetch(["articles_index_v2", Article.cache_version, page_num], expires_in: 5.minutes) do
-        scope = @q.result.includes(:user, :tags, :comments, :votes_for, rich_text_body: { embeds_attachments: :blob }, main_image_attachment: :blob).order(created_at: :desc)
-        pagy_obj, records = pagy(scope, items: 6, page: page_num)
-        loaded = records.to_a
-        loaded.each do |art|
-          art.tags.to_a
-          art.comments.to_a
-          art.votes_for.to_a
-          art.rich_text_body&.embeds_blobs&.to_a
-        end
-        [pagy_obj.count, loaded]
-      end
-      @pagy = Pagy.new(count: total_count, page: page_num, items: 6, overflow: :last_page)
+      @pagy, @articles = pagy(scope, items: 6, count: Article.cached_count)
     else
-      scope = @q.result.includes(:user, :tags, :comments, :votes_for, rich_text_body: { embeds_attachments: :blob }, main_image_attachment: :blob).order(created_at: :desc)
-      scope = scope.tagged_with(params[:tag]) if params[:tag].present?
       @pagy, @articles = pagy(scope, items: 6)
     end
   end

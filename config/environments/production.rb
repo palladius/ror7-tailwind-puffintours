@@ -12,6 +12,18 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
+  # Memory optimization for 512MB containers (saves ~46 MB of RSS at boot):
+  # 1. Skip eager-loading all 600+ historical TZInfo timezones (load UTC/local on demand).
+  # 2. Skip eager-loading all I18n dictionaries and prune Faker's 80+ unused YAML files
+  #    (keeping only en/lorem.yml for static pages).
+  config.before_eager_load do
+    config.eager_load_namespaces.delete(TZInfo) if defined?(TZInfo)
+    config.eager_load_namespaces.delete(I18n) if defined?(I18n)
+    I18n.load_path.reject! do |path|
+      path.include?("/faker-") && !path.end_with?("/en/lorem.yml", "/en.yml")
+    end
+  end
+
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
@@ -72,8 +84,8 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Use a different cache store in production.
-  config.cache_store = :memory_store, { size: 64.megabytes }
+  # Keep in-process memory cache bounded to 8MB on 512MB instances to prevent heap bloat.
+  config.cache_store = :memory_store, { size: 8.megabytes }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

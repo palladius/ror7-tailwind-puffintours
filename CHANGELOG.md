@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.7.4 - 2026-11-08
+
+### Changed
+- **Anti-OOM Memory Diet (`198.6 MB` -> `127.1 MB` boot RSS, `-36%` baseline & `-100+ MB` under load on Render 512MB)**:
+  - **C Allocator & Ruby GC Tuning**: Installed `libjemalloc2` in [`Dockerfile`](Dockerfile) and auto-preloaded `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2` in [`entrypoint-8080.sh`](entrypoint-8080.sh), plus `MALLOC_ARENA_MAX=2`, `RUBY_GC_HEAP_GROWTH_FACTOR=1.1`, `RUBY_GC_MALLOC_LIMIT=16000000`, `RUBY_GC_OLDMALLOC_LIMIT=16000000`, and `RUBY_YJIT_ENABLE=0`.
+  - **Skipped `TZInfo` & `Faker` I18n Eager-Load (`-45.3 MB` at boot)**: Configured `before_eager_load` in [`config/environments/production.rb`](config/environments/production.rb) to skip eager-loading all 600+ historical `TZInfo` timezone tables and pruned `Faker`'s 80+ unused YAML dictionaries from `I18n.load_path` (retaining only `en/lorem.yml`).
+  - **Lazy-Loaded Unused Gems in [`Gemfile`](Gemfile) (`-22 MB` at boot)**: Added `require: false` to `rouge` (`-11.85 MB`), `gemoji`, `commonmarker`, `html-pipeline-wiki-link`, `sanitize`, `rinku`, `lolcat`, and `langchainrb`, and moved `sqlite3` to `group :development, :test`.
+  - **Puma Thread & Cache Bounds**: Reduced default production `RAILS_MAX_THREADS` from `5` to `2` with `GC.compact` on boot in [`config/puma.rb`](config/puma.rb), bounded `:memory_store` to `8.megabytes`, and replaced full ActiveRecord object graph marshaling in [`app/controllers/articles_controller.rb`](app/controllers/articles_controller.rb) with lightweight `Article.cached_count`.
+  - **Bounded Image Synopsis Memory**: Capped automatic Gemini image synopsis downloads at `2.5 MB` in [`app/models/article.rb`](app/models/article.rb), freed raw binary buffers prior to JSON serialization, and added a live `/proc/self/status` RSS memory health banner on `/pages/graphs`.
+
 ## v0.7.3 - 2026-11-07
 
 ### Added

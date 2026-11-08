@@ -15,6 +15,18 @@ services:
         value: "true"
       - key: RAILS_LOG_TO_STDOUT
         value: "true"
+      - key: RAILS_MAX_THREADS
+        value: "2"
+      - key: MALLOC_ARENA_MAX
+        value: "2"
+      - key: RUBY_GC_HEAP_GROWTH_FACTOR
+        value: "1.1"
+      - key: RUBY_GC_MALLOC_LIMIT
+        value: "16000000"
+      - key: RUBY_GC_OLDMALLOC_LIMIT
+        value: "16000000"
+      - key: RUBY_YJIT_ENABLE
+        value: "0"
       - key: BUCKET
         value: puffintours-assets
       - key: PROJECT_ID

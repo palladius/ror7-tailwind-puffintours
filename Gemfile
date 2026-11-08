@@ -13,13 +13,12 @@ source "https://rubygems.org"
 ###################################
 
 # Database
-gem 'sqlite3', '>= 2.1'
 gem 'csv'
 
 # Models & Features
 gem 'acts-as-taggable-on', '>= 11.0'
 gem 'acts_as_votable', '~> 0.14.0'
-gem 'lolcat'
+gem 'lolcat', require: false
 
 # Google Cloud Platform
 gem 'google-cloud-storage', '~> 1.48', '>= 1.48.1', require: false
@@ -40,7 +39,7 @@ gem 'active_median'
 # AI & API
 #bundle config build.unicode --with-cflags="-Wno-incompatible-function-pointer-types"
 #gem 'unicode', build_options: "--with-cflags='-Wno-incompatible-function-pointer-types'"
-gem 'langchainrb', '~> 0.19.0'  # GenAI
+gem 'langchainrb', '~> 0.19.0', require: false  # GenAI
 gem 'rack-cors'
 
 ###################################
@@ -71,6 +70,10 @@ gem "cssbundling-rails", "~> 1.1"
 gem "turbo-rails", "~> 1.3"
 gem "heroicon", "~> 1.0"
 
+group :development, :test do
+  gem 'sqlite3', '>= 2.1'
+end
+
 group :development do
   gem "web-console"
   gem "debug"
@@ -95,13 +98,13 @@ gem 'html-pipeline-trix-video' # BAD: https://github.com/HazelGrant/html-pipelin
 gem 'html-pipeline-youtube'
 gem 'html-pipeline-vimeo'
 
-# less useful but nice:
-gem 'html-pipeline-wiki-link' # HTML::Pipeline::MarkdownFilter,
-gem 'commonmarker', '~> 0.23'
-gem 'rouge'
-gem 'sanitize'
-gem 'rinku'
-gem 'gemoji'
+# less useful but nice (lazy-loaded with require: false to save ~15MB RAM in production):
+gem 'html-pipeline-wiki-link', require: false # HTML::Pipeline::MarkdownFilter,
+gem 'commonmarker', '~> 0.23', require: false
+gem 'rouge', require: false
+gem 'sanitize', require: false
+gem 'rinku', require: false
+gem 'gemoji', require: false
 #HTML::Pipeline::WikiLinkFilter
 #gem "html-pipeline-linkify_github" #   HTML::Pipeline::LinkifyGitHubFilter
 #EmojiFilter

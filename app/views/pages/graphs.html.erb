@@ -1,3 +1,30 @@
+<%
+  rss_kb = if File.exist?("/proc/self/status")
+    File.read("/proc/self/status")[/VmRSS:\s+(\d+)\s+kB/, 1].to_i
+  else
+    0
+  end
+  rss_mb = (rss_kb / 1024.0).round(1)
+  rss_pct = ((rss_mb / 512.0) * 100).round(1)
+  jemalloc_active = ENV["LD_PRELOAD"].to_s.include?("jemalloc")
+%>
+<div class="card mb-6 !p-4">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h3 class="m-0 text-base font-extrabold text-slate-900">🧠 Memory & Allocator Health (Render 512 MB Budget)</h3>
+      <p class="m-0 mt-1 text-xs text-slate-600">
+        Process RSS: <b><%= rss_mb %> MB / 512 MB (<%= rss_pct %>%)</b> ·
+        Allocator: <b><%= jemalloc_active ? "✅ jemalloc (#{ENV['LD_PRELOAD']})" : "glibc (MALLOC_ARENA_MAX=#{ENV['MALLOC_ARENA_MAX'] || 'default'})" %></b> ·
+        Puma Max Threads: <b><%= ENV.fetch("RAILS_MAX_THREADS", 2) %></b> ·
+        GC Live Slots: <b><%= GC.stat[:heap_live_slots] %></b>
+      </p>
+    </div>
+    <span class="badge <%= rss_mb < 300 ? 'bg-emerald-100 text-emerald-900' : 'bg-amber-100 text-amber-900' %>">
+      <%= rss_mb %> MB RSS
+    </span>
+  </div>
+</div>
+
 <h2>Graphs</h2>
 
 <table border='3' >

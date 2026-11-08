@@ -40,7 +40,6 @@ class Article < ApplicationRecord
   validates :title, presence: true, length: { minimum: 2 }
 
   before_save :set_date_if_null
-  before_save :various_tests # just fo testing
   after_commit :bump_cache_version
   after_commit :enqueue_missing_synopses, on: %i[create update]
 
@@ -162,6 +161,10 @@ class Article < ApplicationRecord
       return "Image for Article.##{self.id} is too small or non existing (image_size=#{image_size})"
     end
 
+    if image_size > 2_500_000
+      return "Image for Article.##{self.id} skipped (>2.5MB on low-memory container, size=#{image_size})"
+    end
+
     require 'base64'
 
     # Assuming self has an image attachment named 'image'
@@ -170,6 +173,7 @@ class Article < ApplicationRecord
     return "Image.blob.download for Article.##{self.id} is non existing" if image_data.blank?
 
     base64_image = Base64.strict_encode64(image_data)
+    image_data = nil # Free raw binary buffer immediately before JSON serialization
 
     puts("Image is ok (b64 is #{base64_image.size/1024}KB), sending to Gemini to get a description...")
     client = GeminiAiVisionClientLogan || GeminiAiVisionClientLocalADC
@@ -211,6 +215,8 @@ class Article < ApplicationRecord
       end
     rescue => e
       Rails.logger.warn("Async Gemini synopsis skipped/failed for Article ##{article_id}: #{e.message}")
+    ensure
+      GC.start(full_mark: false, immediate_sweep: true)
     end
   end
 

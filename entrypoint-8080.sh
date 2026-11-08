@@ -16,6 +16,20 @@ export RAILS_ENV=${RAILS_ENV:-production}
 export RAILS_SERVE_STATIC_FILES=true
 export RAILS_LOG_TO_STDOUT=yesplease
 export PORT=${PORT:-8080}
+export RAILS_MAX_THREADS=${RAILS_MAX_THREADS:-2}
+export MALLOC_ARENA_MAX=${MALLOC_ARENA_MAX:-2}
+export RUBY_GC_HEAP_GROWTH_FACTOR=${RUBY_GC_HEAP_GROWTH_FACTOR:-1.1}
+export RUBY_GC_MALLOC_LIMIT=${RUBY_GC_MALLOC_LIMIT:-16000000}
+export RUBY_GC_OLDMALLOC_LIMIT=${RUBY_GC_OLDMALLOC_LIMIT:-16000000}
+export RUBY_YJIT_ENABLE=${RUBY_YJIT_ENABLE:-0}
+
+for jemalloc_path in /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/lib/aarch64-linux-gnu/libjemalloc.so.2 /usr/lib/libjemalloc.so.2; do
+  if [ -f "$jemalloc_path" ]; then
+    export LD_PRELOAD="$jemalloc_path"
+    echo "🧠 Enabled jemalloc allocator: $LD_PRELOAD"
+    break
+  fi
+done
 
 echo "------------------------------------------------------"
 echo "🐧 Starting Puffin Tours (RAILS_ENV=$RAILS_ENV, PORT=$PORT)"

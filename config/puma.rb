@@ -4,7 +4,8 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+default_threads = ENV.fetch("RAILS_ENV", "development") == "production" ? 2 : 5
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { default_threads }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count
 
@@ -24,6 +25,7 @@ first_data_timeout 30
 # Run any pending migrations after Puma has bound to $PORT so Render's port scanner
 # sees the open port immediately without booting a second Ruby process.
 after_booted do
+  GC.compact if GC.respond_to?(:compact)
   if ENV["RAILS_ENV"] == "production" && ENV.fetch("AUTO_MIGRATE_ON_BOOT", "true") == "true"
     Thread.new do
       begin
